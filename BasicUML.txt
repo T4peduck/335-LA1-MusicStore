@@ -1,0 +1,16 @@
+MusicStore.java - data system to hold all other songs
+	-search song by title
+	-search song by artist
+	-search album by title
+	-search album by artist
+
+
+Song.java - holds info for song
+	PUBLIC FINAL
+	- song name
+	- artist name
+	- album its on
+	
+	MUTABLE	
+	- rating
+	- 
