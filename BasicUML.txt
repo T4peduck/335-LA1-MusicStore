@@ -1,0 +1,87 @@
+MusicStore.java - database to hold all songs and albums
+	----Store soley albums of songs----
+
+	*returns copy of search item*
+	-search song by title
+	-search song by artist
+	-search album by title
+	-search album by artist
+
+	-can print song or album
+		-include error message if not in database
+		-if there are multiple results print all results
+
+	-addAlbum()
+		
+---------------------------------------------------------------
+
+
+UserLibary.java - database that holds songs for a single user
+	---arrayList of songs
+	---arrayList of playlist
+
+	--songs in library and playlist share same reference
+
+	addSongToLibaray()
+		add song to library
+		(makes a copy of song)
+	
+	addAlbumToLibrary()
+		adds album to libary
+		(makes a copy of album and adds to library)
+
+	getListOfSongs()
+		get a list of song titles (any order)
+
+	favoriteSong()
+		favorite a song
+
+	addSongToPlaylist()
+
+------------------------------------------
+
+Song.java - holds info for song
+	copyConstructor
+
+	PUBLIC FINAL
+	- song name
+	- artist name
+	- album its on
+	
+	MUTABLE	
+	- rating
+	- favorite
+
+	toString()
+		songtitle + artist + album
+
+	getTitle()
+	getArtist
+	getAlbum
+
+
+--------------------------------------------------
+
+Album.java
+	-artist
+	-title
+	-list of songs
+
+	copyConstructor
+
+	toString()
+		album info + list of songs in order
+
+	getAlbum()
+
+	getSong()
+
+-------------------------------------------------
+
+PlayList.java
+	-title
+	-list of songs
+
+	addSong()
+		-adds to end
+	removeSong()
