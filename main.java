@@ -10,6 +10,7 @@ import java.util.Arrays;
 
 public class main {
 	public static void main(String args[]) throws IOException {
+		/*
 		File dir = new File("albums");
 		System.out.println(Arrays.toString(dir.listFiles()));
 		
@@ -25,6 +26,11 @@ public class main {
 			}
 			System.out.println();
 		}
+		
+		*/
+		
+		MusicStore ms = new MusicStore();
+		System.out.println(ms);
 		
 		
 	}
