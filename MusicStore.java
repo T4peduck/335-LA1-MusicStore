@@ -34,7 +34,7 @@ public class MusicStore {
 	 }
 	 
 	 //check for empty file???
-	 public Album parseAlbum(File textFile) throws IOException {
+	 private Album parseAlbum(File textFile) throws IOException {
 		 BufferedReader br = new BufferedReader(new FileReader(textFile));
 		 
 		 String line;
@@ -51,6 +51,50 @@ public class MusicStore {
 		 }
 		 
 		 return new Album(name, artist, genre, year, songNames);
+	 }
+	 
+	 //if empty list is returned, no song found matching the search parameters
+	 public ArrayList<Album> searchAlbumWithTitle(String title) {
+		 ArrayList<Album> alist = new ArrayList<>();
+		 for(Album a: albumList) {
+			 if(a.name == title) {
+				 alist.add(new Album(a));
+			 }
+		 }
+		 
+		 return alist;
+	 }
+	 
+	 public ArrayList<Album> searchAlbumWithArtist(String artist) {
+		 ArrayList<Album> alist = new ArrayList<>();
+		 for(Album a: albumList) {
+			 if(a.artist.equals(artist)) {
+				 alist.add(new Album(a));
+			 }
+		 }
+		 
+		 return alist;
+	 }
+	 
+	 public ArrayList<Song> searchSongWithTitle(String title) {
+		 ArrayList<Song> slist = new ArrayList<>();
+		 for(Album a: albumList) {
+			 slist.add(a.getSong(title));
+		 }
+		 
+		 return slist;
+	 }
+	 
+	 public ArrayList<Song> searchSongWithArtist(String artist) {
+		 ArrayList<Song> slist = new ArrayList<>();
+		 for(Album a: albumList) {
+			 if(a.artist.equals(artist)) {
+				 slist.addAll(a.getAlbum());
+			 }
+		 }
+		 
+		 return slist;
+
 	 }
 	 
 	 public String toString() {
