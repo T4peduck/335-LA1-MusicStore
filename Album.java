@@ -31,7 +31,12 @@ public class Album {
 	}
 	
 	public String toString() {
-		String s = name + " by " + artist + ", a " + genre + " album released in " + year + ".\n";
+		String s;
+		char firstCharOfGenre = genre.charAt(0);
+		if(firstCharOfGenre == 'A' || firstCharOfGenre == 'E' || firstCharOfGenre == 'I' || firstCharOfGenre == 'O' || firstCharOfGenre == 'U')
+			s = name + " by " + artist + ", an " + genre.toLowerCase() + " album released in " + year + ".\n";
+		else	
+			s = name + " by " + artist + ", a " + genre.toLowerCase() + " album released in " + year + ".\n";
 		for(Song song : songs) {
 			s += song.name + "\n";
 		}
