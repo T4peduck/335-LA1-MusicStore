@@ -19,8 +19,8 @@ public class Song {
 		favorite = false;
 	}
 	
-	public Song(Song song) {
-		this(song.name, song.artist, song.album);
+	public Song(Song s) {
+		this(s.name, s.artist, s.album);
 	}
 	
 	public String toString() {
