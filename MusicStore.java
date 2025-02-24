@@ -1,7 +1,7 @@
 /*
  * MusicStore.java
  * by Joseph Hill and Ethan Cushner
- * Represents something
+ * Represents the data base that holds all the albums and songs
  * 
  * TODO: fix comments at top
  * TODO: do uml

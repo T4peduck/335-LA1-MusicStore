@@ -12,6 +12,9 @@ MusicStore.java - database to hold all songs and albums
 		-if there are multiple results print all results
 
 	-addAlbum()
+
+	-private parseAlbum()
+		returns an album from an album textFile
 		
 ---------------------------------------------------------------
 
