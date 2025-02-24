@@ -6,9 +6,9 @@ public class Album {
 	public final String artist;
 	public final String name;
 	public final String genre;
-	public final int year;
+	public final String year;
 	
-	public Album(String name, String artist, String genre, int year, ArrayList<String> songNames) {
+	public Album(String name, String artist, String genre, String year, ArrayList<String> songNames) {
 		this.name = name;
 		this.artist = artist;
 		this.genre = genre;
