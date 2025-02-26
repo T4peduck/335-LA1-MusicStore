@@ -33,6 +33,7 @@ public class Song {
 			favorite = true;
 	}
 	
+	//TODO: need to have way to unset fav?
 	public void setFavorite() {
 		favorite = true;
 	}
