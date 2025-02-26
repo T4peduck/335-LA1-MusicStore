@@ -18,5 +18,11 @@ class TestAlbum {
 		Song second = a.getSong("s2");
 		assertEquals("s2", second.name);
 	}
+	
+	@Test
+	void testToString() {
+		assertTrue(a.toString().equals("myAlbum by Cambra, a romance album released in 2005.\n"
+				+ 						"s1\ns2\ns3\n"));
+	}
 
 }
