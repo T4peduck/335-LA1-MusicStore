@@ -8,6 +8,7 @@
  */
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -85,7 +86,8 @@ public class MusicStore {
 	 public ArrayList<Song> searchSongWithTitle(String title) {
 		 ArrayList<Song> slist = new ArrayList<>();
 		 for(Album a: albumList) {
-			 slist.add(a.getSong(title));
+			 Song s = a.getSong(title);
+			 if(s != null) {slist.add(s);}
 		 }
 		 
 		 return slist;
