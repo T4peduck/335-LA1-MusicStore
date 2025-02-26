@@ -19,17 +19,22 @@ public class MusicStore {
 	 private ArrayList<Album> albumList;
 	 private BufferedReader br;
 	 
-	 public MusicStore() throws IOException {
+	 public MusicStore() {
 		 albumList = new ArrayList<Album>();
 		 
 		 File albums = new File("albums/albums.txt");
 		 
-		 BufferedReader br = new BufferedReader(new FileReader(albums));
+		 try {
 		 
-		 String line;
-		 while((line = br.readLine()) != null) {
-			 String textFile = "albums/" + line.replace(',', '_') + ".txt";
-			 albumList.add(parseAlbum(new File(textFile)));
+			 BufferedReader br = new BufferedReader(new FileReader(albums));
+			 
+			 String line;
+			 while((line = br.readLine()) != null) {
+				 String textFile = "albums/" + line.replace(',', '_') + ".txt";
+				 albumList.add(parseAlbum(new File(textFile)));
+			 }
+		 } catch (IOException e) {
+			 System.exit(1);
 		 }
 	 }
 	 
@@ -53,11 +58,12 @@ public class MusicStore {
 		 return new Album(name, artist, genre, year, songNames);
 	 }
 	 
+	 //TODO: deep copy?
 	 //if empty list is returned, no song found matching the search parameters
 	 public ArrayList<Album> searchAlbumWithTitle(String title) {
 		 ArrayList<Album> alist = new ArrayList<>();
 		 for(Album a: albumList) {
-			 if(a.name == title) {
+			 if(a.name.equals(title)) {
 				 alist.add(new Album(a));
 			 }
 		 }
