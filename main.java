@@ -31,7 +31,7 @@ public class main {
 		
 		MusicStore ms = new MusicStore();
 		System.out.println(ms);
-		
+				
 		
 	}
 }
