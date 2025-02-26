@@ -5,3 +5,6 @@
 /e.class
 /NotFoundEception.class
 /NotFoundException.class
+/Song.class
+/TestMusicStore.class
+/TestAlbum.class

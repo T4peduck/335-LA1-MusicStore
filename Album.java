@@ -45,6 +45,7 @@ public class Album {
 	
 	public Song getSong(String songName) {
 		for(Song song : songs) {
+			System.out.println(song.name + " and " + songName + ": " + (song.name == songName));
 			if(song.name.equals(songName))
 				return new Song(song);
 		}
