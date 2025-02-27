@@ -2,3 +2,10 @@
 /main.class
 /Album.class
 /PlayList.class
+/e.class
+/NotFoundEception.class
+/NotFoundException.class
+/Song.class
+/TestMusicStore.class
+/TestAlbum.class
+/TestSong.class
