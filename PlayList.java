@@ -20,4 +20,12 @@ public class PlayList {
 		if(playlist.contains(s))
 			playlist.remove(s);
 	}
+	
+	public ArrayList<Song> getPlaylist() {
+		ArrayList<Song> songs = new ArrayList<Song>();
+		for(Song s : playlist) {
+			songs.add(new Song(s));
+		}
+		return songs;
+	}
 }

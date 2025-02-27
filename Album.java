@@ -45,9 +45,8 @@ public class Album {
 	
 	public Song getSong(String songName) {
 		for(Song song : songs) {
-			if(song.name.equals(songName)) {
+			if(song.name.equals(songName))
 				return new Song(song);
-			}
 		}
 		return null;
 	}
