@@ -14,7 +14,7 @@ public class main {
 			+ "-<type> should contain either A for album or S for song\n	-<argument> should be replaced by the appropriate name for the item you are trying to add\n"
 			+ "addPL <name> <argument>\n	-adds a song to a given playlist\n	-<name> should be replaced with the name of the playlist to be added to\n	"
 			+ "-<argument> should be replaced with the name of the song to be added\ncreatePL <argument>\n	-<argument> should be replaced with your desired name for the created playlist\n"
-			+ "exit\n	exits the program\n"
+			+ "exit\n	-exits the program\n"
 			+ "fav <argument>\n	-<argument> should be replaced with the name of the song that you wish to favorite\nlist <type>\n	"
 			+ "-prints a list of the each given item of the given type in your library\n	-<type> should be replaced with S for songs, AR for artists, AL for albums, P for playlists, or F for favorited songs\n"
 			+ "rate <argument> <rating>\n	-<argument> should be replaced with the name of the song you wish to rate\n	-<rating> should be replaced with your desired rating (1 - 5)\n"
