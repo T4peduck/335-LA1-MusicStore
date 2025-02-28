@@ -35,11 +35,11 @@ public class LibraryModel {
 	public void addSongToPlaylist(String playListName, String songName) {
 		Song song = null;
 		for(Song s : library) {
-			if(s.name.equals(songName))
+			if(s.name.toLowerCase().equals(songName.toLowerCase()))
 				song = s;
 		}
 		for(PlayList p : playlists) {
-			if(p.name.equals(playListName))
+			if(p.name.toLowerCase().equals(playListName.toLowerCase()))
 				p.addSong(song);
 		}
 	}
@@ -47,11 +47,11 @@ public class LibraryModel {
 	public void removeSongFromPlaylist(String playListName, String songName) {
 		Song song = null;
 		for(Song s : library) {
-			if(s.name.equals(songName))
+			if(s.name.toLowerCase().equals(songName.toLowerCase()))
 				song = s;
 		}
 		for(PlayList p : playlists) {
-			if(p.name.equals(playListName))
+			if(p.name.toLowerCase().equals(playListName.toLowerCase()))
 				p.removeSong(song);
 		}
 	}
@@ -59,7 +59,7 @@ public class LibraryModel {
 	public ArrayList<Song> searchSongWithTitle(String songName) {
 		ArrayList<Song> songs = new ArrayList<Song>();
 		for(Song s : library) {
-			if(s.name.equals(songName))
+			if(s.name.toLowerCase().equals(songName.toLowerCase()))
 				songs.add(new Song(s));
 		}
 		return songs;
@@ -68,7 +68,7 @@ public class LibraryModel {
 	public ArrayList<Song> searchSongWithArtist(String artistName) {
 		ArrayList<Song> songs = new ArrayList<Song>();
 		for(Song s : library) {
-			if(s.artist.equals(artistName))
+			if(s.artist.toLowerCase().equals(artistName.toLowerCase()))
 				songs.add(new Song(s));
 		}
 		return songs;
@@ -77,7 +77,7 @@ public class LibraryModel {
 	public ArrayList<Album> searchAlbumWithTitle(String albumName) {
 		ArrayList<Album> searchedAlbums = new ArrayList<Album>();
 		for(Album a : albums) {
-			if(a.name.equals(albumName))
+			if(a.name.toLowerCase().equals(albumName.toLowerCase()))
 				searchedAlbums.add(new Album(a));
 		}
 		return searchedAlbums;
@@ -86,7 +86,7 @@ public class LibraryModel {
 	public ArrayList<Album> searchAlbumWithArtist(String artistName) {
 		ArrayList<Album> searchedAlbums = new ArrayList<Album>();
 		for(Album a : albums) {
-			if(a.artist.equals(artistName))
+			if(a.artist.toLowerCase().equals(artistName.toLowerCase()))
 				searchedAlbums.add(new Album(a));
 		}
 		return searchedAlbums;
@@ -94,7 +94,7 @@ public class LibraryModel {
 	
 	public ArrayList<Song> searchPlaylist(String playlistName) {
 		for(PlayList p : playlists) {
-			if(p.name.equals(playlistName)) {
+			if(p.name.toLowerCase().equals(playlistName.toLowerCase())) {
 				return p.getPlaylist();
 			}
 		}
@@ -152,13 +152,13 @@ public class LibraryModel {
 	
 	public void markFavorite(String songName) {
 		for(Song s : library)
-			if(s.name.equals(songName))
+			if(s.name.toLowerCase().equals(songName.toLowerCase()))
 				s.setFavorite();
 	}
 	
 	public void rateSong(String songName, int rating) {
 		for(Song s : library)
-			if(s.name.equals(songName))
+			if(s.name.toLowerCase().equals(songName.toLowerCase()))
 				s.setRating(rating);
 	}
 }

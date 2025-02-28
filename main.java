@@ -2,7 +2,6 @@
  * simulates the program
  */
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 
@@ -122,14 +121,14 @@ public class main {
 		ArrayList<String> playlists = ul.getPlaylists();
 		boolean playlistExists = false;
 		for(String s : playlists) {
-			if(s.equals(name))
+			if(s.toLowerCase().equals(name.toLowerCase()))
 				playlistExists = true;
 		}
 		if(playlistExists) {
 			boolean songExists = false;
 			ArrayList<String> songs = ul.getSongs();
 			for(String s : songs) {
-				if(s.equals(argument))
+				if(s.toLowerCase().equals(argument.toLowerCase()))
 					songExists = true;
 			}
 			if(songExists) {
@@ -145,7 +144,7 @@ public class main {
 	public static void createPL(String argument) {
 		ArrayList<String> playlists = ul.getPlaylists();
 		for(String s : playlists) {
-			if(s.equals(argument)) {
+			if(s.toLowerCase().equals(argument.toLowerCase())) {
 				System.out.println("Error: Playlist already exists in your library");
 				return;
 			}
@@ -156,7 +155,7 @@ public class main {
 	public static void favorite(String argument) {
 		ArrayList<String> songs = ul.getSongs();
 		for(String s : songs) {
-			if(s.equals(argument)) {
+			if(s.toLowerCase().equals(argument.toLowerCase())) {
 				ul.markFavorite(argument);
 				return;
 			}
@@ -205,7 +204,7 @@ public class main {
 		}
 		ArrayList<String> songs = ul.getSongs();
 		for(String s : songs) {
-			if(s.equals(argument)) {
+			if(s.toLowerCase().equals(argument.toLowerCase())) {
 				ul.rateSong(argument, rating);
 				return;
 			}
@@ -216,14 +215,14 @@ public class main {
 		ArrayList<String> playlists = ul.getPlaylists();
 		boolean playlistExists = false;
 		for(String s : playlists) {
-			if(s.equals(name))
+			if(s.toLowerCase().equals(name.toLowerCase()))
 				playlistExists = true;
 		}
 		if(playlistExists) {
 			boolean songExists = false;
 			ArrayList<String> songs = ul.getSongs();
 			for(String s : songs) {
-				if(s.equals(argument))
+				if(s.toLowerCase().equals(argument.toLowerCase()))
 					songExists = true;
 			}
 			if(songExists) {

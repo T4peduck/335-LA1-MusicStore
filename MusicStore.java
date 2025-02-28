@@ -64,7 +64,7 @@ public class MusicStore {
 	 public ArrayList<Album> searchAlbumWithTitle(String title) {
 		 ArrayList<Album> alist = new ArrayList<>();
 		 for(Album a: albumList) {
-			 if(a.name.equals(title)) {
+			 if(a.name.toLowerCase().equals(title.toLowerCase())) {
 				 alist.add(new Album(a));
 			 }
 		 }
@@ -75,7 +75,7 @@ public class MusicStore {
 	 public ArrayList<Album> searchAlbumWithArtist(String artist) {
 		 ArrayList<Album> alist = new ArrayList<>();
 		 for(Album a: albumList) {
-			 if(a.artist.equals(artist)) {
+			 if(a.artist.toLowerCase().equals(artist.toLowerCase())) {
 				 alist.add(new Album(a));
 			 }
 		 }
@@ -96,7 +96,7 @@ public class MusicStore {
 	 public ArrayList<Song> searchSongWithArtist(String artist) {
 		 ArrayList<Song> slist = new ArrayList<>();
 		 for(Album a: albumList) {
-			 if(a.artist.equals(artist)) {
+			 if(a.artist.toLowerCase().equals(artist.toLowerCase())) {
 				 slist.addAll(a.getAlbum());
 			 }
 		 }
