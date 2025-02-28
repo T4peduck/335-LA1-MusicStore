@@ -23,7 +23,7 @@ public class main {
 			+ "-<search type> should have ST for searching for a song by its title, SA for a song by artist, AT for an album by its title,\n"
 			+ "		AA for an album by its artist, or P (only applies for your library) for a playlist by name\n	-<argument> should be replaced by the proper argument for your search (song name, song artist, etc.)";
 
-	public static void main(String args[]) throws IOException {
+	public static void main(String args[]) {
 		/*
 		File dir = new File("albums");
 		System.out.println(Arrays.toString(dir.listFiles()));
