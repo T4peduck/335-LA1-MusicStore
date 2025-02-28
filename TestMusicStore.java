@@ -53,6 +53,8 @@ public class TestMusicStore {
 		
 		Song c = ms.searchSongWithTitle("Lullaby").get(0);
 		assertTrue(c.artist.equals("Leonard Cohen"));
+		Song d = ms.searchSongWithTitle("Lullaby").get(1);
+		assertTrue(d.artist.equals("OneRepublic"));
 	}
 	
 	
