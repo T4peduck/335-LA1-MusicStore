@@ -45,7 +45,7 @@ public class Album {
 	
 	public Song getSong(String songName) {
 		for(Song song : songs) {
-			if(song.name.equals(songName))
+			if(song.name.toLowerCase().equals(songName.toLowerCase()))
 				return new Song(song);
 		}
 		return null;
