@@ -13,14 +13,19 @@ public class LibraryModel {
 		this.ms = ms;
 	}
 	
-	public void addSong(Song s) {
-		library.add(s);
+	public void addSong(String songName) {
+		ArrayList<Song> songs = ms.searchSongWithTitle(songName);
+		for(Song s : songs)
+			library.add(s);
 	}
 	
-	public void addAlbum(Album a) {
-		for(Song s : a.getAlbum())
-			library.add(s);
-		albums.add(a);
+	public void addAlbum(String albumName) {
+		ArrayList<Album> foundAlbums = ms.searchAlbumWithTitle(albumName);
+		for(Album a : foundAlbums) {
+			albums.add(a);
+			for(Song s : a.getAlbum())
+				library.add(s);
+		}
 	}
 	
 	public void createPlayList(String playListName) {
@@ -136,11 +141,11 @@ public class LibraryModel {
 		return playlistList;
 	}
 	
-	public ArrayList<Song> getFavorites() {
-		ArrayList<Song> favorites = new ArrayList<Song>();
+	public ArrayList<String> getFavorites() {
+		ArrayList<String> favorites = new ArrayList<String>();
 		for(Song s : library) {
 			if(s.isFavorite())
-				favorites.add(new Song(s));
+				favorites.add(s.name);
 		}
 		return favorites;
 	}

@@ -21,6 +21,7 @@ public class Song {
 	
 	public Song(Song s) {
 		this(s.name, s.artist, s.album);
+		this.rating = s.rating;
 	}
 	
 	public String toString() {
