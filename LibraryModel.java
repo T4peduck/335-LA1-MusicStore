@@ -98,7 +98,7 @@ public class LibraryModel {
 				return p.getPlaylist();
 			}
 		}
-		return null;
+		return new ArrayList<Song>();
 	}
 	
 	public ArrayList<String> getSongs() {

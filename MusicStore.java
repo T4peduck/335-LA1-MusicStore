@@ -35,7 +35,8 @@ public class MusicStore {
 				 albumList.add(parseAlbum(new File(textFile)));
 			 }
 		 } catch (IOException e) {
-			 System.exit(1);
+			 //System.exit(1);
+			 System.out.println(e);
 		 }
 	 }
 	 
