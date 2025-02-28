@@ -1,11 +1,9 @@
 /*
  * simulates the program
  */
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Scanner;
 
 
 public class main {
@@ -23,31 +21,44 @@ public class main {
 			+ "-<location> should have either MS for searching the music store or UL for searching your library\n	"
 			+ "-<search type> should have ST for searching for a song by its title, SA for a song by artist, AT for an album by its title,\n"
 			+ "		AA for an album by its artist, or P (only applies for your library) for a playlist by name\n	-<argument> should be replaced by the proper argument for your search (song name, song artist, etc.)";
+	
+	private static MusicStore ms = new MusicStore();
+	private static LibraryModel ul = new LibraryModel(ms);
 
 	public static void main(String args[]) {
-		/*
-		File dir = new File("albums");
-		System.out.println(Arrays.toString(dir.listFiles()));
-		
-		BufferedReader br;
-		
-		
-		for(File file: dir.listFiles()) {
-			String line;
-			br = new BufferedReader(new FileReader(file));
-			
-			while((line = br.readLine()) != null) {
-				System.out.println(line);
+		System.out.println("Welcome to the Music Store\nType help for the list of commands");
+		boolean exit = false;
+		Scanner keyboard = new Scanner(System.in);
+		while(!exit) {
+			String[] input = keyboard.nextLine().strip().split(" ");
+			String command = input[0];
+			if(command.equals("help")) {
+				System.out.println(helpMenu);
 			}
-			System.out.println();
+			else if(command.equals("add")) {
+				try{
+					add(input[1], input[2]);
+				}
+				catch(ArrayIndexOutOfBoundsException e) {
+					System.out.println("Error: Invalid Input");
+				}
+			}
+			else if(command.equals("addPL")) {
+				try{
+					addPL(input[1], input[2]);
+				}
+				catch(ArrayIndexOutOfBoundsException e) {
+					System.out.println("Error: Invalid Input");
+				}			}
 		}
-		
-		*/
-		
-		//MusicStore ms = new MusicStore();
-		//System.out.println(ms);
-		
-		System.out.print(helpMenu);
-		
 	}
+	
+	public static void add(String type, String argument);
+	public static void addPL(String name, String argument);
+	public static void createPL(String argument);
+	public static void favorite(String argument);
+	public static void list(String type);
+	public static void rate(String argument, int rating);
+	public static void removePL(String name, String argument);
+	public static void search(String location, String searchType, String argument);
 }
