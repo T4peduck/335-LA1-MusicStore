@@ -28,6 +28,7 @@ public class Song {
 		return name + " by " + artist + " on " + album + "."; 
 	}
 	
+	//@Pre: rating is 1 to 5 inclusive
 	public void setRating(int rating) {
 		this.rating = rating;
 		if(rating == 5)
