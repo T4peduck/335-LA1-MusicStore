@@ -33,7 +33,9 @@ public class Song {
 		return name + " by " + artist + " on " + album + "."; 
 	}
 	
+
 	/*
+   * @Pre: rating is 1 to 5 inclusive
 	 * void setRating(int rating) -- sets the rating of the song
 	 * to <rating>. Also sets to favorite if the rating is set to 5.
 	 */

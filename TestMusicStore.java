@@ -18,6 +18,7 @@ public class TestMusicStore {
 		assertTrue(a.artist.equals("The Heavy"));
 		assertTrue(a.name.equals("Sons"));
 		
+		//test searching for artist with multiple albums
 		Album b1 = ms.searchAlbumWithArtist("Adele").get(0);
 		Album b2 = ms.searchAlbumWithArtist("Adele").get(1);
 		
@@ -36,6 +37,7 @@ public class TestMusicStore {
 	
 	@Test
 	void testSearchSongByArtist() {
+		//test searching for artist with songs on multiple albums
 		Song a = ms.searchSongWithArtist("Adele").get(0);
 		assertTrue(a.name.equals("Daydreamer"));
 		Song b = ms.searchSongWithArtist("Adele").get(12);
@@ -51,6 +53,7 @@ public class TestMusicStore {
 		Song b = ms.searchSongWithTitle("Here I Am").get(0);
 		assertTrue(b.artist.equals("Dolly Parton"));
 		
+		//test searching for song on multiple albums
 		Song c = ms.searchSongWithTitle("Lullaby").get(0);
 		assertTrue(c.artist.equals("Leonard Cohen"));
 		Song d = ms.searchSongWithTitle("Lullaby").get(1);
