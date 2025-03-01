@@ -4,7 +4,6 @@
 
 
 import static org.junit.Assert.*;
-
 import org.junit.jupiter.api.Test;
 
 public class TestSong {
@@ -25,6 +24,14 @@ public class TestSong {
 		t.setRating(5);
 		assertTrue(t.isFavorite());
 		
+	}
+	
+	@Test
+	void testForEscapingReference() {
+		Song s3 = new Song(s);
+		s3.setRating(3);
+		s.setRating(1);
+		assertFalse(s3.getRating() == s.getRating());
 	}
 	
 	@Test
