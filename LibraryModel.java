@@ -19,12 +19,30 @@ public class LibraryModel {
 			library.add(s);
 	}
 	
+	public void addSong(String songName, String artist) {
+		ArrayList<Song> songs = ms.searchSongWithTitle(songName);
+		for(Song s : songs)
+			if(s.artist.toLowerCase().equals(artist.toLowerCase()))
+				library.add(s);
+	}
+	
 	public void addAlbum(String albumName) {
 		ArrayList<Album> foundAlbums = ms.searchAlbumWithTitle(albumName);
 		for(Album a : foundAlbums) {
 			albums.add(a);
 			for(Song s : a.getAlbum())
 				library.add(s);
+		}
+	}
+	
+	public void addAlbum(String albumName, String artist) {
+		ArrayList<Album> foundAlbums = ms.searchAlbumWithTitle(albumName);
+		for(Album a : foundAlbums) {
+			if(a.artist.toLowerCase().equals(artist.toLowerCase())) {
+				albums.add(a);
+				for(Song s : a.getAlbum())
+					library.add(s);
+			}
 		}
 	}
 	
