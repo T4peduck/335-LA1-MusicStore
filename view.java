@@ -12,8 +12,7 @@ public class view {
 	
 	private static final String helpMenu = 	"Help Menu\nNote: Commands and arguments are not case sensitive\nCommands:\nadd,<type>,<argument>\n	-adds an item to your library\n	-Note: For songs for which there are multiple with same name in music store, use below add command\n	"
 			+ "-<type> should contain either A for album or S for song\n	-<argument> should be replaced by the appropriate name for the item you are trying to add\n"
-			+ "add,<type>,<argument>,<argument2>\n	-first two arguments function same as for above add command\n	-<argument2> should be replaced with the artist of the song or album if you're"
-			+ "trying to add a song for which there are multiple in the music store with the same name but different artists\n"
+			+ "add,<type>,<argument>,<argument2>\n	-first two arguments function same as for above add command\n	-<argument2> should be replaced with the artist of the song or album you're trying to add\n"
 			+ "addPL,<name>,<argument>\n	-adds a song in your library to a given playlist\n	-<name> should be replaced with the name of the playlist to be added to\n	"
 			+ "-<argument> should be replaced with the name of the song to be added\ncreatePL,<argument>\n	-<argument> should be replaced with your desired name for the created playlist\n"
 			+ "exit\n	-exits the program\n"
