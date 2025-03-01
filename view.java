@@ -86,6 +86,20 @@ public class view {
 					System.out.println("Error: Invalid Input");
 				}			
 			}
+			else if(command.equals("rate")) {
+				try{
+					String secondInput = input[2];
+				}
+				catch(ArrayIndexOutOfBoundsException e) {
+					System.out.println("Error: Invalid Input");
+				}
+				try {
+					rate(input[1], Integer.parseInt(input[2]));
+				}
+				catch(NumberFormatException e) {
+					System.out.println("Error: Invalid Input");
+				}
+			}
 			else if(command.equals("removepl")) {
 				try{
 					removePL(input[1], input[2]);
