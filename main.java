@@ -7,9 +7,11 @@ import java.util.Scanner;
 
 public class main {
 	
-	private static final String helpMenu = 	"Help Menu\nCommands:\nadd,<type>,<argument>\n	-adds an item to your library\n	"
+	private static final String helpMenu = 	"Help Menu\nCommands:\nadd,<type>,<argument>,<argument2>\n	-adds an item to your library\n	"
 			+ "-<type> should contain either A for album or S for song\n	-<argument> should be replaced by the appropriate name for the item you are trying to add\n"
-			+ "addPL,<name>,<argument>\n	-adds a song to a given playlist\n	-<name> should be replaced with the name of the playlist to be added to\n	"
+			+ "add,<type>,<argument>,<argument2>\n	-first two arguments function same as for above add command\n	-<argument2> should be replaced with the artist of the song or album if you're"
+			+ "trying to add a song for which there are multiple in the music store with the same name but different artists\n"
+			+ "addPL,<name>,<argument>\n	-adds a song in your library to a given playlist\n	-<name> should be replaced with the name of the playlist to be added to\n	"
 			+ "-<argument> should be replaced with the name of the song to be added\ncreatePL,<argument>\n	-<argument> should be replaced with your desired name for the created playlist\n"
 			+ "exit\n	-exits the program\n"
 			+ "fav,<argument>\n	-<argument> should be replaced with the name of the song that you wish to favorite\nlist,<type>\n	"
@@ -19,7 +21,7 @@ public class main {
 			+ "-<argument> should be replaced with the name of the song you wish to remove\nsearch,<location>,<search type>,<argument>\n	"
 			+ "-<location> should have either MS for searching the music store or UL for searching your library\n	"
 			+ "-<search type> should have ST for searching for a song by its title, SA for a song by artist, AT for an album by its title,\n"
-			+ "		AA for an album by its artist, or P (only applies for your library) for a playlist by name\n	-<argument> should be replaced by the proper argument for your search (song name, song artist, etc.)";
+			+ "		AA for an album by its artist, or P (only applies for your library) for a playlist by name\n	-<argument> should be replaced by the proper argument for your search (song name, song artist, etc.)\n";
 	
 	private static MusicStore ms = new MusicStore();
 	private static LibraryModel ul = new LibraryModel(ms);
@@ -39,10 +41,15 @@ public class main {
 			}
 			else if(command.equals("add")) {
 				try{
-					add(input[1], input[2]);
+					add(input[1], input[2], input[3]);
 				}
 				catch(ArrayIndexOutOfBoundsException e) {
-					System.out.println("Error: Invalid Input");
+					try{
+						add(input[1], input[2]);
+					}
+					catch(ArrayIndexOutOfBoundsException e1) {
+						System.out.println("Error: Invalid Input");
+					}
 				}
 			}
 			else if(command.equals("addpl")) {
@@ -100,21 +107,54 @@ public class main {
 	
 	public static void add(String type, String argument) {
 		if(type.toUpperCase().equals("A")) {
-			int size = ms.searchAlbumWithTitle(argument).size();
-			if(size > 0)
+			if(ms.searchAlbumWithTitle(argument).size() > 0)
 				ul.addAlbum(argument);
 			else
 				System.out.println("Error: Album not in Music Store");
 		}
-		else if(type.toLowerCase().equals("S")) {
-			int size = ms.searchSongWithTitle(argument).size();
-			if(size > 0)
+		else if(type.toUpperCase().equals("S")) {
+			if(ms.searchSongWithTitle(argument).size() > 0)
 				ul.addSong(argument);
 			else
 				System.out.println("Error: Song not in Music Store");
 		}
 		else
-			System.out.println("Error: Invalid Type. Please input S or s for type");
+			System.out.println("Error: Invalid Type. Please input S or A for type");
+	}
+	
+	public static void add(String type, String argument, String argument2) {
+		if(type.toUpperCase().equals("A")) {
+			if(ms.searchAlbumWithTitle(argument).size() > 0) {
+				boolean albumExists = false;
+				for(Album a : ms.searchAlbumWithTitle(argument))
+					if(a.artist.toLowerCase().equals(argument2.toLowerCase())) {
+						albumExists = true;
+					}
+				if(albumExists)
+					ul.addAlbum(argument, argument2);
+				else
+					System.out.println("Error: No album with that name and artist exists in Music Store");
+			}
+			else
+				System.out.println("Error: Album not in Music Store");
+		}
+		else if(type.toUpperCase().equals("S")) {
+			if(ms.searchSongWithTitle(argument).size() > 0) {
+				boolean songExists = false;
+				for(Song s : ms.searchSongWithTitle(argument))
+					if(s.artist.toLowerCase().equals(argument2.toLowerCase())) {
+						songExists = true;
+					}
+				if(songExists)
+					ul.addSong(argument, argument2);
+				else 
+					System.out.println("Error: No song with that name and artist in Music Store");
+			}
+			else
+				System.out.println("Error: Song not in Music Store");
+		}
+		else
+			System.out.println("Error: Invalid Type. Please input S or A for type");
 	}
 	
 	public static void addPL(String name, String argument) {
@@ -226,7 +266,16 @@ public class main {
 					songExists = true;
 			}
 			if(songExists) {
-				ul.removeSongFromPlaylist(name, argument);
+				ArrayList<Song> playlistSongs = ul.searchPlaylist(name);
+				boolean songInPlaylist = false;
+				for(Song s : playlistSongs) {
+					if(s.name.toLowerCase().equals(argument.toLowerCase()))
+						songInPlaylist = true;
+				}
+				if(songInPlaylist)
+					ul.removeSongFromPlaylist(name, argument);
+				else
+					System.out.println("Error: Song not in playlist");
 			}
 			else
 				System.out.println("Error: Song not in your library");
