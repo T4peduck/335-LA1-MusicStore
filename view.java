@@ -206,7 +206,7 @@ public class view {
 	/*
 	 * void addPL(String name, String argument) -- adds the song with title <argument> to the playlist
 	 * whose title is <name>. Will print error messages if the playlist doesn't exist or if the song
-	 * is not in the user's library.
+	 * is not in the user's library. Also prints an error message if the song is already in the playlist.
 	 */
 	public static void addPL(String name, String argument) {
 		ArrayList<String> playlists = ul.getPlaylists();
@@ -223,6 +223,12 @@ public class view {
 					songExists = true;
 			}
 			if(songExists) {
+				for(Song s :ul.searchPlaylist(name)) {
+					if(s.name.toLowerCase().equals(argument)) {
+						System.out.println("Error: Song already in playlist");
+						return;
+					}
+				}
 				ul.addSongToPlaylist(name, argument);
 			}
 			else
