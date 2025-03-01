@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
 
-class testPlayList {
+class TestPlayList {
 
 	PlayList p = new PlayList("My Playlist");
 	
@@ -49,7 +49,7 @@ class testPlayList {
 		assertEquals(s.artist, songs.get(0).artist);
 		assertEquals(s.album, songs.get(0).album);
 		assertEquals(s1.name, songs.get(1).name);
-		assertEquals(s1.artist, songs.get(0).artist);
+		assertTrue(s1.artist.equals(songs.get(0).artist));
 		assertEquals(s1.album, songs.get(0).album);
 		assertEquals(s2.name, songs.get(2).name);
 		assertEquals(s2.artist, songs.get(0).artist);

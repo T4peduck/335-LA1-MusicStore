@@ -106,6 +106,7 @@ public class MusicStore {
 
 	 }
 	 
+	 /*
 	 public String toString() {
 		 String rstr = "";
 		 for(Album a: albumList) {
@@ -113,6 +114,7 @@ public class MusicStore {
 		 }
 		 return rstr;
 	 }
+	 */
 
 
  }
