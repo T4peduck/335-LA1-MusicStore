@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 
-public class main {
+public class view {
 	
-	private static final String helpMenu = 	"Help Menu\nCommands:\nadd,<type>,<argument>,<argument2>\n	-adds an item to your library\n	"
-			+ "-<type> should contain either A for album or S for song\n	-<argument> should be replaced by the appropriate name for the item you are trying to add\n"
+	private static final String helpMenu = 	"Help Menu\nNote: Commands and arguments are not case sensitive\nCommands:\nadd,<type>,<argument>,<argument2>\n	-adds an item to your library\n	"
+			+ "-Note: For songs for which there are multiple with same name in music store, use below add command\n	-<type> should contain either A for album or S for song\n	-<argument> should be replaced by the appropriate name for the item you are trying to add\n"
 			+ "add,<type>,<argument>,<argument2>\n	-first two arguments function same as for above add command\n	-<argument2> should be replaced with the artist of the song or album if you're"
 			+ "trying to add a song for which there are multiple in the music store with the same name but different artists\n"
 			+ "addPL,<name>,<argument>\n	-adds a song in your library to a given playlist\n	-<name> should be replaced with the name of the playlist to be added to\n	"
@@ -107,12 +107,32 @@ public class main {
 	
 	public static void add(String type, String argument) {
 		if(type.toUpperCase().equals("A")) {
+			boolean alreadyAdded = false;
+			ArrayList<String> albums = ul.getAlbums();
+			for(String s : albums) {
+				if(s.toLowerCase().equals(argument.toLowerCase()))
+					alreadyAdded = true;
+			}
+			if(alreadyAdded) {
+				System.out.println("Error: Album already added to library");
+				return;
+			}
 			if(ms.searchAlbumWithTitle(argument).size() > 0)
 				ul.addAlbum(argument);
 			else
 				System.out.println("Error: Album not in Music Store");
 		}
 		else if(type.toUpperCase().equals("S")) {
+			boolean alreadyAdded = false;
+			ArrayList<String> songs = ul.getSongs();
+			for(String s : songs) {
+				if(s.toLowerCase().equals(argument.toLowerCase()))
+					alreadyAdded = true;
+			}
+			if(alreadyAdded) {
+				System.out.println("Error: Song already added to library");
+				return;
+			}
 			if(ms.searchSongWithTitle(argument).size() > 0)
 				ul.addSong(argument);
 			else
@@ -124,6 +144,21 @@ public class main {
 	
 	public static void add(String type, String argument, String argument2) {
 		if(type.toUpperCase().equals("A")) {
+			boolean alreadyAdded = false;
+			ArrayList<String> albums = ul.getAlbums();
+			for(String s : albums) {
+				if(s.toLowerCase().equals(argument.toLowerCase()))
+					alreadyAdded = true;
+			}
+			if(alreadyAdded && ms.searchAlbumWithTitle(argument).size() == ul.searchAlbumWithTitle(argument).size()) {
+				System.out.println("Error: Album already added to library");
+				return;
+			}
+			for(Album a : ul.searchAlbumWithTitle(argument)) {
+				if(a.artist.toLowerCase().equals(argument2)) {
+					System.out.println("Error: Song already added to library");
+				}
+			}
 			if(ms.searchAlbumWithTitle(argument).size() > 0) {
 				boolean albumExists = false;
 				for(Album a : ms.searchAlbumWithTitle(argument))
@@ -139,6 +174,21 @@ public class main {
 				System.out.println("Error: Album not in Music Store");
 		}
 		else if(type.toUpperCase().equals("S")) {
+			boolean alreadyAdded = false;
+			ArrayList<String> songs = ul.getSongs();
+			for(String s : songs) {
+				if(s.toLowerCase().equals(argument.toLowerCase()))
+					alreadyAdded = true;
+			}
+			if(alreadyAdded && ms.searchSongWithTitle(argument).size() == ul.searchSongWithTitle(argument).size()) {
+				System.out.println("Error: Song already added to library");
+				return;
+			}
+			for(Song s : ul.searchSongWithTitle(argument)) {
+				if(s.artist.toLowerCase().equals(argument2)) {
+					System.out.println("Error: Song already added to library");
+				}
+			}
 			if(ms.searchSongWithTitle(argument).size() > 0) {
 				boolean songExists = false;
 				for(Song s : ms.searchSongWithTitle(argument))
