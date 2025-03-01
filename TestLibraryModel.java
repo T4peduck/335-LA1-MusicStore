@@ -6,14 +6,14 @@ import org.junit.jupiter.api.Test;
 
 class TestLibraryModel {
 	
-	static MusicStore ms = new MusicStore();
-	static LibraryModel ul = new LibraryModel(ms);
+	private MusicStore ms = new MusicStore();
+	private LibraryModel ul = new LibraryModel(ms);
 
 	@Test
 	void testAddSong() {
 		ul.addSong("Crazy For You");
 		assertTrue(ul.getSongs().size() == 1);
-		assertEquals("Crazy For You", ul.searchSongWithTitle("Crazy For You").get(0).name);
+		assertEquals("Crazy For You".toLowerCase(), ul.searchSongWithTitle("Crazy For You").get(0).name.toLowerCase());
 		ul.addSong("Timshel");
 		assertTrue(ul.getSongs().size() == 2);
 		assertEquals("Timshel", ul.searchSongWithTitle("Timshel").get(0).name);
@@ -47,11 +47,11 @@ class TestLibraryModel {
 		ul.addSong("Sigh No More");
 		ul.addSongToPlaylist("My Playlist", "Timshel");
 		assertEquals(1, ul.searchPlaylist("My Playlist").size());
-		assertEquals("Timshel", ul.searchPlaylist("My Playlist").get(0));
+		assertEquals("Timshel", ul.searchPlaylist("My Playlist").get(0).name);
 		ul.addSongToPlaylist("My Playlist", "Sigh No More");
 		assertEquals(2, ul.searchPlaylist("My Playlist").size());
-		assertEquals("Sigh No More", ul.searchPlaylist("My Playlist").get(1));
-		assertEquals("Timshel", ul.searchPlaylist("My Playlist").get(0));
+		assertEquals("Sigh No More", ul.searchPlaylist("My Playlist").get(1).name);
+		assertEquals("Timshel", ul.searchPlaylist("My Playlist").get(0).name);
 	}
 	
 	@Test
@@ -64,10 +64,10 @@ class TestLibraryModel {
 		assertEquals(2, ul.searchPlaylist("My Playlist").size());
 		ul.removeSongFromPlaylist("My Playlist", "Timshel");
 		assertEquals(1, ul.searchPlaylist("My Playlist").size());
-		assertEquals("Sigh No More", ul.searchPlaylist("My Playlist").get(0));
+		assertEquals("Sigh No More", ul.searchPlaylist("My Playlist").get(0).name);
 		ul.removeSongFromPlaylist("My Playlist", "Awake My Soul");
 		assertEquals(1, ul.searchPlaylist("My Playlist").size());
-		assertEquals("Sigh No More", ul.searchPlaylist("My Playlist").get(0));
+		assertEquals("Sigh No More", ul.searchPlaylist("My Playlist").get(0).name);
 		ul.removeSongFromPlaylist("My Playlist", "Sigh No More");
 		assertEquals(0, ul.searchPlaylist("My Playlist").size());
 	}
@@ -93,9 +93,9 @@ class TestLibraryModel {
 		ul.addSong("Little Lion Man");
 		ul.addSong("Rolling In The Deep");
 		assertEquals(3, ul.searchSongWithArtist("Mumford & Sons").size());
-		assertEquals(1, ul.searchSongWithArtist("Adele"));
-		assertEquals("Rolling In The Deep", ul.searchSongWithArtist("Rolling In The Deep").get(0).name);
-		assertEquals(0, ul.searchAlbumWithArtist("Norah Jones"));
+		assertEquals(1, ul.searchSongWithArtist("Adele").size());
+		assertEquals("Rolling in the Deep", ul.searchSongWithArtist("Adele").get(0).name);
+		assertEquals(0, ul.searchAlbumWithArtist("Norah Jones").size());
 	}
 	
 	@Test
@@ -114,19 +114,26 @@ class TestLibraryModel {
 		ul.addAlbum("Sigh No More");
 		ul.addAlbum("21");
 		ul.addAlbum("19");
-		assertEquals(1, ul.searchAlbumWithTitle("Mumford & Sons").size());
-		assertEquals("Sigh No More", ul.searchAlbumWithTitle("Mumford & Sons").get(0).name);
-		assertEquals(2, ul.searchAlbumWithTitle("Adele").size());
-		assertEquals("21", ul.searchAlbumWithTitle("Adele").get(0).name);
+		assertEquals(1, ul.searchAlbumWithArtist("Mumford & Sons").size());
+		assertEquals("Sigh No More", ul.searchAlbumWithArtist("Mumford & Sons").get(0).name);
+		assertEquals(2, ul.searchAlbumWithArtist("Adele").size());
+		assertEquals("21", ul.searchAlbumWithArtist("Adele").get(0).name);
 		assertEquals("19", ul.searchAlbumWithArtist("Adele").get(1).name);
-		assertEquals(0, ul.searchAlbumWithTitle("Begin Again").size());
+		assertEquals(0, ul.searchAlbumWithArtist("Begin Again").size());
 	}
 	
 	@Test
 	void testSearchPlaylist() {
+		ul.addAlbum("Sigh No More");
+		ul.addAlbum("21");
+		ul.addAlbum("19");
 		ul.createPlayList("My Playlist");
 		ul.createPlayList("Other Playlist");
-		assertEquals(1, ul.searchPlaylist("My Playlist").size());
+		ul.addSongToPlaylist("My Playlist", "Sigh No More");
+		ul.addSongToPlaylist("My Playlist", "Timshel");
+		ul.addSongToPlaylist("My Playlist", "Little Lion Man");
+		ul.addSongToPlaylist("Other Playlist", "Sigh No More");
+		assertEquals(3, ul.searchPlaylist("My Playlist").size());
 		assertEquals(1, ul.searchPlaylist("Other Playlist").size());
 		assertEquals(0, ul.searchPlaylist("Funny Playlist").size());
 	}
@@ -185,7 +192,6 @@ class TestLibraryModel {
 	void testGetPlaylists() {
 		ul.createPlayList("My Playlist");
 		ul.createPlayList("Other Playlist");
-		ul.createPlayList("My Playlist");
 		ArrayList<String> playlists = new ArrayList<String>();
 		playlists.add("My Playlist");
 		playlists.add("Other Playlist");

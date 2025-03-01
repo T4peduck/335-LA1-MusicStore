@@ -10,7 +10,7 @@ class TestPlayList {
 	
 	@Test
 	void testAddSong() {
-		Song s = new Song("Timshel", "Mumphord & Sons", "Sigh No More");
+		Song s = new Song("Timshel", "Mumford & Sons", "Sigh No More");
 		p.addSong(s);
 		assertEquals(1, p.getPlaylist().size());
 		p.addSong(s);
@@ -21,7 +21,7 @@ class TestPlayList {
 	
 	@Test
 	void testRemoveSong() {
-		Song s = new Song("Timshel", "Mumphord & Sons", "Sigh No More");
+		Song s = new Song("Timshel", "Mumford & Sons", "Sigh No More");
 		p.addSong(s);
 		Song s1 = new Song("Sigh No More", "Mumford & Sons", "Sigh No More");
 		Song s2 = new Song("Little Lion Man", "Mumford & Sons", "Sigh No More");
