@@ -107,12 +107,32 @@ public class main {
 	
 	public static void add(String type, String argument) {
 		if(type.toUpperCase().equals("A")) {
+			boolean alreadyAdded = false;
+			ArrayList<String> albums = ul.getAlbums();
+			for(String s : albums) {
+				if(s.toLowerCase().equals(argument.toLowerCase()))
+					alreadyAdded = true;
+			}
+			if(alreadyAdded) {
+				System.out.println("Error: Album already added to library");
+				return;
+			}
 			if(ms.searchAlbumWithTitle(argument).size() > 0)
 				ul.addAlbum(argument);
 			else
 				System.out.println("Error: Album not in Music Store");
 		}
 		else if(type.toUpperCase().equals("S")) {
+			boolean alreadyAdded = false;
+			ArrayList<String> songs = ul.getSongs();
+			for(String s : songs) {
+				if(s.toLowerCase().equals(argument.toLowerCase()))
+					alreadyAdded = true;
+			}
+			if(alreadyAdded) {
+				System.out.println("Error: Song already added to library");
+				return;
+			}
 			if(ms.searchSongWithTitle(argument).size() > 0)
 				ul.addSong(argument);
 			else
@@ -124,6 +144,21 @@ public class main {
 	
 	public static void add(String type, String argument, String argument2) {
 		if(type.toUpperCase().equals("A")) {
+			boolean alreadyAdded = false;
+			ArrayList<String> albums = ul.getAlbums();
+			for(String s : albums) {
+				if(s.toLowerCase().equals(argument.toLowerCase()))
+					alreadyAdded = true;
+			}
+			if(alreadyAdded && ms.searchAlbumWithTitle(argument).size() == ul.searchAlbumWithTitle(argument).size()) {
+				System.out.println("Error: Album already added to library");
+				return;
+			}
+			for(Album a : ul.searchAlbumWithTitle(argument)) {
+				if(a.artist.toLowerCase().equals(argument2)) {
+					System.out.println("Error: Song already added to library");
+				}
+			}
 			if(ms.searchAlbumWithTitle(argument).size() > 0) {
 				boolean albumExists = false;
 				for(Album a : ms.searchAlbumWithTitle(argument))
@@ -139,6 +174,21 @@ public class main {
 				System.out.println("Error: Album not in Music Store");
 		}
 		else if(type.toUpperCase().equals("S")) {
+			boolean alreadyAdded = false;
+			ArrayList<String> songs = ul.getSongs();
+			for(String s : songs) {
+				if(s.toLowerCase().equals(argument.toLowerCase()))
+					alreadyAdded = true;
+			}
+			if(alreadyAdded && ms.searchSongWithTitle(argument).size() == ul.searchSongWithTitle(argument).size()) {
+				System.out.println("Error: Song already added to library");
+				return;
+			}
+			for(Song s : ul.searchSongWithTitle(argument)) {
+				if(s.artist.toLowerCase().equals(argument2)) {
+					System.out.println("Error: Song already added to library");
+				}
+			}
 			if(ms.searchSongWithTitle(argument).size() > 0) {
 				boolean songExists = false;
 				for(Song s : ms.searchSongWithTitle(argument))

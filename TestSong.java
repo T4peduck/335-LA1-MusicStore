@@ -12,17 +12,17 @@ public class TestSong {
 	
 	@Test
 	void testGetters() {
-		assertFalse(s.getFavorite());
+		assertFalse(s.isFavorite());
 		
 		s.setFavorite();
-		assertTrue(s.getFavorite());
+		assertTrue(s.isFavorite());
 		
 		assertEquals(s.getRating(), 0);
 		s.setRating(3);
 		assertEquals(s.getRating(), 3);
 		
 		t.setRating(5);
-		assertTrue(t.getFavorite());
+		assertTrue(t.isFavorite());
 		
 	}
 	

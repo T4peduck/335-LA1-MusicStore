@@ -35,8 +35,7 @@ public class MusicStore {
 				 albumList.add(parseAlbum(new File(textFile)));
 			 }
 		 } catch (IOException e) {
-			 //System.exit(1);
-			 System.out.println(e);
+			 System.exit(1);
 		 }
 	 }
 	 
@@ -106,13 +105,14 @@ public class MusicStore {
 
 	 }
 	 
-	 public String toString() {
+	 /*public String toString() {
 		 String rstr = "";
 		 for(Album a: albumList) {
 			 rstr += a.toString() + '\n';
 		 }
 		 return rstr;
 	 }
+	 */
 
 
  }

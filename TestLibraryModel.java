@@ -17,6 +17,23 @@ class TestLibraryModel {
 		ul.addSong("Timshel");
 		assertTrue(ul.getSongs().size() == 2);
 		assertEquals("Timshel", ul.searchSongWithTitle("Timshel").get(0).name);
+		ul.addSong("Lullaby");
+		assertTrue(ul.getSongs().size() == 4);
+		assertTrue(ul.searchSongWithTitle("Lullaby").size() == 2);
+	}
+	
+	@Test
+	void testAddSongWithArtistCondition() {
+		ul.addSong("Sigh No More", "Mumford & Sons");
+		assertTrue(ul.getSongs().size() == 1);
+		ul.addSong("Lullaby", "Leonard Cohen");
+		assertTrue(ul.getSongs().size() == 2);
+		assertEquals(1, ul.searchSongWithTitle("Lullaby").size());
+		assertEquals("Leonard Cohen", ul.searchSongWithTitle("Lullaby").get(0).artist);
+		ul.addSong("Lullaby", "OneRepublic");
+		assertTrue(ul.getSongs().size() == 3);
+		assertEquals(2, ul.searchSongWithTitle("Lullaby").size());
+		assertEquals("OneRepublic", ul.searchSongWithTitle("Lullaby").get(1).artist);
 	}
 	
 	@Test
