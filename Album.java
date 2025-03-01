@@ -1,3 +1,9 @@
+/*
+ * File: Album.java
+ * Authors: Ethan Cushner and Joseph Hill
+ * Purpose: Models a music album
+ */
+
 import java.util.ArrayList;
 
 public class Album {
@@ -8,6 +14,7 @@ public class Album {
 	public final String genre;
 	public final String year;
 	
+	// Regular Constructor
 	public Album(String name, String artist, String genre, String year, ArrayList<String> songNames) {
 		this.name = name;
 		this.artist = artist;
@@ -19,6 +26,7 @@ public class Album {
 		}
 	}
 	
+	// Copy Constructor
 	public Album(Album a) {
 		this.name = a.name;
 		this.artist = a.artist;
@@ -30,6 +38,10 @@ public class Album {
 		}
 	}
 	
+	/*
+	 * String toString() -- returns a string that represents the album. Contains the name, artist, genre, and year of release, as
+	 * well as a list of all songs in the album.
+	 */
 	public String toString() {
 		String s;
 		char firstCharOfGenre = genre.charAt(0);
@@ -43,6 +55,10 @@ public class Album {
 		return s;
 	}
 	
+	/*
+	 * Song getSong(String songName) -- returns a copy of the song with name songName from this album. If no
+	 * such song exists, returns null
+	 */
 	public Song getSong(String songName) {
 		for(Song song : songs) {
 			if(song.name.toLowerCase().equals(songName.toLowerCase()))
@@ -51,6 +67,9 @@ public class Album {
 		return null;
 	}
 	
+	/*
+	 * ArrayList<Song> getAlbum() -- returns a copy of the ArrayList of Songs that comprises the album.
+	 */
 	public ArrayList<Song> getAlbum() {
 		ArrayList<Song> list = new ArrayList<Song>();
 		for(Song song : songs) {
