@@ -48,10 +48,21 @@ public class LibraryModel {
 		ArrayList<Album> foundAlbums = ms.searchAlbumWithTitle(albumName);
 		for(Album a : foundAlbums) {
 			albums.add(a);
-			for(Song s : a.getAlbum())
+			for(Song s : a.getAlbum()) {
+				boolean songAlreadyAdded = false;
+				for(Song s1: library) {
+					if(s.name.equals(s1.name) && s.artist.equals(s1.artist)) {
+						songAlreadyAdded = true;
+						break;
+					}
+				}
+				if(songAlreadyAdded)
+					return;
 				library.add(s);
+			}
 		}
 	}
+	
 	
 	/*
 	 * void addAlbum(String albumName, String artist) -- adds an album with title albumName and artist <artist>
