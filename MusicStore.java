@@ -105,7 +105,8 @@ public class MusicStore {
 
 	 }
 	 
-	 /*public String toString() {
+	 /*
+	 public String toString() {
 		 String rstr = "";
 		 for(Album a: albumList) {
 			 rstr += a.toString() + '\n';
