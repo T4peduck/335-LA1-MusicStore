@@ -1,3 +1,9 @@
+/*
+ * File: LibraryModel.java
+ * Authors: Ethan Cushner and Joseph Hill
+ * Purpose: Models a user's library of music
+ */
+
 import java.util.ArrayList;
 
 public class LibraryModel {
@@ -13,12 +19,20 @@ public class LibraryModel {
 		this.ms = ms;
 	}
 	
+	/*
+	 * void addSong(String songName) -- adds a song with title songName from the music
+	 * store to the library.
+	 */
 	public void addSong(String songName) {
 		ArrayList<Song> songs = ms.searchSongWithTitle(songName);
 		for(Song s : songs)
 			library.add(s);
 	}
 	
+	/*
+	 * void addSong(String songName, String artist) -- adds a song with title SongName and artist <artist>
+	 * from the music store to the library
+	 */
 	public void addSong(String songName, String artist) {
 		ArrayList<Song> songs = ms.searchSongWithTitle(songName);
 		for(Song s : songs)
@@ -26,6 +40,10 @@ public class LibraryModel {
 				library.add(s);
 	}
 	
+	/*
+	 * void addAlbum(String albumName) -- adds an album with title albumName from the 
+	 * music store to the library
+	 */
 	public void addAlbum(String albumName) {
 		ArrayList<Album> foundAlbums = ms.searchAlbumWithTitle(albumName);
 		for(Album a : foundAlbums) {
@@ -35,6 +53,10 @@ public class LibraryModel {
 		}
 	}
 	
+	/*
+	 * void addAlbum(String albumName, String artist) -- adds an album with title albumName and artist <artist>
+	 * to the library
+	 */
 	public void addAlbum(String albumName, String artist) {
 		ArrayList<Album> foundAlbums = ms.searchAlbumWithTitle(albumName);
 		for(Album a : foundAlbums) {
@@ -46,10 +68,17 @@ public class LibraryModel {
 		}
 	}
 	
+	/*
+	 * void createPlaylist(String playListName) -- creates a new Playlist with name playListName.
+	 */
 	public void createPlayList(String playListName) {
 		playlists.add(new PlayList(playListName));
 	}
 	
+	/*
+	 * void addSongToPlaylist(String playListName, String songName) -- adds song with title songName to 
+	 * the playlist with name playListName
+	 */
 	public void addSongToPlaylist(String playListName, String songName) {
 		Song song = null;
 		for(Song s : library) {
@@ -62,6 +91,10 @@ public class LibraryModel {
 		}
 	}
 	
+	/*
+	 * void removeSongFromPlaylist(String playListName, String songName) -- remove song with title songName from
+	 * the playlist with name playListName
+	 */
 	public void removeSongFromPlaylist(String playListName, String songName) {
 		Song song = null;
 		for(Song s : library) {
@@ -74,6 +107,10 @@ public class LibraryModel {
 		}
 	}
 	
+	/*
+	 * ArrayList<Song> searchSongWithTitle(String songName) -- returns an ArrayList of Song items containing every
+	 * song in the library with title songName.  Returns an empty list if no such song exists.
+	 */
 	public ArrayList<Song> searchSongWithTitle(String songName) {
 		ArrayList<Song> songs = new ArrayList<Song>();
 		for(Song s : library) {
@@ -83,6 +120,10 @@ public class LibraryModel {
 		return songs;
 	}
 	
+	/*
+	 * ArrayList<Song> searchSongWithArtist(String artistName) -- returns an ArrayList of Song items containing every
+	 * song in the library with artist artistName. Returns an empty list if no such song exists.
+	 */
 	public ArrayList<Song> searchSongWithArtist(String artistName) {
 		ArrayList<Song> songs = new ArrayList<Song>();
 		for(Song s : library) {
@@ -92,6 +133,10 @@ public class LibraryModel {
 		return songs;
 	}
 	
+	/*
+	 * ArrayList<Album> searchAlbumWithTitle(String albumName) -- returns an ArrayList of Album items containing every
+	 * album in the library with title albumName. Returns an empty list if no such album exists.
+	 */
 	public ArrayList<Album> searchAlbumWithTitle(String albumName) {
 		ArrayList<Album> searchedAlbums = new ArrayList<Album>();
 		for(Album a : albums) {
@@ -101,6 +146,10 @@ public class LibraryModel {
 		return searchedAlbums;
 	}
 	
+	/*
+	 * ArrayList<Album> searchSongWithArtist(String artistName) -- returns an ArrayList of Album items containing every
+	 * album in the library with artist artistName. Returns an empty list if no such album exists.
+	 */
 	public ArrayList<Album> searchAlbumWithArtist(String artistName) {
 		ArrayList<Album> searchedAlbums = new ArrayList<Album>();
 		for(Album a : albums) {
@@ -110,6 +159,9 @@ public class LibraryModel {
 		return searchedAlbums;
 	}
 	
+	/*
+	 * ArrayList<Song> searchPlaylist(String playlistName) -- returns a list of songs from the playlist with name playListName
+	 */
 	public ArrayList<Song> searchPlaylist(String playlistName) {
 		for(PlayList p : playlists) {
 			if(p.name.toLowerCase().equals(playlistName.toLowerCase())) {
@@ -119,6 +171,9 @@ public class LibraryModel {
 		return new ArrayList<Song>();
 	}
 	
+	/*
+	 * ArrayList<String> getSongs() -- returns the names of every song in the user's library
+	 */
 	public ArrayList<String> getSongs() {
 		ArrayList<String> titles = new ArrayList<String>();
 		for(Song s : library) {
@@ -127,6 +182,9 @@ public class LibraryModel {
 		return titles;
 	}
 	
+	/*
+	 * ArrayList<String> getSongs() -- returns the names of every artist present in the user's library
+	 */
 	public ArrayList<String> getArtists() {
 		ArrayList<String> artists = new ArrayList<String>();
 		for(Song s : library) {
@@ -151,6 +209,9 @@ public class LibraryModel {
 		return albumsList;
 	}
 	
+	/*
+	 * ArrayList<String> getSongs() -- returns the names of every playlist in the user's library
+	 */
 	public ArrayList<String> getPlaylists() {
 		ArrayList<String> playlistList = new ArrayList<String>();
 		for(PlayList p : playlists) {
@@ -159,6 +220,9 @@ public class LibraryModel {
 		return playlistList;
 	}
 	
+	/*
+	 * ArrayList<String> getSongs() -- returns the names of every song that is favorited in the user's library
+	 */
 	public ArrayList<String> getFavorites() {
 		ArrayList<String> favorites = new ArrayList<String>();
 		for(Song s : library) {
@@ -168,12 +232,18 @@ public class LibraryModel {
 		return favorites;
 	}
 	
+	/*
+	 * void markFavorite(String songName) -- marks every song with name songName within the library as a favorite.
+	 */
 	public void markFavorite(String songName) {
 		for(Song s : library)
 			if(s.name.toLowerCase().equals(songName.toLowerCase()))
 				s.setFavorite();
 	}
 	
+	/*
+	 * void rateSong(String songName, int rating) -- changes the rating of every song with name songName to <rating>
+	 */
 	public void rateSong(String songName, int rating) {
 		for(Song s : library)
 			if(s.name.toLowerCase().equals(songName.toLowerCase()))
