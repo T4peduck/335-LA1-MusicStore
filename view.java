@@ -1,5 +1,8 @@
 /*
- * simulates the program
+ * File: view.java
+ * Authors: Ethan Cushner and Joseph Hill
+ * Purpose: provides a user interface that allows a user to interact
+ * with the music store and with their music library
  */
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -7,8 +10,8 @@ import java.util.Scanner;
 
 public class view {
 	
-	private static final String helpMenu = 	"Help Menu\nNote: Commands and arguments are not case sensitive\nCommands:\nadd,<type>,<argument>,<argument2>\n	-adds an item to your library\n	"
-			+ "-Note: For songs for which there are multiple with same name in music store, use below add command\n	-<type> should contain either A for album or S for song\n	-<argument> should be replaced by the appropriate name for the item you are trying to add\n"
+	private static final String helpMenu = 	"Help Menu\nNote: Commands and arguments are not case sensitive\nCommands:\nadd,<type>,<argument>\n	-adds an item to your library\n	-Note: For songs for which there are multiple with same name in music store, use below add command\n	"
+			+ "-<type> should contain either A for album or S for song\n	-<argument> should be replaced by the appropriate name for the item you are trying to add\n"
 			+ "add,<type>,<argument>,<argument2>\n	-first two arguments function same as for above add command\n	-<argument2> should be replaced with the artist of the song or album if you're"
 			+ "trying to add a song for which there are multiple in the music store with the same name but different artists\n"
 			+ "addPL,<name>,<argument>\n	-adds a song in your library to a given playlist\n	-<name> should be replaced with the name of the playlist to be added to\n	"
@@ -105,19 +108,24 @@ public class view {
 		}
 	}
 	
+	/*
+	 * void add(String type, String argument) -- given the type (S for song or A for album),
+	 * adds the corresponding item whose name is argument from the music store to the user library. 
+	 * If the item is already in the library, will not add and prints an error message. If the type
+	 * or argument are invalid, prints appropriate error messages.
+	 */
 	public static void add(String type, String argument) {
 		if(type.toUpperCase().equals("A")) {
 			boolean alreadyAdded = false;
-			ArrayList<String> albums = ul.getAlbums();
-			for(String s : albums) {
+			for(String s : ul.getAlbums()) {	// Check if the album is already added
 				if(s.toLowerCase().equals(argument.toLowerCase()))
 					alreadyAdded = true;
 			}
-			if(alreadyAdded) {
+			if(alreadyAdded) {	// Print error if already added
 				System.out.println("Error: Album already added to library");
 				return;
 			}
-			if(ms.searchAlbumWithTitle(argument).size() > 0)
+			if(ms.searchAlbumWithTitle(argument).size() > 0)	// Check if album is in music store
 				ul.addAlbum(argument);
 			else
 				System.out.println("Error: Album not in Music Store");
@@ -125,43 +133,40 @@ public class view {
 		else if(type.toUpperCase().equals("S")) {
 			boolean alreadyAdded = false;
 			ArrayList<String> songs = ul.getSongs();
-			for(String s : songs) {
+			for(String s : songs) {	// Check if the song has already been added
 				if(s.toLowerCase().equals(argument.toLowerCase()))
 					alreadyAdded = true;
 			}
-			if(alreadyAdded) {
+			if(alreadyAdded) {	// Print error if already added
 				System.out.println("Error: Song already added to library");
 				return;
 			}
-			if(ms.searchSongWithTitle(argument).size() > 0)
+			if(ms.searchSongWithTitle(argument).size() > 0)	// Check that song is in music store
 				ul.addSong(argument);
 			else
 				System.out.println("Error: Song not in Music Store");
 		}
-		else
+		else	// If invalid type, print error message
 			System.out.println("Error: Invalid Type. Please input S or A for type");
 	}
 	
+	/*
+	 * void add(String type, String argument, String argument2) -- same functionality as above add
+	 * method, except with additional input for the artist of the song. Only meant to be used
+	 * for songs or albums that for which there are multiple in the music store with the same name.
+	 * Will print error messages if the item is already in the library or if it doesn't exist.
+	 */
 	public static void add(String type, String argument, String argument2) {
 		if(type.toUpperCase().equals("A")) {
-			boolean alreadyAdded = false;
-			ArrayList<String> albums = ul.getAlbums();
-			for(String s : albums) {
-				if(s.toLowerCase().equals(argument.toLowerCase()))
-					alreadyAdded = true;
-			}
-			if(alreadyAdded && ms.searchAlbumWithTitle(argument).size() == ul.searchAlbumWithTitle(argument).size()) {
-				System.out.println("Error: Album already added to library");
-				return;
-			}
-			for(Album a : ul.searchAlbumWithTitle(argument)) {
+			for(Album a : ul.searchAlbumWithTitle(argument)) {	// Check if album already in library
 				if(a.artist.toLowerCase().equals(argument2)) {
-					System.out.println("Error: Song already added to library");
+					System.out.println("Error: Album already added to library");
+					return;
 				}
 			}
 			if(ms.searchAlbumWithTitle(argument).size() > 0) {
 				boolean albumExists = false;
-				for(Album a : ms.searchAlbumWithTitle(argument))
+				for(Album a : ms.searchAlbumWithTitle(argument))	// Check if album of that title exists for artist
 					if(a.artist.toLowerCase().equals(argument2.toLowerCase())) {
 						albumExists = true;
 					}
@@ -174,24 +179,15 @@ public class view {
 				System.out.println("Error: Album not in Music Store");
 		}
 		else if(type.toUpperCase().equals("S")) {
-			boolean alreadyAdded = false;
-			ArrayList<String> songs = ul.getSongs();
-			for(String s : songs) {
-				if(s.toLowerCase().equals(argument.toLowerCase()))
-					alreadyAdded = true;
-			}
-			if(alreadyAdded && ms.searchSongWithTitle(argument).size() == ul.searchSongWithTitle(argument).size()) {
-				System.out.println("Error: Song already added to library");
-				return;
-			}
-			for(Song s : ul.searchSongWithTitle(argument)) {
-				if(s.artist.toLowerCase().equals(argument2)) {
+			for(Song s : ul.searchSongWithTitle(argument)) {	// Check if song already in library
+				if(s.artist.toLowerCase().equals(argument2.toLowerCase())) {
 					System.out.println("Error: Song already added to library");
+					return;
 				}
 			}
 			if(ms.searchSongWithTitle(argument).size() > 0) {
 				boolean songExists = false;
-				for(Song s : ms.searchSongWithTitle(argument))
+				for(Song s : ms.searchSongWithTitle(argument))	// Check that song of that title exists for artist
 					if(s.artist.toLowerCase().equals(argument2.toLowerCase())) {
 						songExists = true;
 					}
@@ -207,17 +203,22 @@ public class view {
 			System.out.println("Error: Invalid Type. Please input S or A for type");
 	}
 	
+	/*
+	 * void addPL(String name, String argument) -- adds the song with title <argument> to the playlist
+	 * whose title is <name>. Will print error messages if the playlist doesn't exist or if the song
+	 * is not in the user's library.
+	 */
 	public static void addPL(String name, String argument) {
 		ArrayList<String> playlists = ul.getPlaylists();
 		boolean playlistExists = false;
-		for(String s : playlists) {
+		for(String s : playlists) {	// Make sure playlist has been created
 			if(s.toLowerCase().equals(name.toLowerCase()))
 				playlistExists = true;
 		}
 		if(playlistExists) {
 			boolean songExists = false;
 			ArrayList<String> songs = ul.getSongs();
-			for(String s : songs) {
+			for(String s : songs) {	// Make sure song is in music store
 				if(s.toLowerCase().equals(argument.toLowerCase()))
 					songExists = true;
 			}
@@ -231,9 +232,13 @@ public class view {
 			System.out.println("Error: Playlist not created within your library");
 	}
 	
+	/*
+	 * void createPL(String argument) -- create a playlist in the user library with name <argument>.
+	 * Prints an error message if a playlist of that name has already been created.
+	 */
 	public static void createPL(String argument) {
 		ArrayList<String> playlists = ul.getPlaylists();
-		for(String s : playlists) {
+		for(String s : playlists) {	// Check if playlist of same name already exists
 			if(s.toLowerCase().equals(argument.toLowerCase())) {
 				System.out.println("Error: Playlist already exists in your library");
 				return;
@@ -242,6 +247,10 @@ public class view {
 		ul.createPlayList(argument);
 	}
 	
+	/*
+	 * void favorite(String argument) -- favorites songs within the user library with title <argument>.
+	 * Will print an error message if the song cannot be found within the user library.
+	 */
 	public static void favorite(String argument) {
 		ArrayList<String> songs = ul.getSongs();
 		for(String s : songs) {
@@ -253,6 +262,11 @@ public class view {
 		System.out.println("Error: Song not in your library");
 	}
 	
+	/*
+	 * void list(String type) -- lists all items of <type> in the user library. Type should
+	 * be either S for songs, AR for artists, AL for albums, P for playlists, or F for favorites.
+	 * Will print an error message if the type is invalid.
+	 */
 	public static void list(String type) {
 		if(type.toUpperCase().equals("S")) {
 			ArrayList<String> songs = ul.getSongs();
@@ -287,6 +301,12 @@ public class view {
 		else
 			System.out.println("Error: Invalid Type. Input S for songs, AL for albums, AR for artists, P for playlists, or F for favorites");
 	}
+	
+	/*
+	 * void rate(String argument, int rating) -- update the rating for a song with title <argument> in the user library.
+	 * Will print an error message if <rating> is not between 1 and 5. Additionally will print an error message if the
+	 * song indicated is not in the user library.
+	 */
 	public static void rate(String argument, int rating) {
 		if(rating < 1 || rating > 5) {
 			System.out.println("Error: Invalid Rating. Ratings should be between 1 and 5");
@@ -301,24 +321,30 @@ public class view {
 		}
 		System.out.println("Error: Song not in your library");
 	}
+	
+	/*
+	 * void removePL(String name, String argument) -- removes a song with title <argument> from a playlist named <name>.
+	 * Will print an error message if the indicated song is not in the playlist, also if it is not in the user library.
+	 * Additionally prints an error message if a playlist with that name hasn't been created.
+	 */
 	public static void removePL(String name, String argument) {
 		ArrayList<String> playlists = ul.getPlaylists();
 		boolean playlistExists = false;
-		for(String s : playlists) {
+		for(String s : playlists) {	// Check that a playlist named <name> exists
 			if(s.toLowerCase().equals(name.toLowerCase()))
 				playlistExists = true;
 		}
 		if(playlistExists) {
 			boolean songExists = false;
 			ArrayList<String> songs = ul.getSongs();
-			for(String s : songs) {
+			for(String s : songs) {	// Check that the song exists within the user library
 				if(s.toLowerCase().equals(argument.toLowerCase()))
 					songExists = true;
 			}
 			if(songExists) {
 				ArrayList<Song> playlistSongs = ul.searchPlaylist(name);
 				boolean songInPlaylist = false;
-				for(Song s : playlistSongs) {
+				for(Song s : playlistSongs) {	// Check that the song is in the playlist
 					if(s.name.toLowerCase().equals(argument.toLowerCase()))
 						songInPlaylist = true;
 				}
@@ -334,6 +360,12 @@ public class view {
 			System.out.println("Error: Playlist not created within your library");
 	}
 	
+	/*
+	 * void search(String location, String searchType, String argument) -- searches <location> with a <searchType> search for <argument>.
+	 * Prints out whatever is found by the search. Will print an error message if location is neither "MS" for music store or "UL" for user library.
+	 * Also prints out an error if searchType is not ST for song by title, SA for song by artist, AT for album by title, AA for album by artist,
+	 * or P (only in user library) for playlist. If nothing is found by the search, prints an appropriate message.
+	 */
 	public static void search(String location, String searchType, String argument) {
 		if(location.toUpperCase().equals("MS")) {
 			if(searchType.toUpperCase().equals("ST")) {
