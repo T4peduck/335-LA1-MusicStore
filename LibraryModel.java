@@ -57,7 +57,7 @@ public class LibraryModel {
 					}
 				}
 				if(songAlreadyAdded)
-					return;
+					continue;
 				library.add(s);
 			}
 		}
