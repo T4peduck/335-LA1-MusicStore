@@ -4,6 +4,7 @@
  */
 import java.util.Hashtable;
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,47 +14,120 @@ import java.lang.String;
 
 
 public class UserController {
-	private Hashtable <String, LibraryModel> userList;
+	private ArrayList<String> userList;
 	private BufferedReader br;
 	private MusicStore ms;
 	
 	//create a list of users
-	public UserController(MusicStore ms) {
-		userList = new Hashtable<String, LibraryModel>();
-		this.ms = ms;
+	public UserController() {
+		userList = new ArrayList<>();
+		ms = new MusicStore();
 		
 		File users = new File("users/users.txt");
 		
 		
 		try {
-			 
-			 BufferedReader br = new BufferedReader(new FileReader(users));
+			 br = new BufferedReader(new FileReader(users));
 			 
 			 String line;
 			 while((line = br.readLine()) != null) {
-				 String textFile = "users/" + line + ".txt";
-				 userList.put(line, parseUsers(new File(textFile)));
+				 userList.add(line);
 			 }
 		 } catch (IOException e) {
 			 System.exit(1);
 		 }
 	}
 	
-	//TODO: PROBS DONT NEED THE MUSIC LIBRARY
-	private LibraryModel parseUsers(File textFile) throws IOException{
+	
+	/*
+	 * FILE LAYOUT
+	 * ----------
+	 * password
+	 * 
+	 * albumName artist genre year
+	 * song1Name
+	 * song2Name
+	 * ...
+	 * 
+	 * s
+	 * song1 rating
+	 * song2 rating
+	 * song3 rating
+	 * ...
+	 * 
+	 * p
+	 * playlist1
+	 * song1
+	 * song2
+	 * 
+	 * playlist2
+	 * song1
+	 * song2
+	 * 
+	 * --------
+	 */
+	
+	
+	//given a username and password, retrieve user from text
+	//@PRE username entered isn't "users"
+	public LibraryModel loadUser(String username, String password) {
+		File user = new File("users/" + username + ".txt");
 		LibraryModel lm = new LibraryModel(ms);
 		
-		BufferedReader br = new BufferedReader(new FileReader(textFile));
+		try {
+			br = new BufferedReader(new FileReader(user));
+			
+			//TODO: add some hashing and salting stuff for password
+			String line;
+			line = br.readLine();
+			if(!line.equals(password)) {
+				return null;
+			}
+			
+			parseAlbums(lm);
+			
+			
+			
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+		
+		
 		
 		
 		return null;
 	}
 	
+	private void parseAlbums(LibraryModel lm) throws IOException {
+		String line = br.readLine();
+		while(!line.equals("s")) {
+			String[] infoLine = line.split(" ");
+			String name = infoLine[0];
+			String artist = infoLine[1];
+			String genre = infoLine[2];
+			String year = infoLine[3];
+			ArrayList<String> songNames = new ArrayList<>();
+			
+			while(!(line = br.readLine()).equals("")) {
+				songNames.add(line);
+				lm.addSong(new Song(line, artist, name));
+			}
+			
+			lm.addAlbum(new Album(name, artist, genre, year, songNames));
+			
+			line = br.readLine();
+		}
+		return;
+	}
 	
-	
-	//given a username, retrieve user from text
-	
-	
+	private void parseSongs(LibraryModel lm) throws IOExcpeiton {
+		String line = br.readLine();
+		while(!line.equals("p")) {
+			
+		}
+	}
 	
 	//given a username, save a user into text
 	

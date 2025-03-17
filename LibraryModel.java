@@ -42,6 +42,13 @@ public class LibraryModel {
 				library.add(s);
 	}
 	
+	//TODO: may not work and needs .equals instead
+	public void addSong(Song s) {
+		if(!library.contains(s)) {
+			library.add(new Song(s));
+		}
+	}
+	
 	public void addAlbum(String albumName) {
 		ArrayList<Album> foundAlbums = ms.searchAlbumWithTitle(albumName);
 		for(Album a : foundAlbums) {
@@ -60,6 +67,10 @@ public class LibraryModel {
 					library.add(s);
 			}
 		}
+	}
+	
+	public void addAlbum(Album a) {
+		albums.add(new Album(a));
 	}
 	
 	public void createPlayList(String playListName) {
