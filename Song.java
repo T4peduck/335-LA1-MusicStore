@@ -10,6 +10,7 @@ public class Song {
 	public final String artist;
 	public final String album;
 	private int rating;
+	private int numPlays;
 	private boolean favorite;
 	
 	public Song(String name, String artist, String album) {
@@ -17,6 +18,7 @@ public class Song {
 		this.artist = artist;
 		this.album = album;
 		favorite = false;
+		numPlays = 0;
 	}
 	
 	public Song(Song s) {
@@ -39,11 +41,19 @@ public class Song {
 		favorite = true;
 	}
 	
+	public void play() {
+		numPlays++;
+	}
+	
 	public boolean isFavorite() {
 		return favorite;
 	}
 	
 	public int getRating() {
 		return rating;
+	}
+	
+	public int getNumPlays() {
+		return numPlays;
 	}
 }
