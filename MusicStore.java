@@ -104,16 +104,6 @@ public class MusicStore {
 		 return slist;
 
 	 }
-	 
-	 /*
-	 public String toString() {
-		 String rstr = "";
-		 for(Album a: albumList) {
-			 rstr += a.toString() + '\n';
-		 }
-		 return rstr;
-	 }
-	 */
 
 
  }
