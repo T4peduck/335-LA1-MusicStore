@@ -49,13 +49,13 @@ public class UserController {
 	 * song2Name
 	 * ...
 	 * 
-	 * s
+	 * 
 	 * song1 rating
 	 * song2 rating
 	 * song3 rating
 	 * ...
 	 * 
-	 * p
+	 * 
 	 * playlist1
 	 * song1
 	 * song2
@@ -86,6 +86,8 @@ public class UserController {
 			
 			parseAlbums(lm);
 			
+			parseSongs(lm);
+			
 			
 			
 			
@@ -102,9 +104,9 @@ public class UserController {
 	
 	private void parseAlbums(LibraryModel lm) throws IOException {
 		String line = br.readLine();
-		while(!line.equals("s")) {
+		while(!line.equals("")) {
 			String[] infoLine = line.split(" ");
-			String name = infoLine[0];
+			String albumName = infoLine[0];
 			String artist = infoLine[1];
 			String genre = infoLine[2];
 			String year = infoLine[3];
@@ -112,20 +114,28 @@ public class UserController {
 			
 			while(!(line = br.readLine()).equals("")) {
 				songNames.add(line);
-				lm.addSong(new Song(line, artist, name));
+				lm.addSong(new Song(line, artist, albumName));
 			}
 			
-			lm.addAlbum(new Album(name, artist, genre, year, songNames));
+			lm.addAlbum(new Album(albumName, artist, genre, year, songNames));
 			
 			line = br.readLine();
 		}
 		return;
 	}
 	
-	private void parseSongs(LibraryModel lm) throws IOExcpeiton {
-		String line = br.readLine();
-		while(!line.equals("p")) {
+	private void parseSongs(LibraryModel lm) throws IOException {
+		String line;
+		
+		while(!(line = br.readLine()).equals("")) {
+			String[] infoLine = line.split(" ");
+			String songName = infoLine[0];
+			String artist = infoLine[1];
+			String album = infoLine[2];
+			int rating = Integer.parseInt(infoLine[3]);
 			
+			lm.addSong(new Song(songName, artist, album));
+			lm.rateSong(songName, rating);
 		}
 	}
 	
