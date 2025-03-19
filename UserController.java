@@ -43,26 +43,20 @@ public class UserController {
 	 * FILE LAYOUT
 	 * ----------
 	 * password
-	 * 
 	 * albumName artist genre year
-	 * song1Name
-	 * song2Name
+	 * song1Name rating
+	 * song2Name rating
 	 * ...
-	 * 
-	 * 
-	 * song1 rating
-	 * song2 rating
-	 * song3 rating
-	 * ...
-	 * 
+	 * 			[two space]
 	 * 
 	 * playlist1
-	 * song1
-	 * song2
+	 * song1 artist
+	 * song2 artist
 	 * 
 	 * playlist2
-	 * song1
-	 * song2
+	 * song1 artist
+	 * song2 artist
+	 * 			[2 extra line of whitespace]
 	 * 
 	 * --------
 	 */
@@ -86,20 +80,14 @@ public class UserController {
 			
 			parseAlbums(lm);
 			
-			parseSongs(lm);
-			
-			
-			
+			parsePlaylists(lm);
 			
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(1);
 		}
 		
-		
-		
-		
-		return null;
+		return lm;
 	}
 	
 	private void parseAlbums(LibraryModel lm) throws IOException {
@@ -113,8 +101,10 @@ public class UserController {
 			ArrayList<String> songNames = new ArrayList<>();
 			
 			while(!(line = br.readLine()).equals("")) {
-				songNames.add(line);
-				lm.addSong(new Song(line, artist, albumName));
+				String[] songInfo = line.split(" ");
+				songNames.add(songInfo[0]);
+				lm.addSong(new Song(songInfo[0], artist, albumName));
+				lm.rateSong(songInfo[0], Integer.parseInt(songInfo[1]));
 			}
 			
 			lm.addAlbum(new Album(albumName, artist, genre, year, songNames));
@@ -124,6 +114,7 @@ public class UserController {
 		return;
 	}
 	
+	/*
 	private void parseSongs(LibraryModel lm) throws IOException {
 		String line;
 		
@@ -138,7 +129,25 @@ public class UserController {
 			lm.rateSong(songName, rating);
 		}
 	}
-	
+	*/
+		
+	private void parsePlaylists(LibraryModel lm) throws IOException {
+		String line = br.readLine();
+		while(line != null && !line.equals("")) {
+			String playlistName = line;
+			lm.createPlayList(line);
+			while(!(line = br.readLine()).equals("")) {
+				String[] infoLine = line.split(" ");
+				String songName = infoLine[0];
+				String artist	= infoLine[1];
+				lm.addSongToPlaylist(playlistName, songName);
+			}
+			line = br.readLine();
+			
+		}
+		
+		return;
+	}
 	//given a username, save a user into text
 	
 	/*

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 class TestLibraryModel {
 	
 	private MusicStore ms = new MusicStore();
-	private LibraryModel ul = new LibraryModel(ms, "user");
+	private LibraryModel ul = new LibraryModel(ms);
 
 	@Test
 	void testAddSong() {
