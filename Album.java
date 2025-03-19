@@ -5,10 +5,12 @@
  */
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 public class Album {
 	
-	private ArrayList<Song> songs;
+	private Hashtable<String, Song> songs;
+	private ArrayList<String> songNames;
 	public final String artist;
 	public final String name;
 	public final String genre;
@@ -20,9 +22,11 @@ public class Album {
 		this.artist = artist;
 		this.genre = genre;
 		this.year = year;
-		songs = new ArrayList<Song>();
+		songs = new Hashtable<String, Song>();
+		this.songNames = new ArrayList<String>();
 		for(String songName : songNames) {
-			songs.add(new Song(songName, artist, name));
+			songs.put(songName, new Song(songName, artist, name));
+			this.songNames.add(songName.toLowerCase());
 		}
 	}
 	
@@ -32,10 +36,14 @@ public class Album {
 		this.artist = a.artist;
 		this.genre = a.genre;
 		this.year = a.year;
-		songs = new ArrayList<Song>();
-		for(Song song : a.songs) {
-			songs.add(new Song(song));
+		songs = new Hashtable<String, Song>();
+		this.songNames = new ArrayList<String>(a.songNames);
+		
+		for(String song : a.songNames) {
+			songs.put(song, new Song(a.songs.get(song)));
 		}
+		
+		
 	}
 	
 	/*
@@ -49,8 +57,8 @@ public class Album {
 			s = name + " by " + artist + ", an " + genre.toLowerCase() + " album released in " + year + ".\n";
 		else	
 			s = name + " by " + artist + ", a " + genre.toLowerCase() + " album released in " + year + ".\n";
-		for(Song song : songs) {
-			s += song.name + "\n";
+		for(String song : songNames) {
+			s += song + "\n";
 		}
 		return s;
 	}
@@ -60,11 +68,7 @@ public class Album {
 	 * such song exists, returns null
 	 */
 	public Song getSong(String songName) {
-		for(Song song : songs) {
-			if(song.name.toLowerCase().equals(songName.toLowerCase()))
-				return new Song(song);
-		}
-		return null;
+		return songs.get(songName.toLowerCase());
 	}
 	
 	/*
@@ -72,8 +76,8 @@ public class Album {
 	 */
 	public ArrayList<Song> getAlbum() {
 		ArrayList<Song> list = new ArrayList<Song>();
-		for(Song song : songs) {
-			list.add(new Song(song));
+		for(String s : songNames) {
+			list.add(new Song(songs.get(s)));
 		}
 		return list;
 	}
