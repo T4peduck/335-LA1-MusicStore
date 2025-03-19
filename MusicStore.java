@@ -2,9 +2,6 @@
  * MusicStore.java
  * by Joseph Hill and Ethan Cushner
  * Represents the data base that holds all the albums and songs
- * 
- * TODO: fix comments at top
- * TODO: do uml
  */
 
 import java.util.ArrayList;
@@ -34,12 +31,16 @@ public class MusicStore {
 				 String textFile = "albums/" + line.replace(',', '_') + ".txt";
 				 albumList.add(parseAlbum(new File(textFile)));
 			 }
-		 } catch (IOException e) {
+		 } catch (IOException e) { // If albums.txt cannot be found, exit with error code 1
 			 System.exit(1);
 		 }
 	 }
 	 
-	 //check for empty file???
+	 /* 
+	  * Album parseAlbum(File textFile) throws IOException -- private helper method that takes a file
+	  * as input and returns an album object with the data from the file. 
+	  */
+	 
 	 private Album parseAlbum(File textFile) throws IOException {
 		 BufferedReader br = new BufferedReader(new FileReader(textFile));
 		 
@@ -59,8 +60,10 @@ public class MusicStore {
 		 return new Album(name, artist, genre, year, songNames);
 	 }
 	 
-	 //TODO: deep copy?
-	 //if empty list is returned, no song found matching the search parameters
+	/*
+	 * ArrayList<Album> searchAlbumWithTitle(String title) -- returns a list of all albums in the musics store
+	 * with name <title>. Returns an empty list if no such album exists.
+	 */
 	 public ArrayList<Album> searchAlbumWithTitle(String title) {
 		 ArrayList<Album> alist = new ArrayList<>();
 		 for(Album a: albumList) {
@@ -72,6 +75,10 @@ public class MusicStore {
 		 return alist;
 	 }
 	 
+	 /*
+	  * ArrayList<Album> searchAlbumWithArtist(String artist) -- returns a list of all albums in the music store
+	  * with artist <artist>. Returns an empty list if no such album exists.
+	  */
 	 public ArrayList<Album> searchAlbumWithArtist(String artist) {
 		 ArrayList<Album> alist = new ArrayList<>();
 		 for(Album a: albumList) {
@@ -83,6 +90,10 @@ public class MusicStore {
 		 return alist;
 	 }
 	 
+	 /*
+	  * ArrayList<Song> searchSongWithTitle(String title) -- returns a list of all songs in the music store
+	  * with name <title>. Returns an empty list if no such song exists.
+	  */
 	 public ArrayList<Song> searchSongWithTitle(String title) {
 		 ArrayList<Song> slist = new ArrayList<>();
 		 for(Album a: albumList) {
@@ -93,6 +104,10 @@ public class MusicStore {
 		 return slist;
 	 }
 	 
+	 /*
+	  * ArrayList<Song> searchSongWithArtist(String artist) -- returns a list of all songs in the music store
+	  * with artist <artist>. Returns an empty list if no such song exists.
+	  */
 	 public ArrayList<Song> searchSongWithArtist(String artist) {
 		 ArrayList<Song> slist = new ArrayList<>();
 		 for(Album a: albumList) {
@@ -104,6 +119,5 @@ public class MusicStore {
 		 return slist;
 
 	 }
-
 
  }
