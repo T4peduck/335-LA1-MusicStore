@@ -17,6 +17,9 @@ class TestAlbum {
 		
 		Song second = a.getSong("s2");
 		assertEquals("s2", second.name);
+		
+		Song noSong = a.getSong("s4");
+		assertEquals(null, noSong);
 	}
 	
 	@Test

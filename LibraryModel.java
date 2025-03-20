@@ -14,6 +14,7 @@ public class LibraryModel {
 	private HashMap<Integer, ArrayList<Album>> albumsByTitle;
 	private HashMap<Integer, PlayList> playlists;
 	private MusicStore ms;
+	private Song currentPlay;
 	
 	public LibraryModel(MusicStore ms) {
 		libraryByArtist = new HashMap<Integer, ArrayList<Song>>();
@@ -24,6 +25,21 @@ public class LibraryModel {
 		this.ms = ms;
 		playlists.put("favorites".hashCode(), new PlayList("Favorites"));
 		playlists.put("top rated".hashCode(), new PlayList("Top Rated"));
+		currentPlay = null;
+	}
+	
+	
+	public void playSong(String songName, String artistName) {
+		//TODO: need to add way to search if there are songs with multiple writers
+	}
+	
+	public void playSong(String songName) {
+		for(Song s: library) {
+			if(s.name.equals(songName)) {
+				currentPlay = s;
+				currentPlay.play();
+			}
+		}
 	}
 	
 	/*
@@ -74,10 +90,18 @@ public class LibraryModel {
 		}
 	}
 	
+	//TODO: may not work and needs .equals instead
+	public void addSong(Song s) {
+		if(!library.contains(s)) {
+			library.add(new Song(s));
+		}
+	}
+	
 	/*
 	 * void addAlbum(String albumName) -- adds an album with title albumName from the 
 	 * music store to the library
 	 */
+
 	public void addAlbum(String albumName) {
 		ArrayList<Album> foundAlbums = ms.searchAlbumWithTitle(albumName);
 		for(Album a : foundAlbums) {
@@ -181,9 +205,16 @@ public class LibraryModel {
 		}
 	}
 	
+
+	public void addAlbum(Album a) {
+		albums.add(new Album(a));
+	}
+	
+  
 	/*
 	 * void createPlaylist(String playListName) -- creates a new Playlist with name playListName.
 	 */
+
 	public void createPlayList(String playListName) {
 		playlists.put(playListName.toLowerCase().hashCode(), new PlayList(playListName));
 	}

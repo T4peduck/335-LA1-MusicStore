@@ -9,6 +9,7 @@ public class Song {
 	public final String artist;
 	public final String album;
 	private int rating;
+	private int numPlays;
 	private boolean favorite;
 	
 	// Regular Constructor
@@ -17,6 +18,7 @@ public class Song {
 		this.artist = artist;
 		this.album = album;
 		favorite = false;
+		numPlays = 0;
 	}
 	
 	// Copy Constructor
@@ -52,6 +54,10 @@ public class Song {
 		favorite = true;
 	}
 	
+	public void play() {
+		numPlays++;
+	}
+	
 	// returns this.favorite
 	public boolean isFavorite() {
 		return favorite;
@@ -79,5 +85,9 @@ public class Song {
 	@Override
 	public int hashCode() {
 		return this.name.hashCode() + this.artist.hashCode();
+  }
+  
+	public int getNumPlays() {
+		return numPlays;
 	}
 }
