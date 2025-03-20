@@ -44,4 +44,9 @@ public class PlayList {
 		}
 		return songs;
 	}
+	
+	@Override
+	public int hashCode() {
+		return name.toLowerCase().hashCode();
+	}
 }

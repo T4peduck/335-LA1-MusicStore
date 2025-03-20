@@ -61,4 +61,23 @@ public class Song {
 	public int getRating() {
 		return rating;
 	}
+	
+	public int hashCodeArtist() {
+		return this.artist.toLowerCase().hashCode();
+	}
+	
+	public int hashCodeName() {
+		return this.name.toLowerCase().hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object other) {
+		Song otherSong = (Song) other;
+		return this.name.equals(otherSong.name) && this.artist.equals(otherSong.artist);
+	}
+	
+	@Override
+	public int hashCode() {
+		return this.name.hashCode() + this.artist.hashCode();
+	}
 }

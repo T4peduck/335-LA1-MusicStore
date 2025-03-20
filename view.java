@@ -6,6 +6,8 @@
  */
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.*;
+import java.util.HashMap;
 
 
 public class view {
@@ -18,6 +20,7 @@ public class view {
 			+ "exit\n	-exits the program\n"
 			+ "fav,<argument>\n	-<argument> should be replaced with the name of the song that you wish to favorite\nlist,<type>\n	"
 			+ "-prints a list of the each given item of the given type in your library\n	-<type> should be replaced with S for songs, AR for artists, AL for albums, P for playlists, or F for favorited songs\n"
+			+ "login,<username>,<password>\n	-<username> should be replaced with your username\n	-<password> should be replaced with your password\n"
 			+ "rate,<argument>,<rating>\n	-<argument> should be replaced with the name of the song you wish to rate\n	-<rating> should be replaced with your desired rating (1 - 5)\n"
 			+ "removePL,<name>,<argument>\n	-removes a song from a playlist\n	-<name> should be replaced with the name of the playlist from which you wish to remove a song\n	"
 			+ "-<argument> should be replaced with the name of the song you wish to remove\nsearch,<location>,<search type>,<argument>\n	"
@@ -27,11 +30,15 @@ public class view {
 	
 	private static MusicStore ms = new MusicStore();
 	private static LibraryModel ul = new LibraryModel(ms);
+	private static HashMap<String, String> logins = new HashMap<String, String>();
+	
 
 	public static void main(String args[]) {
+		//startup();
 		System.out.println("Welcome to the Music Store\nType help for the list of commands");
 		boolean exit = false;
 		Scanner keyboard = new Scanner(System.in);
+		//boolean loggedIn = false;
 		while(!exit) {
 			String[] input = keyboard.nextLine().strip().split(",");
 			String command = input[0].toLowerCase();
@@ -39,8 +46,12 @@ public class view {
 				System.out.println(helpMenu);
 			}
 			else if(command.equals("exit")) {
+				keyboard.close();
 				System.exit(0);
 			}
+			/*else if(!loggedIn) {
+				System.out.println("Please login before using this command");
+			}*/
 			else if(command.equals("add")) {
 				try{
 					add(input[1], input[2], input[3]);
@@ -86,6 +97,14 @@ public class view {
 					System.out.println("Error: Invalid Input");
 				}			
 			}
+			/*else if(command.equals("login")) {
+				try{
+					login(input[1], input[2]);
+				}
+				catch(ArrayIndexOutOfBoundsException e) {
+					System.out.println("Error: Invalid Input");
+				}
+			}*/
 			else if(command.equals("rate")) {
 				try{
 					String secondInput = input[2];
@@ -312,14 +331,27 @@ public class view {
 				System.out.println(s);
 		}
 		else if(type.toUpperCase().equals("F")) {
-			ArrayList<String> favorites = ul.getFavorites();
+			ArrayList<Song> favorites = ul.getFavorites();
 			System.out.println("Favorited songs in your library:");
-			for(String s : favorites)
-				System.out.println(s);
+			for(Song s : favorites)
+				System.out.println(s.name);
 		}
 		else
 			System.out.println("Error: Invalid Type. Input S for songs, AL for albums, AR for artists, P for playlists, or F for favorites");
 	}
+	
+	/*public static void login(String username, String password) {
+		String correctPassword = logins.get(username);
+		if(correctPassword == null) {
+			System.out.println("Error: No account created under this username. Check your spelling or create an account.");
+		}
+		else {
+			if(correctPassword.equals(password))
+				loadAccount(username);
+			else
+				System.out.println("Error: Incorrect password. Check your spelling");
+		}
+	}*/
 	
 	/*
 	 * void rate(String argument, int rating) -- update the rating for a song with title <argument> in the user library.
@@ -465,7 +497,7 @@ public class view {
 			}
 			else if(searchType.toUpperCase().equals("P")) {
 				ArrayList<Song> songs = ul.searchPlaylist(argument);
-				if(songs.size() == 0) {
+				if(songs == null) {
 					System.out.println("Search returned no results");
 				}
 				for(Song s : songs) {
@@ -478,4 +510,23 @@ public class view {
 		else
 			System.out.println("Error: Invalid Location. Input UL to search your library and MS to search the music store");
 	}
+	
+	/*private static void startup() {
+		File file = new File("logins.txt");
+		BufferedReader br;
+		try {
+			br = new BufferedReader(new FileReader(file));
+		} catch (FileNotFoundException e) {
+			System.exit(1);
+		}
+		 String line;
+		 try {
+			while((line = br.readLine()) != null) {
+				 String[] login = line.split(",");
+				 logins.put(login[0], login[1]);
+			 }
+		} catch (IOException e) {
+			System.exit(1);
+		}
+	}*/
 }
