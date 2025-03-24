@@ -10,6 +10,7 @@ public class TestUserController {
 	UserController uc = new UserController();
 	MusicStore ms = new MusicStore();
 	
+	
 	@Test
 	void testLoadUser() {
 		LibraryModel dummysLibrary = uc.loadUser("dummy", "PASSWORD");
@@ -23,6 +24,7 @@ public class TestUserController {
 		ArrayList<String> p = dummysLibrary.getPlaylists();
 		//System.out.println("Playlist: " + p.toString());
 	}
+	
 	
 	@Test
 	void testSaveUser() {
