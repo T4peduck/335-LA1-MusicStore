@@ -148,15 +148,6 @@ public class view {
 	 */
 	public static void add(String type, String argument) {
 		if(type.toUpperCase().equals("A")) {
-			boolean alreadyAdded = false;
-			for(String s : ul.getAlbums()) {	// Check if the album is already added
-				if(s.toLowerCase().equals(argument.toLowerCase()))
-					alreadyAdded = true;
-			}
-			if(alreadyAdded) {	// Print error if already added
-				System.out.println("Error: Album already added to library");
-				return;
-			}
 			if(ms.searchAlbumWithTitle(argument).size() > 0)	// Check if album is in music store
 				ul.addAlbum(argument);
 			else
