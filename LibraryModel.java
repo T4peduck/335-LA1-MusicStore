@@ -56,7 +56,6 @@ public class LibraryModel {
 					genre = a.genre.toLowerCase();
 					ArrayList<Album> alist = new ArrayList<Album>();
 					if(albumsByTitle.get(a.hashCodeName()) != null) {
-						System.out.println("not null, song is " + s.name);
 						alist.add(new Album(albumsByTitle.get(a.hashCodeName()).get(0), s, true));
 					} else {
 						alist.add(new Album(a, s.name));
@@ -73,17 +72,16 @@ public class LibraryModel {
 				slist.add(s);
 				libraryByTitle.put(s.hashCodeName(), slist);
 
-			}
-			else
+			} else {
 				libraryByTitle.get(s.hashCodeName()).add(s);
-
+			}
 			if(libraryByArtist.get(s.hashCodeArtist()) == null) {
 				ArrayList<Song> slist = new ArrayList<Song>();
 				slist.add(s);
 				libraryByArtist.put(s.hashCodeArtist(), slist);
-			}
-			else
+			} else {
 				libraryByArtist.get(s.hashCodeArtist()).add(s);
+			}
 			library.add(s);
 		}
 	}
@@ -101,8 +99,9 @@ public class LibraryModel {
 				String genre = "";
 				for(Album a : albums) {
 					if(s.artist.toLowerCase().equals(a.artist.toLowerCase())) {
-						if(genreLists.get(a.genre.toLowerCase()) == null)
+						if(genreLists.get(a.genre.toLowerCase()) == null) {
 							genreLists.put(a.genre.toLowerCase(), new ArrayList<Song>());
+						}
 						genre = a.genre.toLowerCase();
 						ArrayList<Album> alist = new ArrayList<Album>();
 						if(albumsByTitle.get(a.hashCodeName()) != null) {
@@ -120,16 +119,16 @@ public class LibraryModel {
 					ArrayList<Song> slist = new ArrayList<Song>();
 					slist.add(s);
 					libraryByTitle.put(s.hashCodeName(), slist);
-				}
-				else
+				} else {
 					libraryByTitle.get(s.hashCodeName()).add(s);
+				}
 				if(libraryByArtist.get(s.hashCodeArtist()) == null) {
 					ArrayList<Song> slist = new ArrayList<Song>();
 					slist.add(s);
 					libraryByArtist.put(s.hashCodeArtist(), slist);
-				}
-				else
+				} else {
 					libraryByArtist.get(s.hashCodeArtist()).add(s);
+				}
 				library.add(s);
 			}
 		}
@@ -631,29 +630,24 @@ public class LibraryModel {
 	 * void rateSong(String songName, int rating) -- changes the rating of every song with name songName to <rating>
 	 */
 	public void rateSong(String songName, String artistName, int rating) {
-		ArrayList<Song> slist = libraryByTitle.get(songName.toLowerCase().hashCode());
-		for(Song s: slist) {
-			if(s.artist.equals(artistName)) {
-				s.setRating(rating);
-				if(rating == 4)
-					addSongToPlaylist("Top Rated", s.name);
-				else if(rating == 5) {
-					addSongToPlaylist("Favorites", s.name);
-					addSongToPlaylist("Top Rated", s.name);
-				}
-			}
+		Song s = findSong(songName, artistName);
+		s.setRating(rating);
+		if(rating == 4) {
+			addSongToPlaylist("Top Rated", s.name);
+		} else if(rating == 5) {
+			addSongToPlaylist("Favorites", s.name);
+			addSongToPlaylist("Top Rated", s.name);
 		}
 	}
 
 	//TODO add artist getRating
 	public int getRating(String songName, String artistName) {
-		ArrayList<Song> slist = libraryByTitle.get(songName.toLowerCase().hashCode());
-		for(Song s: slist) {
-			if(s.artist.equals(artistName)) {
-				return s.getRating();
-			}
+		Song s = findSong(songName, artistName);
+		if(s != null) {
+			return s.getRating();
+		} else {
+			return -1;
 		}
-		return -1;
 }
 
 	public void playSong(String songName) {

@@ -1,24 +1,24 @@
 PASSWORD
 19,Adele,Pop,2008
-Cold Shoulder,2
-Crazy for You,2
-Melt My Heart to Stone,4
-First Love,4
-Right as Rain,5
+Cold Shoulder,2,10
+Crazy for You,2,20
+Melt My Heart to Stone,4,14
+First Love,4,5
+Right as Rain,5,19
 
 Don't Mess With the Dragon,Ozomatli,Rock,2007
-La Gallina,0
-Magnolia Soul,0
-Here We Go,0
-La Temperatura,4
-Violeta,3
+La Gallina,0,12
+Magnolia Soul,0,12
+Here We Go,0,12
+La Temperatura,4,12
+Violeta,3,12
 
 Sons,The Heavy,Rock,2019
-Better as One,0
-Fire,5
-Fighting for the Same Thing,5
-Hurt Interlude,3
-Put the Hurt on Me,0
+Better as One,0,12
+Fire,5,12
+Fighting for the Same Thing,5,12
+Hurt Interlude,3,12
+Put the Hurt on Me,0,12
 
 
 pl1

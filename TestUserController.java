@@ -15,13 +15,13 @@ public class TestUserController {
 		LibraryModel dummysLibrary = uc.loadUser("dummy", "PASSWORD");
 		
 		ArrayList<String> a = dummysLibrary.getAlbums();
-		System.out.println("Albums: " + a.toString());
+		//System.out.println("Albums: " + a.toString());
 		
 		ArrayList<String> s = dummysLibrary.getSongs();
-		System.out.println("Songs: " + s.toString());
+		//System.out.println("Songs: " + s.toString());
 		
 		ArrayList<String> p = dummysLibrary.getPlaylists();
-		System.out.println("Playlist: " + p.toString());
+		//System.out.println("Playlist: " + p.toString());
 	}
 	
 	@Test
@@ -44,10 +44,14 @@ public class TestUserController {
 		idiotsLibrary.addSongToPlaylist("p2", "politik");
 		idiotsLibrary.addSongToPlaylist("p2", "a whisper");
 		
-		idiotsLibrary.rateSong("daylight", "Amos Lee",  4);
+		idiotsLibrary.rateSong("daylight", "Coldplay",  4);
 		idiotsLibrary.rateSong("jesus", "Amos Lee", 2);
+		idiotsLibrary.rateSong("clear blue eyes (feat. lucinda williams)", "Amos Lee", 3);
+		idiotsLibrary.rateSong("a whisper", "coldplay", 5);
 		
 		idiotsLibrary.setPlays("jesus", "amos Lee", 1000);
+		idiotsLibrary.setPlays("Politik", "Coldplay", 20);
+		System.out.println(idiotsLibrary.getPlays("politik", "coldplay"));
 		
 		
 		uc.saveUser(idiotsLibrary, "idiot", "thebirdsaredrones");
@@ -58,8 +62,13 @@ public class TestUserController {
 		assertTrue(i.searchAlbumWithTitle("a rush of blood to the head") != null);
 		assertTrue(i.searchSongWithTitle("jesus") != null);
 		
-		assertTrue(i.getRating("daylight", "Coldplay") == 4);
-		assertTrue(i.getRating("jesus", "Amos Lee") == 2 );
-		assertTrue(i.getRating("jesus", "Coldplay") == -1);
+		assertEquals(i.getRating("jesus", "Amos Lee"), 2);
+		assertEquals(i.getRating("a whisper", "coldplay"), 5); 
+		
+		System.out.println("DAY RATING: " + i.getRating("daylight", "Coldplay"));
+		assertEquals(i.getRating("daylight", "Coldplay"), 4);
+		assertFalse(i.getRating("jesus", "Coldplay") == -1);
+	
+		assertEquals(i.getPlays("Politik", "coldplay"), 20);
 	}
 }
