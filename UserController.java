@@ -2,9 +2,8 @@
  * Used to switch between different user libraries
  * and write different user libraries
  */
-import java.util.Hashtable;
 import java.util.ArrayList;
-import java.awt.image.AreaAveragingScaleFilter;
+import java.util.HexFormat;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -12,6 +11,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.String;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class UserController {
 	private ArrayList<String> userList;
@@ -38,6 +40,24 @@ public class UserController {
 			 System.exit(1);
 		 }
 		
+	}
+	
+	//Uses a mix of hashing and salting to encrypt the password
+	public String hashPassword(String password) {
+		String input = password + (password.hashCode()/password.length());
+		byte[] hashBytes;
+		String hash = "";
+		try {
+			hashBytes = MessageDigest.getInstance("SHA-256")
+					.digest(input.getBytes(StandardCharsets.UTF_8));
+			hash = HexFormat.of().formatHex(hashBytes);
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.exit(1);
+		}
+	
+		return hash;
 	}
 	
 	
@@ -76,7 +96,7 @@ public class UserController {
 			//TODO: add some hashing and salting stuff for password
 			String line;
 			line = br.readLine();
-			if(!line.equals(password)) {
+			if(!line.equals(hashPassword(password))) {
 				br.close();
 				return null;
 			}
@@ -156,7 +176,7 @@ public class UserController {
 			
 			FileWriter saveFile = new FileWriter(new File("users/" + username + ".txt"));
 			
-			saveFile.write(password + '\n');
+			saveFile.write(hashPassword(password) + '\n');
 			
 			saveAlbums(lm, saveFile);
 			
