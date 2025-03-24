@@ -3,19 +3,17 @@
  * and write different user libraries
  */
 import java.util.Hashtable;
-import java.util.Arrays;
 import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.String;
 
 
 public class UserController {
 	private ArrayList<String> userList;
-	private BufferedReader br;
 	private MusicStore ms;
 	
 	//create a list of users
@@ -27,15 +25,18 @@ public class UserController {
 		
 		
 		try {
-			 br = new BufferedReader(new FileReader(users));
+			 BufferedReader br = new BufferedReader(new FileReader(users));
 			 
 			 String line;
 			 while((line = br.readLine()) != null) {
 				 userList.add(line);
 			 }
+			 
+			 br.close();
 		 } catch (IOException e) {
 			 System.exit(1);
 		 }
+		
 	}
 	
 	
@@ -58,7 +59,7 @@ public class UserController {
 	 * song2 artist
 	 * 			[2 extra line of whitespace]
 	 * 
-	 * --------
+	 * ---- ----
 	 */
 	
 	
@@ -69,18 +70,19 @@ public class UserController {
 		LibraryModel lm = new LibraryModel(ms);
 		
 		try {
-			br = new BufferedReader(new FileReader(user));
+			BufferedReader br = new BufferedReader(new FileReader(user));
 			
 			//TODO: add some hashing and salting stuff for password
 			String line;
 			line = br.readLine();
 			if(!line.equals(password)) {
+				br.close();
 				return null;
 			}
 			
-			parseAlbums(lm);
+			parseAlbums(lm, br);
 			
-			parsePlaylists(lm);
+			parsePlaylists(lm, br);
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -90,7 +92,7 @@ public class UserController {
 		return lm;
 	}
 	
-	private void parseAlbums(LibraryModel lm) throws IOException {
+	private void parseAlbums(LibraryModel lm, BufferedReader br) throws IOException {
 		String line = br.readLine();
 		while(!line.equals("")) {
 			String[] infoLine = line.split(" ");
@@ -113,25 +115,8 @@ public class UserController {
 		}
 		return;
 	}
-	
-	/*
-	private void parseSongs(LibraryModel lm) throws IOException {
-		String line;
 		
-		while(!(line = br.readLine()).equals("")) {
-			String[] infoLine = line.split(" ");
-			String songName = infoLine[0];
-			String artist = infoLine[1];
-			String album = infoLine[2];
-			int rating = Integer.parseInt(infoLine[3]);
-			
-			lm.addSong(new Song(songName, artist, album));
-			lm.rateSong(songName, rating);
-		}
-	}
-	*/
-		
-	private void parsePlaylists(LibraryModel lm) throws IOException {
+	private void parsePlaylists(LibraryModel lm, BufferedReader br) throws IOException {
 		String line = br.readLine();
 		while(line != null && !line.equals("")) {
 			String playlistName = line;
@@ -148,11 +133,66 @@ public class UserController {
 		
 		return;
 	}
-	//given a username, save a user into text
 	
-	/*
-	 * 1) construct the initial hashtable of all users
-	 * 2) let users request info with a user and password
-	 */
+	
+	//given a username, save a user into text
+	//TODO: may end up changing the way librar, username in arg may be changed
+	public void saveUser(LibraryModel lm, String username, String password) {
+		try {
+			if(!userList.contains(username)) {
+				userList.add(username);
+				FileWriter userEdit = new FileWriter(new File("users/users.txt"), true);
+				userEdit.write(username + "\n");
+				userEdit.close();
+			}
+			
+			FileWriter saveFile = new FileWriter(new File("users/" + username + ".txt"));
+			
+			saveAlbums(lm, saveFile);
+			
+			savePlaylists(lm, saveFile);
+			
+			saveFile.close();
+		} catch (IOException e) {
+			System.exit(1);
+		}
+		
+	}
+	
+	private void saveAlbums(LibraryModel lm, FileWriter saveFile) throws IOException {
+		ArrayList<String> albumList = lm.getAlbums();
+		for(String aName: albumList) {
+			Album a = lm.searchAlbumWithTitle(aName).get(0);
+			saveFile.write(a.name + " " + a.artist + " " + a.genre + " " + a.year + "\n");
+			
+			ArrayList<Song> songList = a.getAlbum();
+			for(Song s: songList) {
+				saveFile.write(s.name + " " + s.getRating() + "\n");
+			}
+			
+			saveFile.write("\n");
+		}
+		
+		saveFile.write("\n");
+		return;
+	}
+	
+	private void savePlaylists(LibraryModel lm, FileWriter saveFile) throws IOException {
+		ArrayList<String> playlistList = lm.getPlaylists();
+		for(String pName: playlistList) {
+			System.out.println(pName);
+			ArrayList<Song> p = lm.searchPlaylist(pName);
+			saveFile.write(pName + "\n");
+			
+			for(Song s: p) {
+				saveFile.write(s.name + " " + s.artist + "\n");
+			}
+			saveFile.write("\n");
+		}
+		
+		saveFile.write("\n");
+		return;
+	}
+	
 	
 }

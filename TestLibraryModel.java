@@ -69,7 +69,7 @@ class TestLibraryModel {
 		assertEquals(2, ul.searchPlaylist("My Playlist").size());
 		assertEquals("Sigh No More", ul.searchPlaylist("My Playlist").get(1).name);
 		assertEquals("Timshel", ul.searchPlaylist("My Playlist").get(0).name);
-	}
+	} 
 	
 	@Test
 	void testRemoveSongFromPlaylist() {

@@ -291,4 +291,14 @@ public class LibraryModel {
 			if(s.name.toLowerCase().equals(songName.toLowerCase()))
 				s.setRating(rating);
 	}
+	
+	//TODO add artist getRating
+	public int getRating(String songName) {
+		for(Song s: library) {
+			if(s.name.toLowerCase().equals(songName.toLowerCase())) {
+				return s.getRating();
+			}
+		}
+		return -1;
+	}
 }
