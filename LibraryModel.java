@@ -194,7 +194,7 @@ public class LibraryModel {
 	 * void addAlbum(String albumName, String artist) -- adds an album with title albumName and artist <artist>
 	 * to the library
 	 */
-	/*public void addAlbum(String albumName, String artist) {
+	public void addAlbum(String albumName, String artist) {
 		ArrayList<Album> foundAlbums = ms.searchAlbumWithTitle(albumName);
 		for(Album a : foundAlbums) {
 			a = new Album(a);
@@ -251,7 +251,7 @@ public class LibraryModel {
 					}
 			}
 		}
-	}*/
+	}
 	
 	public void removeSong(String songName) {
 		ArrayList<Song> song = libraryByTitle.remove(songName.toLowerCase().hashCode());
@@ -643,10 +643,10 @@ public class LibraryModel {
 			if(s.artist.toLowerCase().equals(artist.toLowerCase())) {
 				s.setRating(rating);
 				if(rating == 4)
-					addSongToPlaylist("Top Rated", s.name);
+					addSongToPlaylist("Top Rated", s.name, s.artist);
 				else if(rating == 5) {
-					addSongToPlaylist("Favorites", s.name);
-					addSongToPlaylist("Top Rated", s.name);
+					addSongToPlaylist("Favorites", s.name, s.artist);
+					addSongToPlaylist("Top Rated", s.name, s.artist);
 				}
 			}
 		}
