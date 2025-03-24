@@ -1,25 +1,19 @@
 866c956fcfe1b1e306887178a730d0fd2c20cf746fd5c2da1d1118e704afdc3f
-19,Adele,Pop,2008
-Cold Shoulder,2,10
-Crazy for You,2,20
-Melt My Heart to Stone,4,14
-First Love,4,5
-Right as Rain,5,19
-
-Don't Mess With the Dragon,Ozomatli,Rock,2007
-La Gallina,0,12
-Magnolia Soul,0,12
-Here We Go,0,12
-La Temperatura,4,12
-Violeta,3,12
-
-Sons,The Heavy,Rock,2019
-Better as One,0,12
-Fire,5,12
-Fighting for the Same Thing,5,12
-Hurt Interlude,3,12
-Put the Hurt on Me,0,12
-
+Cold Shoulder,Adele,2,10
+Crazy for You,Adele,2,20
+Melt My Heart to Stone,Adele,4,14
+First Love,Adele,4,5
+Right as Rain,Adele,5,19
+La Gallina,Ozomatli,0,12
+Magnolia Soul,Ozomatli,0,12
+Here We Go,Ozomatli,0,12
+La Temperatura,Ozomatli,4,12
+Violeta,Ozomatli,3,12
+Better as One,The Heavy,0,12
+Fire,The Heavy,5,12
+Fighting for the Same Thing,The Heavy,5,12
+Hurt Interlude,The Heavy,3,12
+Put the Hurt on Me,The Heavy,0,12
 
 pl1
 Cold Shoulder,Adele

@@ -64,8 +64,8 @@ public class TestUserController {
 		assertTrue(i.searchAlbumWithTitle("a rush of blood to the head") != null);
 		assertTrue(i.searchSongWithTitle("jesus") != null);
 		
-		assertEquals(i.getRating("jesus", "Amos Lee"), 2);
 		assertEquals(i.getRating("a whisper", "coldplay"), 5); 
+		assertEquals(i.getRating("jesus", "Amos Lee"), 2);
 		
 		System.out.println("DAY RATING: " + i.getRating("daylight", "Coldplay"));
 		assertEquals(i.getRating("daylight", "Coldplay"), 4);

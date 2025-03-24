@@ -60,14 +60,17 @@ public class UserController {
 		return hash;
 	}
 	
+	public ArrayList<String> getUsernames() {
+		return userList;
+	}
+	
 	
 	/*
 	 * FILE LAYOUT
 	 * ----------
 	 * password
-	 * albumName artist genre year
-	 * song1Name rating numPlays
-	 * song2Name rating numPlays
+	 * song1Name artist rating numPlays
+	 * song2Name artist rating numPlays
 	 * ...
 	 * 			[two lines of whitespace]
 	 * 
@@ -87,6 +90,10 @@ public class UserController {
 	//given a username and password, retrieve user from text
 	//@PRE username entered isn't "users"
 	public LibraryModel loadUser(String username, String password) {
+		if(!userList.contains(username)) {
+			return null;
+		}
+		
 		File user = new File("users/" + username + ".txt");
 		LibraryModel lm = new LibraryModel(ms);
 		
@@ -101,7 +108,7 @@ public class UserController {
 				return null;
 			}
 			
-			parseAlbums(lm, br);
+			parseSongs(lm, br);
 			
 			//System.out.println(lm.getSongs());
 			
@@ -116,27 +123,17 @@ public class UserController {
 	}
 	
 
-	private void parseAlbums(LibraryModel lm, BufferedReader br) throws IOException {
+	private void parseSongs(LibraryModel lm, BufferedReader br) throws IOException {
 		String line = br.readLine();
-		while(!line.equals("")) {
+		while(!(line = br.readLine()).equals("")) {
 			String[] infoLine = line.split(",");
-			String albumName = infoLine[0];
+			String songName = infoLine[0];
 			String artist = infoLine[1];
-			String genre = infoLine[2];
-			String year = infoLine[3];
-			ArrayList<String> songNames = new ArrayList<>();
-			
-			while(!(line = br.readLine()).equals("")) {
-				String[] songInfo = line.split(",");
-				lm.addSong(songInfo[0], artist);
-				songNames.add(songInfo[0]);
-				lm.rateSong(songInfo[0], artist, Integer.parseInt(songInfo[1]));
-				lm.setPlays(songInfo[0], artist, Integer.parseInt(songInfo[2]));
-			}
-			
-			
-			//lm.addAlbum(new Album(albumName, artist, genre, year, songNames));
-			
+			int rating = Integer.parseInt(infoLine[2]);
+			int numPlays = Integer.parseInt(infoLine[3]);
+			lm.addSong(songName, artist);
+			lm.rateSong(songName, artist, rating);
+			lm.setPlays(songName, artist, numPlays);
 			line = br.readLine();
 		}
 		return;
@@ -178,7 +175,7 @@ public class UserController {
 			
 			saveFile.write(hashPassword(password) + '\n');
 			
-			saveAlbums(lm, saveFile);
+			saveSongs(lm, saveFile);
 			
 			savePlaylists(lm, saveFile);
 			
@@ -189,18 +186,13 @@ public class UserController {
 		
 	}
 	
-	private void saveAlbums(LibraryModel lm, FileWriter saveFile) throws IOException {
-		ArrayList<String> albumList = lm.getAlbums();
-		for(String aName: albumList) {
-			Album a = lm.searchAlbumWithTitle(aName).get(0);
-			saveFile.write(a.name + "," + a.artist + "," + a.genre + "," + a.year + "\n");
-			
-			ArrayList<Song> songList = a.getAlbum();
+	private void saveSongs(LibraryModel lm, FileWriter saveFile) throws IOException {
+		ArrayList<String> songNames = lm.getSongs();
+		for(String sName: songNames) {
+			ArrayList<Song> songList = lm.searchSongWithTitle(sName);
 			for(Song s: songList) {
-				saveFile.write(s.name + "," + s.getRating() + "," + s.getPlays() + "\n");
+				saveFile.write(s.name + "," + s.artist + "," + s.getRating() + "," + s.getPlays() + "\n");
 			}
-			
-			saveFile.write("\n");
 		}
 		
 		saveFile.write("\n");
