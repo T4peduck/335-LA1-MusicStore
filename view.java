@@ -27,7 +27,7 @@ public class view {
 	
 	private static MusicStore ms = new MusicStore();
 	private static LibraryModel ul = new LibraryModel(ms);
-	private static HashMap<String, String> logins = new HashMap<String, String>();
+	//private static HashMap<String, String> logins = new HashMap<String, String>();
 	
 
 	public static void main(String args[]) {
@@ -46,14 +46,9 @@ public class view {
 				keyboard.close();
 				System.exit(0);
 			}
-			/*else if(command.equals("login")) {
-				try{
-					login(input[1], input[2]);
-				}
-				catch(ArrayIndexOutOfBoundsException e) {
-					System.out.println("Error: Invalid Input");
-				}
-			}*/
+			else if(command.equals("login")) {
+				login();
+			}
 			/*else if(!loggedIn) {
 				System.out.println("Please login before using this command");
 			}*/
@@ -118,7 +113,21 @@ public class view {
 				}
 			}
 			else if(command.equals("rate")) {
-				rate();
+				boolean done = false;
+				while(!done) {
+					System.out.print("Must the artist be specified for this item (Y for yes, N for No)? ");
+					String additional = keyboard.nextLine();
+					if(additional.toUpperCase().equals("Y")) {
+						rateWithArtist();
+						done = true;
+					}
+					else if(additional.toUpperCase().equals("N")) {
+						rate();
+						done = true;
+					}
+					else
+						System.out.println("Error: Invalid Input");
+				}
 			}
 			else if(command.equals("remove")) {
 				boolean done = false;
@@ -508,18 +517,13 @@ public class view {
 		}
 	}
 	
-	/*public static void login(String username, String password) {
-		String correctPassword = logins.get(username);
-		if(correctPassword == null) {
-			System.out.println("Error: No account created under this username. Check your spelling or create an account.");
-		}
-		else {
-			if(correctPassword.equals(password))
-				loadAccount(username);
-			else
-				System.out.println("Error: Incorrect password. Check your spelling");
-		}
-	}*/
+	public static void login() {
+		Scanner keyboard = new Scanner(System.in);
+		System.out.print("Please enter your username: ");
+		String username = keyboard.nextLine();
+		System.out.print("Please enter your password: ");
+		String password = keyboard.nextLine();
+	}
 	
 	public static void play() {
 		Scanner keyboard = new Scanner(System.in);
@@ -924,15 +928,6 @@ public class view {
 					for(Song s : songs) {
 						System.out.println(s);
 					}
-				}
-			}
-			else if(searchType.equals("G")) {
-				ArrayList<Song> songs = ul.searchSongsWithGenre(argument);
-				if(songs == null) {
-					System.out.println("Search returned no results");
-				}
-				for(Song s : songs) {
-					System.out.println(s);
 				}
 			}
 		}
