@@ -49,8 +49,9 @@ public class Album {
 		this.year = a.year;
 		songs = new ArrayList<Song>();
 		for(Song song : a.songs) {
-			if(song.name.equals(songName))
+			if(song.name.equals(songName)) {
 				songs.add(new Song(song));
+			}
 		}
 	}
 	
@@ -64,10 +65,8 @@ public class Album {
 		for(Song song : a.songs) {
 			songs.add(new Song(song));
 		}
-		if(add)
-			songs.add(s);
-		else
-			songs.remove(s);
+		if(add) {songs.add(s);}
+		else {songs.remove(s);}
 	}
 	
 	/*

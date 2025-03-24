@@ -49,7 +49,7 @@ public class UserController {
 	 * song1Name rating numPlays
 	 * song2Name rating numPlays
 	 * ...
-	 * 			[two space]
+	 * 			[two lines of whitespace]
 	 * 
 	 * playlist1
 	 * song1 artist
@@ -83,7 +83,7 @@ public class UserController {
 			
 			parseAlbums(lm, br);
 			
-			System.out.println(lm.getSongs());
+			//System.out.println(lm.getSongs());
 			
 			parsePlaylists(lm, br);
 			
@@ -110,10 +110,10 @@ public class UserController {
 				String[] songInfo = line.split(",");
 				lm.addSong(songInfo[0], artist);
 				songNames.add(songInfo[0]);
-				//lm.addSong(new Song(songInfo[0], artist, albumName));
 				lm.rateSong(songInfo[0], artist, Integer.parseInt(songInfo[1]));
 				lm.setPlays(songInfo[0], artist, Integer.parseInt(songInfo[2]));
 			}
+			
 			
 			//lm.addAlbum(new Album(albumName, artist, genre, year, songNames));
 			
@@ -125,14 +125,14 @@ public class UserController {
 	private void parsePlaylists(LibraryModel lm, BufferedReader br) throws IOException {
 		String line = br.readLine();
 		while(line != null && !line.equals("")) {
-			System.out.println("PLAYELIST: " + line);
+			//System.out.println("PLAYELIST: " + line);
 			String playlistName = line;
 			lm.createPlayList(line);
 			while(!(line = br.readLine()).equals("")) {
 				String[] infoLine = line.split(",");
 				String songName = infoLine[0];
 				String artist	= infoLine[1];
-				System.out.println(infoLine[0]);
+				//System.out.println(infoLine[0]);
 				lm.addSongToPlaylist(playlistName, songName);
 			}
 			line = br.readLine();
@@ -177,8 +177,7 @@ public class UserController {
 			
 			ArrayList<Song> songList = a.getAlbum();
 			for(Song s: songList) {
-				//System.out.println("SONG: " + s.name + "from " + aName);
-				saveFile.write(s.name + "," + s.getRating() + "\n");
+				saveFile.write(s.name + "," + s.getRating() + "," + s.getPlays() + "\n");
 			}
 			
 			saveFile.write("\n");
@@ -191,7 +190,7 @@ public class UserController {
 	private void savePlaylists(LibraryModel lm, FileWriter saveFile) throws IOException {
 		ArrayList<String> playlistList = lm.getPlaylists();
 		for(String pName: playlistList) {
-			System.out.println(pName);
+			//System.out.println(pName);
 			ArrayList<Song> p = lm.searchPlaylist(pName);
 			saveFile.write(pName + "\n");
 			

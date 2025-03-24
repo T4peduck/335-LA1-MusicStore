@@ -47,6 +47,9 @@ public class TestUserController {
 		idiotsLibrary.rateSong("daylight", "Amos Lee",  4);
 		idiotsLibrary.rateSong("jesus", "Amos Lee", 2);
 		
+		idiotsLibrary.setPlays("jesus", "amos Lee", 1000);
+		
+		
 		uc.saveUser(idiotsLibrary, "idiot", "thebirdsaredrones");
 		
 		LibraryModel i = uc.loadUser("idiot", "thebirdsaredrones");
