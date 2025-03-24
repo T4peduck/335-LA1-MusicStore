@@ -640,4 +640,26 @@ public class LibraryModel {
 			s.play();
 		}
 	}
+	
+	public void playSong(String songName, String artist) {
+		ArrayList<Song> slist = libraryByTitle.get(songName.toLowerCase().hashCode());
+		for(Song s : slist) {
+			if(s.artist.toLowerCase().equals(artist.toLowerCase())) {
+				int plays = s.getPlays();
+				frequentlyPlayed.get(plays).remove(s);
+				if(frequentlyPlayed.get(plays + 1) == null) {
+					frequentlyPlayed.put(plays + 1, new ArrayList<Song>());
+				}
+				frequentlyPlayed.get(plays + 1).add(s);
+				if(recentlyPlayed.size() == 10) {
+					recentlyPlayed.remove(9);
+					recentlyPlayed.add(0, s);
+				}
+				else {
+					recentlyPlayed.add(0, s);
+				}
+				s.play();
+			}
+		}
+	}
 }
