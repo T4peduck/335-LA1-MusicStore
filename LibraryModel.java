@@ -5,19 +5,26 @@
  */
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class LibraryModel {
-	private ArrayList<Song> library;
-	private ArrayList<Album> albums;
-	private ArrayList<PlayList> playlists;
+	private HashMap<Integer, ArrayList<Song>> libraryByArtist;
+	private HashMap<Integer, ArrayList<Song>> libraryByTitle;
+	private HashMap<Integer, ArrayList<Album>> albumsByArtist;
+	private HashMap<Integer, ArrayList<Album>> albumsByTitle;
+	private HashMap<Integer, PlayList> playlists;
 	private MusicStore ms;
 	private Song currentPlay;
 	
 	public LibraryModel(MusicStore ms) {
-		library = new ArrayList<Song>();
-		albums = new ArrayList<Album>();
-		playlists = new ArrayList<PlayList>();
+		libraryByArtist = new HashMap<Integer, ArrayList<Song>>();
+		libraryByTitle = new HashMap<Integer, ArrayList<Song>>();
+		albumsByArtist = new HashMap<Integer, ArrayList<Album>>();
+		albumsByTitle = new HashMap<Integer, ArrayList<Album>>();
+		playlists = new HashMap<Integer, PlayList>();
 		this.ms = ms;
+		playlists.put("favorites".hashCode(), new PlayList("Favorites"));
+		playlists.put("top rated".hashCode(), new PlayList("Top Rated"));
 		currentPlay = null;
 	}
 	
@@ -41,8 +48,21 @@ public class LibraryModel {
 	 */
 	public void addSong(String songName) {
 		ArrayList<Song> songs = ms.searchSongWithTitle(songName);
-		for(Song s : songs)
-			library.add(s);
+		for(Song s : songs) {
+			ArrayList<Album> albums = ms.searchAlbumWithTitle(s.album);
+			for(Album a : albums) {
+				if(s.artist.equals(a.artist)) {
+					ArrayList<Album> alist = new ArrayList<Album>();
+					alist.add(new Album(a, s.name));
+					albumsByArtist.put(a.hashCodeArtist(), alist);
+					albumsByTitle.put(a.hashCodeName(), alist);
+				}
+			}
+			ArrayList<Song> slist = new ArrayList<Song>();
+			slist.add(s);
+			libraryByArtist.put(s.hashCodeArtist(), slist);
+			libraryByTitle.put(s.hashCodeName(), slist);
+		}
 	}
 	
 	/*
@@ -51,9 +71,23 @@ public class LibraryModel {
 	 */
 	public void addSong(String songName, String artist) {
 		ArrayList<Song> songs = ms.searchSongWithTitle(songName);
-		for(Song s : songs)
-			if(s.artist.toLowerCase().equals(artist.toLowerCase()))
-				library.add(s);
+		for(Song s : songs) {
+			if(s.artist.toLowerCase().equals(artist.toLowerCase())) {
+				ArrayList<Album> albums = ms.searchAlbumWithTitle(s.album);
+				for(Album a : albums) {
+					if(s.artist.equals(a.artist)) {
+						ArrayList<Album> alist = new ArrayList<Album>();
+						alist.add(new Album(a, s.name));
+						albumsByArtist.put(a.hashCodeArtist(), alist);
+						albumsByTitle.put(a.hashCodeName(), alist);
+					}
+				}
+				ArrayList<Song> slist = new ArrayList<Song>();
+				slist.add(s);
+				libraryByArtist.put(s.hashCodeArtist(), slist);
+				libraryByTitle.put(s.hashCodeName(), slist);
+			}
+		}
 	}
 	
 	//TODO: may not work and needs .equals instead
@@ -71,18 +105,47 @@ public class LibraryModel {
 	public void addAlbum(String albumName) {
 		ArrayList<Album> foundAlbums = ms.searchAlbumWithTitle(albumName);
 		for(Album a : foundAlbums) {
-			albums.add(a);
-			for(Song s : a.getAlbum()) {
-				boolean songAlreadyAdded = false;
-				for(Song s1: library) {
-					if(s.name.equals(s1.name) && s.artist.equals(s1.artist)) {
-						songAlreadyAdded = true;
-						break;
+			if(albumsByArtist.get(a.hashCodeArtist()) == null) {
+				albumsByArtist.put(a.hashCodeArtist(), new ArrayList<Album>());
+			}
+			if(albumsByTitle.get(a.hashCodeName()) != null) {
+				if(albumsByTitle.get(a.hashCodeName()).contains(a)) {
+					albumsByTitle.get(a.hashCodeName()).remove(a);
+					albumsByTitle.get(a.hashCodeName()).add(a);
+					albumsByArtist.get(a.hashCodeArtist()).remove(a);
+					albumsByArtist.get(a.hashCodeArtist()).add(a);
+				}
+				else {
+					ArrayList<Album> alist = new ArrayList<Album>();
+					alist.add(a);
+					albumsByTitle.put(a.hashCodeName(), alist);
+					albumsByArtist.get(a.hashCodeArtist()).add(a);
+				}
+			}
+			else {
+				ArrayList<Album> alist = new ArrayList<Album>();
+				alist.add(a);
+				albumsByTitle.put(a.hashCodeName(), alist);
+				albumsByArtist.get(a.hashCodeArtist()).add(a);
+			}
+			ArrayList<Song> songs = a.getAlbum();
+			if(libraryByArtist.get(a.hashCodeArtist()) == null)
+				libraryByArtist.put(a.hashCodeArtist(), new ArrayList<Song>())
+			for(Song s : songs) {
+				if(libraryByTitle.get(s.hashCodeName()) != null) {
+					if(libraryByTitle.get(s.hashCodeName()).contains(s))
+						continue;
+					else {
+						libraryByTitle.get(s.hashCodeName()).add(s);
+						libraryByArtist.get(s.hashCodeArtist()).add(s);
 					}
 				}
-				if(songAlreadyAdded)
-					continue;
-				library.add(s);
+				else {
+					ArrayList<Song> slist = new ArrayList<Song>();
+					slist.add(s);
+					libraryByTitle.put(s.hashCodeName(), slist);
+					libraryByArtist.get(s.hashCodeArtist()).add(s);
+				}
 			}
 		}
 	}
@@ -96,9 +159,48 @@ public class LibraryModel {
 		ArrayList<Album> foundAlbums = ms.searchAlbumWithTitle(albumName);
 		for(Album a : foundAlbums) {
 			if(a.artist.toLowerCase().equals(artist.toLowerCase())) {
-				albums.add(a);
-				for(Song s : a.getAlbum())
-					library.add(s);
+				if(albumsByArtist.get(a.hashCodeArtist()) == null) {
+					albumsByArtist.put(a.hashCodeArtist(), new ArrayList<Album>());
+				}
+				if(albumsByTitle.get(a.hashCodeName()) != null) {
+					if(albumsByTitle.get(a.hashCodeName()).contains(a)) {
+						albumsByTitle.get(a.hashCodeName()).remove(a);
+						albumsByTitle.get(a.hashCodeName()).add(a);
+						albumsByArtist.get(a.hashCodeArtist()).remove(a);
+						albumsByArtist.get(a.hashCodeArtist()).add(a);
+					}
+					else {
+						ArrayList<Album> alist = new ArrayList<Album>();
+						alist.add(a);
+						albumsByTitle.put(a.hashCodeName(), alist);
+						albumsByArtist.get(a.hashCodeArtist()).add(a);
+					}
+				}
+				else {
+					ArrayList<Album> alist = new ArrayList<Album>();
+					alist.add(a);
+					albumsByTitle.put(a.hashCodeName(), alist);
+					albumsByArtist.get(a.hashCodeArtist()).add(a);
+				}
+				ArrayList<Song> songs = a.getAlbum();
+				if(libraryByArtist.get(a.hashCodeArtist()) == null)
+					libraryByArtist.put(a.hashCodeArtist(), new ArrayList<Song>())
+					for(Song s : songs) {
+						if(libraryByTitle.get(s.hashCodeName()) != null) {
+							if(libraryByTitle.get(s.hashCodeName()).contains(s))
+								continue;
+							else {
+								libraryByTitle.get(s.hashCodeName()).add(s);
+								libraryByArtist.get(s.hashCodeArtist()).add(s);
+							}
+						}
+						else {
+							ArrayList<Song> slist = new ArrayList<Song>();
+							slist.add(s);
+							libraryByTitle.put(s.hashCodeName(), slist);
+							libraryByArtist.get(s.hashCodeArtist()).add(s);
+						}
+					}
 			}
 		}
 	}
@@ -114,7 +216,7 @@ public class LibraryModel {
 	 */
 
 	public void createPlayList(String playListName) {
-		playlists.add(new PlayList(playListName));
+		playlists.put(playListName.toLowerCase().hashCode(), new PlayList(playListName));
 	}
 	
 	/*
@@ -122,14 +224,19 @@ public class LibraryModel {
 	 * the playlist with name playListName
 	 */
 	public void addSongToPlaylist(String playListName, String songName) {
-		Song song = null;
-		for(Song s : library) {
-			if(s.name.toLowerCase().equals(songName.toLowerCase()))
-				song = s;
+		PlayList p = playlists.get(playListName.toLowerCase().hashCode());
+		ArrayList<Song> slist = libraryByTitle.get(songName.toLowerCase().hashCode());
+		for(Song s : slist) {
+			p.addSong(s);
 		}
-		for(PlayList p : playlists) {
-			if(p.name.toLowerCase().equals(playListName.toLowerCase()))
-				p.addSong(song);
+	}
+	
+	public void addSongToPlaylist(String playListName, String songName, String artist) {
+		PlayList p = playlists.get(playListName.toLowerCase().hashCode());
+		ArrayList<Song> slist = libraryByTitle.get(songName.toLowerCase().hashCode());
+		for(Song s : slist) {
+			if(s.artist.toLowerCase().equals(artist.toLowerCase()))
+				p.addSong(s);
 		}
 	}
 	
@@ -138,14 +245,19 @@ public class LibraryModel {
 	 * the playlist with name playListName
 	 */
 	public void removeSongFromPlaylist(String playListName, String songName) {
-		Song song = null;
-		for(Song s : library) {
-			if(s.name.toLowerCase().equals(songName.toLowerCase()))
-				song = s;
+		PlayList p = playlists.get(playListName.toLowerCase().hashCode());
+		ArrayList<Song> slist = libraryByTitle.get(songName.toLowerCase().hashCode());
+		for(Song s : slist) {
+			p.removeSong(s);
 		}
-		for(PlayList p : playlists) {
-			if(p.name.toLowerCase().equals(playListName.toLowerCase()))
-				p.removeSong(song);
+	}
+	
+	public void removeSongToPlaylist(String playListName, String songName, String artist) {
+		PlayList p = playlists.get(playListName.toLowerCase().hashCode());
+		ArrayList<Song> slist = libraryByTitle.get(songName.toLowerCase().hashCode());
+		for(Song s : slist) {
+			if(s.artist.toLowerCase().equals(artist.toLowerCase()))
+				p.removeSong(s);
 		}
 	}
 	
@@ -154,12 +266,14 @@ public class LibraryModel {
 	 * song in the library with title songName.  Returns an empty list if no such song exists.
 	 */
 	public ArrayList<Song> searchSongWithTitle(String songName) {
-		ArrayList<Song> songs = new ArrayList<Song>();
-		for(Song s : library) {
-			if(s.name.toLowerCase().equals(songName.toLowerCase()))
-				songs.add(new Song(s));
-		}
-		return songs;
+		ArrayList<Song> slist = libraryByTitle.get(songName.toLowerCase().hashCode());
+		if(slist == null)
+			slist = new ArrayList<Song>();
+		else
+			for(int i = 0; i < slist.size(); i++) {
+				slist.add(i, new Song(slist.remove(i)));
+			}
+		return slist;
 	}
 	
 	/*
@@ -167,12 +281,14 @@ public class LibraryModel {
 	 * song in the library with artist artistName. Returns an empty list if no such song exists.
 	 */
 	public ArrayList<Song> searchSongWithArtist(String artistName) {
-		ArrayList<Song> songs = new ArrayList<Song>();
-		for(Song s : library) {
-			if(s.artist.toLowerCase().equals(artistName.toLowerCase()))
-				songs.add(new Song(s));
-		}
-		return songs;
+		ArrayList<Song> slist = libraryByArtist.get(artistName.toLowerCase().hashCode());
+		if(slist == null)
+			slist = new ArrayList<Song>();
+		else
+			for(int i = 0; i < slist.size(); i++) {
+				slist.add(i, new Song(slist.remove(i)));
+			}
+		return slist;
 	}
 	
 	/*
@@ -180,12 +296,14 @@ public class LibraryModel {
 	 * album in the library with title albumName. Returns an empty list if no such album exists.
 	 */
 	public ArrayList<Album> searchAlbumWithTitle(String albumName) {
-		ArrayList<Album> searchedAlbums = new ArrayList<Album>();
-		for(Album a : albums) {
-			if(a.name.toLowerCase().equals(albumName.toLowerCase()))
-				searchedAlbums.add(new Album(a));
-		}
-		return searchedAlbums;
+		ArrayList<Album> alist = albumsByTitle.get(albumName.toLowerCase().hashCode());
+		if(alist == null)
+			alist = new ArrayList<Album>();
+		else
+			for(int i = 0; i < alist.size(); i++) {
+				alist.add(i, new Album(alist.remove(i)));
+			}
+		return alist;
 	}
 	
 	/*
@@ -193,24 +311,24 @@ public class LibraryModel {
 	 * album in the library with artist artistName. Returns an empty list if no such album exists.
 	 */
 	public ArrayList<Album> searchAlbumWithArtist(String artistName) {
-		ArrayList<Album> searchedAlbums = new ArrayList<Album>();
-		for(Album a : albums) {
-			if(a.artist.toLowerCase().equals(artistName.toLowerCase()))
-				searchedAlbums.add(new Album(a));
-		}
-		return searchedAlbums;
+		ArrayList<Album> alist = albumsByArtist.get(artistName.toLowerCase().hashCode());
+		if(alist == null)
+			alist = new ArrayList<Album>();
+		else
+			for(int i = 0; i < alist.size(); i++) {
+				alist.add(i, new Album(alist.remove(i)));
+			}
+		return alist;
 	}
 	
 	/*
 	 * ArrayList<Song> searchPlaylist(String playlistName) -- returns a list of songs from the playlist with name playListName
 	 */
 	public ArrayList<Song> searchPlaylist(String playlistName) {
-		for(PlayList p : playlists) {
-			if(p.name.toLowerCase().equals(playlistName.toLowerCase())) {
-				return p.getPlaylist();
-			}
-		}
-		return new ArrayList<Song>();
+		PlayList p = playlists.get(playlistName.toLowerCase().hashCode());
+		if(p == null)
+			return null;
+		return p.getPlaylist();
 	}
 	
 	/*
@@ -218,8 +336,9 @@ public class LibraryModel {
 	 */
 	public ArrayList<String> getSongs() {
 		ArrayList<String> titles = new ArrayList<String>();
-		for(Song s : library) {
-			titles.add(s.name);
+		for(Integer i : libraryByTitle.keySet()) {
+			for(Song s : libraryByTitle.get(i))
+				titles.add(s.name);
 		}
 		return titles;
 	}
@@ -229,9 +348,8 @@ public class LibraryModel {
 	 */
 	public ArrayList<String> getArtists() {
 		ArrayList<String> artists = new ArrayList<String>();
-		for(Song s : library) {
-			if(!artists.contains(s.artist))
-				artists.add(s.artist);
+		for(Integer i : albumsByArtist.keySet()) {
+			artists.add(albumsByArtist.get(i).get(0).artist);
 		}
 		return artists;
 	}
@@ -245,8 +363,11 @@ public class LibraryModel {
 	 */
 	public ArrayList<String> getAlbums() {
 		ArrayList<String> albumsList = new ArrayList<String>();
-		for(Album a : albums) {
-			albumsList.add(a.name);
+		for(Integer i : albumsByTitle.keySet()) {
+			ArrayList<Album> alist = albumsByTitle.get(i);
+			for(Album a : alist) {
+				albumsList.add(a.name);
+			}
 		}
 		return albumsList;
 	}
@@ -256,8 +377,8 @@ public class LibraryModel {
 	 */
 	public ArrayList<String> getPlaylists() {
 		ArrayList<String> playlistList = new ArrayList<String>();
-		for(PlayList p : playlists) {
-			playlistList.add(p.name);
+		for(Integer i : playlists.keySet()) {
+			playlistList.add(playlists.get(i).name);
 		}
 		return playlistList;
 	}
@@ -265,31 +386,36 @@ public class LibraryModel {
 	/*
 	 * ArrayList<String> getSongs() -- returns the names of every song that is favorited in the user's library
 	 */
-	public ArrayList<String> getFavorites() {
-		ArrayList<String> favorites = new ArrayList<String>();
-		for(Song s : library) {
-			if(s.isFavorite())
-				favorites.add(s.name);
-		}
-		return favorites;
+	public ArrayList<Song> getFavorites() {
+		return playlists.get("favorites".hashCode()).getPlaylist();
 	}
 	
 	/*
 	 * void markFavorite(String songName) -- marks every song with name songName within the library as a favorite.
 	 */
 	public void markFavorite(String songName) {
-		for(Song s : library)
-			if(s.name.toLowerCase().equals(songName.toLowerCase()))
-				s.setFavorite();
+		ArrayList<Song> slist = libraryByTitle.get(songName.toLowerCase().hashCode());
+		for(Song s : slist) {
+			s.setFavorite();
+			addSongToPlaylist("Favorites", s.name);
+			addSongToPlaylist("Top Rated", s.name);
+		}
 	}
 	
 	/*
 	 * void rateSong(String songName, int rating) -- changes the rating of every song with name songName to <rating>
 	 */
 	public void rateSong(String songName, int rating) {
-		for(Song s : library)
-			if(s.name.toLowerCase().equals(songName.toLowerCase()))
-				s.setRating(rating);
+		ArrayList<Song> slist = libraryByTitle.get(songName.toLowerCase().hashCode());
+		for(Song s : slist) {
+			s.setRating(rating);
+			if(rating == 4)
+				addSongToPlaylist("Top Rated", s.name);
+			else if(rating == 5) {
+				addSongToPlaylist("Favorites", s.name);
+				addSongToPlaylist("Top Rated", s.name);
+			}
+		}
 	}
 	
 	//TODO add artist getRating

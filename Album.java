@@ -46,6 +46,19 @@ public class Album {
 		
 	}
 	
+	// Copy Constructor 2
+	public Album(Album a, String songName) {
+		this.name = a.name;
+		this.artist = a.artist;
+		this.genre = a.genre;
+		this.year = a.year;
+		songs = new ArrayList<Song>();
+		for(Song song : a.songs) {
+			if(song.name.equals(songName))
+				songs.add(new Song(song));
+		}
+	}
+	
 	/*
 	 * String toString() -- returns a string that represents the album. Contains the name, artist, genre, and year of release, as
 	 * well as a list of all songs in the album.
@@ -80,5 +93,24 @@ public class Album {
 			list.add(new Song(songs.get(s)));
 		}
 		return list;
+	}
+	
+	public int hashCodeArtist() {
+		return this.artist.toLowerCase().hashCode();
+	}
+	
+	public int hashCodeName() {
+		return this.name.toLowerCase().hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object other) {
+		Album otherAlbum = (Album) other;
+		return this.name.equals(otherAlbum.name) && this.artist.equals(otherAlbum.artist);
+	}
+	
+	@Override
+	public int hashCode() {
+		return this.name.hashCode() + this.artist.hashCode();
 	}
 }
