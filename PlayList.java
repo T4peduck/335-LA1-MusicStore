@@ -5,6 +5,7 @@
  */
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class PlayList {
 	
@@ -43,6 +44,10 @@ public class PlayList {
 			songs.add(new Song(s));
 		}
 		return songs;
+	}
+	
+	public void shuffle() {
+		Collections.shuffle(playlist);
 	}
 	
 	@Override

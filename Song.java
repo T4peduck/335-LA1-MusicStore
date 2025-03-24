@@ -10,6 +10,7 @@ public class Song {
 	public final String album;
 	private int rating;
 	private boolean favorite;
+	private int plays;
 	
 	// Regular Constructor
 	public Song(String name, String artist, String album) {
@@ -17,12 +18,15 @@ public class Song {
 		this.artist = artist;
 		this.album = album;
 		favorite = false;
+		plays = 0;
 	}
 	
 	// Copy Constructor
 	public Song(Song s) {
 		this(s.name, s.artist, s.album);
 		this.rating = s.rating;
+		this.favorite = s.favorite;
+		this.plays = s.plays;
 	}
 	
 	/*
@@ -31,6 +35,10 @@ public class Song {
 	 */
 	public String toString() {
 		return name + " by " + artist + " on " + album + "."; 
+	}
+	
+	public void play() {
+		plays++;
 	}
 	
 
@@ -50,6 +58,10 @@ public class Song {
 	 */
 	public void setFavorite() {
 		favorite = true;
+	}
+	
+	public int getPlays() {
+		return plays;
 	}
 	
 	// returns this.favorite
