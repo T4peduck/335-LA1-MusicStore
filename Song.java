@@ -18,6 +18,7 @@ public class Song {
 		this.artist = artist;
 		this.album = album;
 		favorite = false;
+		rating = 0;
 		plays = 0;
 	}
 	
