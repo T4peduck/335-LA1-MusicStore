@@ -204,7 +204,7 @@ public class LibraryModel {
 	 * void addAlbum(String albumName, String artist) -- adds an album with title albumName and artist <artist>
 	 * to the library
 	 */
-	/*public void addAlbum(String albumName, String artist) {
+	public void addAlbum(String albumName, String artist) {
 		ArrayList<Album> foundAlbums = ms.searchAlbumWithTitle(albumName);
 		for(Album a : foundAlbums) {
 			a = new Album(a);
@@ -265,8 +265,8 @@ public class LibraryModel {
 					}
 				}
 			}
-		}
-	}*/
+	}
+	
 	
 	public void removeSong(String songName) {
 		ArrayList<Song> song = libraryByTitle.remove(songName.toLowerCase().hashCode());
