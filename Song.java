@@ -42,6 +42,10 @@ public class Song {
 		plays++;
 	}
 	
+	public void play(int n) {
+		plays = n;
+	}
+	
 
 	/*
    * @Pre: rating is 1 to 5 inclusive

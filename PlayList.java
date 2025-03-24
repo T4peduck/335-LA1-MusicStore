@@ -41,6 +41,7 @@ public class PlayList {
 	public ArrayList<Song> getPlaylist() {
 		ArrayList<Song> songs = new ArrayList<Song>();
 		for(Song s : playlist) {
+			System.out.println(s.name);
 			songs.add(new Song(s));
 		}
 		return songs;

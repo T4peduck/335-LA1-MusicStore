@@ -32,11 +32,14 @@ public class Album {
 		this.artist = a.artist;
 		this.genre = a.genre;
 		this.year = a.year;
-		songs = new ArrayList<Song>();
+
+		songs = new ArrayList<>();
+
 		for(Song song : a.songs) {
 			songs.add(new Song(song));
 		}
 	}
+	
 	
 	// Copy Constructor 2
 	public Album(Album a, String songName) {
@@ -46,8 +49,9 @@ public class Album {
 		this.year = a.year;
 		songs = new ArrayList<Song>();
 		for(Song song : a.songs) {
-			if(song.name.equals(songName))
+			if(song.name.equals(songName)) {
 				songs.add(new Song(song));
+			}
 		}
 	}
 	
@@ -61,10 +65,8 @@ public class Album {
 		for(Song song : a.songs) {
 			songs.add(new Song(song));
 		}
-		if(add)
-			songs.add(s);
-		else
-			songs.remove(s);
+		if(add) {songs.add(s);}
+		else {songs.remove(s);}
 	}
 	
 	/*
@@ -89,9 +91,10 @@ public class Album {
 	 * such song exists, returns null
 	 */
 	public Song getSong(String songName) {
-		for(Song song : songs) {
-			if(song.name.toLowerCase().equals(songName.toLowerCase()))
+		for(Song song :songs) {
+			if(song.name.toLowerCase().equals(songName.toLowerCase())) {
 				return new Song(song);
+			}
 		}
 		return null;
 	}
@@ -101,7 +104,7 @@ public class Album {
 	 */
 	public ArrayList<Song> getAlbum() {
 		ArrayList<Song> list = new ArrayList<Song>();
-		for(Song song : songs) {
+		for(Song song: songs) {
 			list.add(new Song(song));
 		}
 		return list;

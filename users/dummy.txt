@@ -1,32 +1,41 @@
 PASSWORD
-A1 a g 2005
-s1 1
-s2 2
-s3 3
-s4 4
+19,Adele,Pop,2008
+Cold Shoulder,2,10
+Crazy for You,2,20
+Melt My Heart to Stone,4,14
+First Love,4,5
+Right as Rain,5,19
 
-A2 a g 2006
-s5 4
-s6 5
-s7 1
+Don't Mess With the Dragon,Ozomatli,Rock,2007
+La Gallina,0,12
+Magnolia Soul,0,12
+Here We Go,0,12
+La Temperatura,4,12
+Violeta,3,12
 
-A3 b h 2007
-s1 3
-s2 4
+Sons,The Heavy,Rock,2019
+Better as One,0,12
+Fire,5,12
+Fighting for the Same Thing,5,12
+Hurt Interlude,3,12
+Put the Hurt on Me,0,12
 
 
 pl1
-s3 a
-s4 a
-s5 a
+Cold Shoulder,Adele
+Crazy for You,Adele
+Melt My Heart to Stone,Adele
+First Love,Adele
 
 pl2
-s4 a
-s5 a
-s6 a
+Melt My Heart to Stone,Adele
+First Love,Adele
+Magnolia Soul,Ozomatli
+Here We Go,Ozomatli
 
 pl3
-s1 b
-s2 b
-s3 a
+Cold Shoulder,Adele
+Crazy for You,Adele
+Hurt Interlude,The Heavy
+Put the Hurt on Me,The Heavy
 
