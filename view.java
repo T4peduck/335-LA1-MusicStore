@@ -19,14 +19,18 @@ public class view {
 			+ "-<argument> should be replaced with the name of the song to be added\ncreatePL,<argument>\n	-<argument> should be replaced with your desired name for the created playlist\n"
 			+ "exit\n	-exits the program\n"
 			+ "fav,<argument>\n	-<argument> should be replaced with the name of the song that you wish to favorite\nlist,<type>\n	"
-			+ "-prints a list of the each given item of the given type in your library\n	-<type> should be replaced with S for songs, AR for artists, AL for albums, P for playlists, or F for favorited songs\n"
-			+ "login,<username>,<password>\n	-<username> should be replaced with your username\n	-<password> should be replaced with your password\n"
+			+ "-prints a list of the each given item of the given type in your library\n	-<type> should be replaced with S for songs, AR for artists, AL for albums, P for playlists, G for genres, or F for favorited songs\n"
+			+ "login\n	- prompts for username and password to log into your account\n"
 			+ "rate,<argument>,<rating>\n	-<argument> should be replaced with the name of the song you wish to rate\n	-<rating> should be replaced with your desired rating (1 - 5)\n"
+			+ "remove,<type>,<argument>,<argument2>\n	- <type> should be replaced with A for album or S for song\n	-<argument> should be replaced with the name of the item you are removing\n"
+			+ "	-<argument2> can optionally be included to specify the artist of the song to be added, for cases where multiple artists have songs named the same"
 			+ "removePL,<name>,<argument>\n	-removes a song from a playlist\n	-<name> should be replaced with the name of the playlist from which you wish to remove a song\n	"
 			+ "-<argument> should be replaced with the name of the song you wish to remove\nsearch,<location>,<search type>,<argument>\n	"
 			+ "-<location> should have either MS for searching the music store or UL for searching your library\n	"
 			+ "-<search type> should have ST for searching for a song by its title, SA for a song by artist, AT for an album by its title,\n"
-			+ "		AA for an album by its artist, or P (only applies for your library) for a playlist by name\n	-<argument> should be replaced by the proper argument for your search (song name, song artist, etc.)\n";
+			+ "		AA for an album by its artist, G (only applies for your library) for songs by genre, or P (only applies for your library) for a playlist by name\n	-<argument> should be replaced by the proper argument for your search (song name, song artist, etc.)\n"
+			+ "\nshuffle\n	- shuffles your user library\nshufflePL,<name>\n	- shuffles the given playlist\n	-<name> should be replaced with the name of the playlist you want to shuffle"
+			+ "sortedList,<type>\n	-lists all the songs in your library sorted by supplied method\n	-<type> should be replaced by T to sort by title, A to sort by artist, and R to sort by rating";
 	
 	private static MusicStore ms = new MusicStore();
 	private static LibraryModel ul = new LibraryModel(ms);
@@ -49,6 +53,14 @@ public class view {
 				keyboard.close();
 				System.exit(0);
 			}
+			/*else if(command.equals("login")) {
+				try{
+					login(input[1], input[2]);
+				}
+				catch(ArrayIndexOutOfBoundsException e) {
+					System.out.println("Error: Invalid Input");
+				}
+			}*/
 			/*else if(!loggedIn) {
 				System.out.println("Please login before using this command");
 			}*/
@@ -97,14 +109,6 @@ public class view {
 					System.out.println("Error: Invalid Input");
 				}			
 			}
-			/*else if(command.equals("login")) {
-				try{
-					login(input[1], input[2]);
-				}
-				catch(ArrayIndexOutOfBoundsException e) {
-					System.out.println("Error: Invalid Input");
-				}
-			}*/
 			else if(command.equals("rate")) {
 				try{
 					String secondInput = input[2];
@@ -117,6 +121,19 @@ public class view {
 				}
 				catch(NumberFormatException e) {
 					System.out.println("Error: Invalid Input");
+				}
+			}
+			else if(command.equals("remove")) {
+				try{
+					remove(input[1], input[2], input[3]);
+				}
+				catch(ArrayIndexOutOfBoundsException e) {
+					try{
+						remove(input[1], input[2]);
+					}
+					catch(ArrayIndexOutOfBoundsException e1) {
+						System.out.println("Error: Invalid Input");
+					}
 				}
 			}
 			else if(command.equals("removepl")) {
@@ -134,6 +151,24 @@ public class view {
 				catch(ArrayIndexOutOfBoundsException e) {
 					System.out.println("Error: Invalid Input");
 				}	
+			}
+			else if(command.equals("shuffle")) {
+				shuffle();
+			}
+			else if(command.equals("shufflepl")) {
+				try {
+					shufflePL(input[1]);
+				} catch(ArrayIndexOutOfBoundsException e) {
+					System.out.println("Error: Invalid Input");
+				}
+			}
+			else if(command.equals("sortedlist")) {
+				try {
+					sortedList(input[1]);
+				}
+				catch(ArrayIndexOutOfBoundsException e) {
+					System.out.println("Error: Invalid Input");
+				}
 			}
 			else
 				System.out.println("Error: Invalid Command. Type help for a list of commands");
@@ -321,6 +356,13 @@ public class view {
 			for(String s : playlists)
 				System.out.println(s);
 		}
+		else if(type.toUpperCase().equals("G")) {
+			ArrayList<String> genres = ul.getGenres();
+			System.out.println("Genres present in you library:");
+			for(String s : genres) {
+				System.out.println(s);
+			}
+		}
 		else if(type.toUpperCase().equals("F")) {
 			ArrayList<Song> favorites = ul.getFavorites();
 			System.out.println("Favorited songs in your library:");
@@ -362,6 +404,47 @@ public class view {
 			}
 		}
 		System.out.println("Error: Song not in your library");
+	}
+	
+	public static void remove(String type, String name) {
+		if(type.toUpperCase().equals("A")) {
+			ArrayList<Album> albums = ul.searchAlbumWithTitle(name);
+			if(albums.size() != 0) {
+				ul.removeAlbum(name);
+			}
+			System.out.println("Error: Album with given name not in library");
+		}
+		else if(type.toUpperCase().equals("S")) {
+			ArrayList<Song> songs = ul.searchSongWithTitle(name);
+			if(songs.size() != 0) {
+				ul.removeSong(name);
+			}
+			System.out.println("Error: Song with given name not in library");
+		}
+		else
+			System.out.println("Error: Invalid Type. Please use A for albums or S for songs.");
+	}
+	
+	public static void remove(String type, String name, String artist) {
+		if(type.toUpperCase().equals("S")) {
+			ArrayList<Song> songs = ul.searchSongWithTitle(name);
+			if(songs.size() != 0) {
+				boolean removed = false;
+				for(Song s : songs) {
+					if(s.artist.toLowerCase().equals(artist.toLowerCase())) {
+						ul.removeSong(name, artist);
+						removed = true;
+					}
+				}
+				if(!removed) {
+					System.out.println("Error: Song with given name and artist not in library");
+					return;
+				}
+			}
+			System.out.println("Error: Song with given name not in library");
+		}
+		else
+			System.out.println("Error: Ivalid Type. Please use S for a song if optional artist argument supplied");
 	}
 	
 	/*
@@ -495,11 +578,52 @@ public class view {
 					System.out.println(s);
 				}
 			}
+			else if(searchType.toUpperCase().equals("G")) {
+				ArrayList<Song> songs = ul.searchSongsWithGenre(argument);
+				if(songs == null) {
+					System.out.println("Search returned no results");
+				}
+				for(Song s : songs) {
+					System.out.println(s);
+				}
+			}
 			else
 				System.out.println("Error: Invalid Search Type. Input ST to search for a song by title, SA for a song by artist, AT for an album by title, AA for an album by artist, or P for a playlist");
 		}
 		else
 			System.out.println("Error: Invalid Location. Input UL to search your library and MS to search the music store");
+	}
+	
+	public static void shuffle() {
+		ul.shuffle();
+	}
+	
+	public static void shufflePL(String playlistName) {
+		if(ul.searchPlaylist(playlistName) == null) {
+			System.out.println("Error: Playlist not created in your library");
+			return;
+		}
+		ul.shufflePlaylist(playlistName);
+	}
+	
+	public static void sortedList(String type) {
+		if(type.toUpperCase().equals("T")) {
+			for(String s : ul.getSongsSortedByTitle()) {
+				System.out.println(s);
+			}
+		}
+		else if(type.toUpperCase().equals("A")) {
+			for(String s : ul.getSongsSortedByArtist()) {
+				System.out.println(s);
+			}
+		}
+		else if(type.toUpperCase().equals("R")) {
+			for(String s : ul.getSongsSortedByRating()) {
+				System.out.println(s);
+			}
+		}
+		else
+			System.out.println("Error: Invalid Type. Please input T to sort by title, A to sort by artist, or R to sort by rating");
 	}
 	
 	/*private static void startup() {
