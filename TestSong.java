@@ -24,6 +24,9 @@ public class TestSong {
 		t.setRating(5);
 		assertTrue(t.isFavorite());
 		
+		s.play();
+		s.play();
+		assertTrue(s.getNumPlays() == 2);
 	}
 	
 	@Test

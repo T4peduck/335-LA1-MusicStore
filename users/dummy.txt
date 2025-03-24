@@ -1,0 +1,32 @@
+PASSWORD
+A1 a g 2005
+s1 1
+s2 2
+s3 3
+s4 4
+
+A2 a g 2006
+s5 4
+s6 5
+s7 1
+
+A3 b h 2007
+s1 3
+s2 4
+
+
+pl1
+s3 a
+s4 a
+s5 a
+
+pl2
+s4 a
+s5 a
+s6 a
+
+pl3
+s1 b
+s2 b
+s3 a
+
