@@ -18,6 +18,7 @@ public class view {
 			+ "exit\n	- exits the program\n"
 			+ "favorite\n	- favorites a given song within your library\nlist\n	- prints a list of the each given item of the given type in your library\n"
 			+ "login\n	- prompts for username and password to log into your account\n"
+			+ "play\n	- plays the song input\n"
 			+ "rate\n	- rates a song\nremove\n	- removes an item from your library\n"
 			+ "removePL\n	- removes a song from a playlist\n"
 			+ "search,\n	- searches either the music store or user library for given item\n"
@@ -98,6 +99,23 @@ public class view {
 			}
 			else if(command.equals("list")) {
 				list();
+			}
+			else if(command.equals("play")) {
+				boolean done = false;
+				while(!done) {
+					System.out.print("Must the artist be specified for this item (Y for yes, N for No)? ");
+					String additional = keyboard.nextLine();
+					if(additional.toUpperCase().equals("Y")) {
+						playWithArtist();
+						done = true;
+					}
+					else if(additional.toUpperCase().equals("N")) {
+						play();
+						done = true;
+					}
+					else
+						System.out.println("Error: Invalid Input");
+				}
 			}
 			else if(command.equals("rate")) {
 				rate();
@@ -503,6 +521,39 @@ public class view {
 		}
 	}*/
 	
+	public static void play() {
+		Scanner keyboard = new Scanner(System.in);
+		System.out.print("What song would you like to play? ");
+		String name = keyboard.nextLine();
+		if(ul.searchSongWithTitle(name).size() == 0) {
+			System.out.println("Error: Song not in your library");
+		}
+		else
+			ul.playSong(name);
+	}
+	
+	public static void playWithArtist() {
+		Scanner keyboard = new Scanner(System.in);
+		System.out.print("What song would you like to play? ");
+		String name = keyboard.nextLine();
+		System.out.println("Whose song is it? ");
+		String artist = keyboard.nextLine();
+		if(ul.searchSongWithTitle(name).size() == 0) {
+			System.out.println("Error: Song not in your library");
+			return;
+		}
+		boolean songExists = false;
+		for(Song s : ul.searchSongWithTitle(name)) {
+			if(s.artist.toLowerCase().equals(artist.toLowerCase()))
+				songExists = true;
+		}
+		if(!songExists) {
+			System.out.println("Error: No song with that title and artists in your library");
+			return;
+		}
+		ul.playSong(name, artist);
+	}
+	
 	/*
 	 * void rate() -- update the rating for a song with title supplied in the user library.
 	 * Will print an error message if supplied rating is not between 1 and 5. Additionally will print an error message if the
@@ -560,14 +611,16 @@ public class view {
 			if(albums.size() != 0) {
 				ul.removeAlbum(name);
 			}
-			System.out.println("Error: Album with given name not in library");
+			else
+				System.out.println("Error: Album with given name not in library");
 		}
 		else if(type.toUpperCase().equals("S")) {
 			ArrayList<Song> songs = ul.searchSongWithTitle(name);
 			if(songs.size() != 0) {
 				ul.removeSong(name);
 			}
-			System.out.println("Error: Song with given name not in library");
+			else
+				System.out.println("Error: Song with given name not in library");
 		}
 	}
 	
