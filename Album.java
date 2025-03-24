@@ -5,9 +5,9 @@
  */
 
 import java.util.ArrayList;
-import java.util.Hashtable;
 
 public class Album {
+	
 	private ArrayList<Song> songs;
 	public final String artist;
 	public final String name;
@@ -32,12 +32,12 @@ public class Album {
 		this.artist = a.artist;
 		this.genre = a.genre;
 		this.year = a.year;
+
 		songs = new ArrayList<>();
+
 		for(Song song : a.songs) {
 			songs.add(new Song(song));
 		}
-		
-		
 	}
 	
 	
@@ -54,6 +54,21 @@ public class Album {
 		}
 	}
 	
+	// Copy Constructor 3
+	public Album(Album a, Song s, boolean add) {
+		this.name = a.name;
+		this.artist = a.artist;
+		this.genre = a.genre;
+		this.year = a.year;
+		songs = new ArrayList<Song>();
+		for(Song song : a.songs) {
+			songs.add(new Song(song));
+		}
+		if(add)
+			songs.add(s);
+		else
+			songs.remove(s);
+	}
 	
 	/*
 	 * String toString() -- returns a string that represents the album. Contains the name, artist, genre, and year of release, as
