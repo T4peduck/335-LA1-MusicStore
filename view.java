@@ -590,6 +590,42 @@ public class view {
 		System.out.println("Error: Song not in your library");
 	}
 	
+	public static void rateWithArtist() {
+		Scanner keyboard = new Scanner(System.in);
+		String argument;
+		int rating = 0;
+		boolean done = false;
+		System.out.print("What song do you wish to rate? ");
+		argument = keyboard.nextLine();
+		System.out.println("Whose song is it? ");
+		String artist = keyboard.nextLine();
+		while(!done) {
+			System.out.print("How would you like to rate this song (1 - 5)? ");
+			try {
+				rating = keyboard.nextInt();
+			} catch(InputMismatchException e) {
+				System.out.println("Error: Please input a valid integer between 1 and 5");
+				continue;
+			}
+			if(rating < 1 || rating > 5) {
+				System.out.println("Error: Invalid Rating. Ratings should be between 1 and 5");
+			}
+			else
+				done = true;
+		}
+		ArrayList<Song> songs = ul.searchSongWithTitle(argument);
+		if(songs.size() == 0) {
+			System.out.println("Error: Song not in your library");
+		}
+		for(Song s : songs) {
+			if(s.artist.toLowerCase().equals(artist.toLowerCase())) {
+				ul.rateSong(argument, artist, rating);
+				return;
+			}
+		}
+		System.out.println("Error: Song with that name and artist not in your library");
+	}
+	
 	public static void remove() {
 		Scanner keyboard = new Scanner(System.in);
 		String type = "";
@@ -884,8 +920,10 @@ public class view {
 				if(songs == null) {
 					System.out.println("Search returned no results");
 				}
-				for(Song s : songs) {
-					System.out.println(s);
+				else {
+					for(Song s : songs) {
+						System.out.println(s);
+					}
 				}
 			}
 			else if(searchType.equals("G")) {
