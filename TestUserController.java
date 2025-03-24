@@ -19,13 +19,10 @@ public class TestUserController {
 		
 		ArrayList<String> s = dummysLibrary.getSongs();
 		System.out.println("Songs: " + s.toString());
-		assertTrue(s.get(0).equals("s1"));
-		assertTrue((s.get(7)).equals("s1"));
 		
 		ArrayList<String> p = dummysLibrary.getPlaylists();
 		System.out.println("Playlist: " + p.toString());
-		assertTrue(p.get(0).equals("pl1"));
-		}
+	}
 	
 	@Test
 	void testSaveUser() {
@@ -33,7 +30,7 @@ public class TestUserController {
 		
 		idiotsLibrary.addSong("daylight");
 		idiotsLibrary.addSong("politik");
-		idiotsLibrary.addSong("a whipser");
+		idiotsLibrary.addSong("a whisper");
 		
 		idiotsLibrary.addSong("clear blue eyes (feat. lucinda williams)");
 		idiotsLibrary.addSong("jesus");

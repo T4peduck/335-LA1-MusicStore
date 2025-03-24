@@ -4,6 +4,7 @@
  */
 import java.util.Hashtable;
 import java.util.ArrayList;
+import java.awt.image.AreaAveragingScaleFilter;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -82,6 +83,8 @@ public class UserController {
 			
 			parseAlbums(lm, br);
 			
+			System.out.println(lm.getSongs());
+			
 			parsePlaylists(lm, br);
 			
 		} catch (IOException e) {
@@ -92,10 +95,11 @@ public class UserController {
 		return lm;
 	}
 	
+
 	private void parseAlbums(LibraryModel lm, BufferedReader br) throws IOException {
 		String line = br.readLine();
 		while(!line.equals("")) {
-			String[] infoLine = line.split(" ");
+			String[] infoLine = line.split(",");
 			String albumName = infoLine[0];
 			String artist = infoLine[1];
 			String genre = infoLine[2];
@@ -103,7 +107,7 @@ public class UserController {
 			ArrayList<String> songNames = new ArrayList<>();
 			
 			while(!(line = br.readLine()).equals("")) {
-				String[] songInfo = line.split(" ");
+				String[] songInfo = line.split(",");
 				lm.addSong(songInfo[0], artist);
 				songNames.add(songInfo[0]);
 				//lm.addSong(new Song(songInfo[0], artist, albumName));
@@ -120,12 +124,14 @@ public class UserController {
 	private void parsePlaylists(LibraryModel lm, BufferedReader br) throws IOException {
 		String line = br.readLine();
 		while(line != null && !line.equals("")) {
+			System.out.println("PLAYELIST: " + line);
 			String playlistName = line;
 			lm.createPlayList(line);
 			while(!(line = br.readLine()).equals("")) {
-				String[] infoLine = line.split(" ");
+				String[] infoLine = line.split(",");
 				String songName = infoLine[0];
 				String artist	= infoLine[1];
+				System.out.println(infoLine[0]);
 				lm.addSongToPlaylist(playlistName, songName);
 			}
 			line = br.readLine();
@@ -149,6 +155,8 @@ public class UserController {
 			
 			FileWriter saveFile = new FileWriter(new File("users/" + username + ".txt"));
 			
+			saveFile.write(password + '\n');
+			
 			saveAlbums(lm, saveFile);
 			
 			savePlaylists(lm, saveFile);
@@ -164,11 +172,12 @@ public class UserController {
 		ArrayList<String> albumList = lm.getAlbums();
 		for(String aName: albumList) {
 			Album a = lm.searchAlbumWithTitle(aName).get(0);
-			saveFile.write(a.name + " " + a.artist + " " + a.genre + " " + a.year + "\n");
+			saveFile.write(a.name + "," + a.artist + "," + a.genre + "," + a.year + "\n");
 			
 			ArrayList<Song> songList = a.getAlbum();
 			for(Song s: songList) {
-				saveFile.write(s.name + " " + s.getRating() + "\n");
+				//System.out.println("SONG: " + s.name + "from " + aName);
+				saveFile.write(s.name + "," + s.getRating() + "\n");
 			}
 			
 			saveFile.write("\n");
@@ -186,7 +195,7 @@ public class UserController {
 			saveFile.write(pName + "\n");
 			
 			for(Song s: p) {
-				saveFile.write(s.name + " " + s.artist + "\n");
+				saveFile.write(s.name + "," + s.artist + "\n");
 			}
 			saveFile.write("\n");
 		}
