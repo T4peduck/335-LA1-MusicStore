@@ -30,12 +30,9 @@ public class LibraryModel {
 	
 	
 	public void playSong(String songName, String artistName) {
-		//TODO: need to add way to search if there are songs with multiple writers
-	}
-	
-	public void playSong(String songName) {
-		for(Song s: library) {
-			if(s.name.equals(songName)) {
+		ArrayList<Song> slist = libraryByTitle.get(songName);
+		for(Song s: slist) {
+			if(s.artist.equals(artistName)) {
 				currentPlay = s;
 				currentPlay.play();
 			}
@@ -58,10 +55,22 @@ public class LibraryModel {
 					albumsByTitle.put(a.hashCodeName(), alist);
 				}
 			}
-			ArrayList<Song> slist = new ArrayList<Song>();
-			slist.add(s);
-			libraryByArtist.put(s.hashCodeArtist(), slist);
-			libraryByTitle.put(s.hashCodeName(), slist);
+			
+			if(libraryByTitle.get(s.hashCodeName()) == null) {
+				ArrayList<Song> slist = new ArrayList<Song>();
+				slist.add(s);
+				libraryByTitle.put(s.hashCodeName(), slist);
+			} else {
+				libraryByTitle.get(s.hashCodeName()).add(s);
+			}
+			
+			if(libraryByArtist.get(s.hashCodeArtist()) == null) {
+				ArrayList<Song> slist = new ArrayList<Song>();
+				slist.add(s);
+				libraryByArtist.put(s.hashCodeArtist(), slist);
+			} else {
+				libraryByArtist.get(s.hashCodeArtist()).add(s);
+			}
 		}
 	}
 	
@@ -82,20 +91,26 @@ public class LibraryModel {
 						albumsByTitle.put(a.hashCodeName(), alist);
 					}
 				}
+			}
+				
+			if(libraryByTitle.get(s.hashCodeName()) == null) {
+				ArrayList<Song> slist = new ArrayList<Song>();
+				slist.add(s);
+				libraryByTitle.put(s.hashCodeName(), slist);
+			} else {
+				libraryByTitle.get(s.hashCodeName()).add(s);
+			}
+			
+			if(libraryByArtist.get(s.hashCodeArtist()) == null) {
 				ArrayList<Song> slist = new ArrayList<Song>();
 				slist.add(s);
 				libraryByArtist.put(s.hashCodeArtist(), slist);
-				libraryByTitle.put(s.hashCodeName(), slist);
+			} else {
+				libraryByArtist.get(s.hashCodeArtist()).add(s);
 			}
 		}
 	}
 	
-	//TODO: may not work and needs .equals instead
-	public void addSong(Song s) {
-		if(!library.contains(s)) {
-			library.add(new Song(s));
-		}
-	}
 	
 	/*
 	 * void addAlbum(String albumName) -- adds an album with title albumName from the 
@@ -129,8 +144,9 @@ public class LibraryModel {
 				albumsByArtist.get(a.hashCodeArtist()).add(a);
 			}
 			ArrayList<Song> songs = a.getAlbum();
-			if(libraryByArtist.get(a.hashCodeArtist()) == null)
-				libraryByArtist.put(a.hashCodeArtist(), new ArrayList<Song>())
+			if(libraryByArtist.get(a.hashCodeArtist()) == null) {
+				libraryByArtist.put(a.hashCodeArtist(), new ArrayList<Song>());
+			}
 			for(Song s : songs) {
 				if(libraryByTitle.get(s.hashCodeName()) != null) {
 					if(libraryByTitle.get(s.hashCodeName()).contains(s))
@@ -183,8 +199,8 @@ public class LibraryModel {
 					albumsByArtist.get(a.hashCodeArtist()).add(a);
 				}
 				ArrayList<Song> songs = a.getAlbum();
-				if(libraryByArtist.get(a.hashCodeArtist()) == null)
-					libraryByArtist.put(a.hashCodeArtist(), new ArrayList<Song>())
+				if(libraryByArtist.get(a.hashCodeArtist()) == null) {
+					libraryByArtist.put(a.hashCodeArtist(), new ArrayList<Song>());
 					for(Song s : songs) {
 						if(libraryByTitle.get(s.hashCodeName()) != null) {
 							if(libraryByTitle.get(s.hashCodeName()).contains(s))
@@ -201,15 +217,11 @@ public class LibraryModel {
 							libraryByArtist.get(s.hashCodeArtist()).add(s);
 						}
 					}
+				}
 			}
 		}
 	}
-	
 
-	public void addAlbum(Album a) {
-		albums.add(new Album(a));
-	}
-	
   
 	/*
 	 * void createPlaylist(String playListName) -- creates a new Playlist with name playListName.
@@ -337,8 +349,9 @@ public class LibraryModel {
 	public ArrayList<String> getSongs() {
 		ArrayList<String> titles = new ArrayList<String>();
 		for(Integer i : libraryByTitle.keySet()) {
-			for(Song s : libraryByTitle.get(i))
+			for(Song s : libraryByTitle.get(i)) {
 				titles.add(s.name);
+			}
 		}
 		return titles;
 	}
@@ -419,9 +432,10 @@ public class LibraryModel {
 	}
 	
 	//TODO add artist getRating
-	public int getRating(String songName) {
-		for(Song s: library) {
-			if(s.name.toLowerCase().equals(songName.toLowerCase())) {
+	public int getRating(String songName, String artistName) {
+		ArrayList<Song> slist = libraryByTitle.get(songName.toLowerCase().hashCode());
+		for(Song s: slist) {
+			if(s.artist.equals(artistName)) {
 				return s.getRating();
 			}
 		}

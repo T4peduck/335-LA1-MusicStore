@@ -104,12 +104,13 @@ public class UserController {
 			
 			while(!(line = br.readLine()).equals("")) {
 				String[] songInfo = line.split(" ");
+				lm.addSong(songInfo[0], artist);
 				songNames.add(songInfo[0]);
-				lm.addSong(new Song(songInfo[0], artist, albumName));
+				//lm.addSong(new Song(songInfo[0], artist, albumName));
 				lm.rateSong(songInfo[0], Integer.parseInt(songInfo[1]));
 			}
 			
-			lm.addAlbum(new Album(albumName, artist, genre, year, songNames));
+			//lm.addAlbum(new Album(albumName, artist, genre, year, songNames));
 			
 			line = br.readLine();
 		}

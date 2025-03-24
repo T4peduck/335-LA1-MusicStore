@@ -58,9 +58,8 @@ public class TestUserController {
 		assertTrue(i.searchAlbumWithTitle("a rush of blood to the head") != null);
 		assertTrue(i.searchSongWithTitle("jesus") != null);
 		
-		assertTrue(i.getRating("daylight") == 4);
-		assertTrue(i.getRating("jesus") == 2 );
-		
-		
+		assertTrue(i.getRating("daylight", "Coldplay") == 4);
+		assertTrue(i.getRating("jesus", "Amos Lee") == 2 );
+		assertTrue(i.getRating("jesus", "Coldplay") == -1);
 	}
 }

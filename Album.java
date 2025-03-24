@@ -8,9 +8,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 public class Album {
-	
-	private Hashtable<String, Song> songs;
-	private ArrayList<String> songNames;
+	private ArrayList<Song> songs;
 	public final String artist;
 	public final String name;
 	public final String genre;
@@ -22,11 +20,9 @@ public class Album {
 		this.artist = artist;
 		this.genre = genre;
 		this.year = year;
-		songs = new Hashtable<String, Song>();
-		this.songNames = new ArrayList<String>();
+		songs = new ArrayList<Song>();
 		for(String songName : songNames) {
-			songs.put(songName, new Song(songName, artist, name));
-			this.songNames.add(songName.toLowerCase());
+			songs.add(new Song(songName, artist, name));
 		}
 	}
 	
@@ -36,15 +32,14 @@ public class Album {
 		this.artist = a.artist;
 		this.genre = a.genre;
 		this.year = a.year;
-		songs = new Hashtable<String, Song>();
-		this.songNames = new ArrayList<String>(a.songNames);
-		
-		for(String song : a.songNames) {
-			songs.put(song, new Song(a.songs.get(song)));
+		songs = new ArrayList<>();
+		for(Song song : a.songs) {
+			songs.add(new Song(song));
 		}
 		
 		
 	}
+	
 	
 	// Copy Constructor 2
 	public Album(Album a, String songName) {
@@ -59,6 +54,7 @@ public class Album {
 		}
 	}
 	
+	
 	/*
 	 * String toString() -- returns a string that represents the album. Contains the name, artist, genre, and year of release, as
 	 * well as a list of all songs in the album.
@@ -70,8 +66,8 @@ public class Album {
 			s = name + " by " + artist + ", an " + genre.toLowerCase() + " album released in " + year + ".\n";
 		else	
 			s = name + " by " + artist + ", a " + genre.toLowerCase() + " album released in " + year + ".\n";
-		for(String song : songNames) {
-			s += song + "\n";
+		for(Song song : songs) {
+			s += song.name + "\n";
 		}
 		return s;
 	}
@@ -81,7 +77,12 @@ public class Album {
 	 * such song exists, returns null
 	 */
 	public Song getSong(String songName) {
-		return songs.get(songName.toLowerCase());
+		for(Song song :songs) {
+			if(song.name.toLowerCase().equals(songName.toLowerCase())) {
+				return new Song(song);
+			}
+		}
+		return null;
 	}
 	
 	/*
@@ -89,8 +90,8 @@ public class Album {
 	 */
 	public ArrayList<Song> getAlbum() {
 		ArrayList<Song> list = new ArrayList<Song>();
-		for(String s : songNames) {
-			list.add(new Song(songs.get(s)));
+		for(Song song: songs) {
+			list.add(new Song(song));
 		}
 		return list;
 	}
