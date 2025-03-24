@@ -44,8 +44,8 @@ public class TestUserController {
 		idiotsLibrary.addSongToPlaylist("p2", "politik");
 		idiotsLibrary.addSongToPlaylist("p2", "a whisper");
 		
-		idiotsLibrary.rateSong("daylight", 4);
-		idiotsLibrary.rateSong("jesus", 2);
+		idiotsLibrary.rateSong("daylight", "Amos Lee",  4);
+		idiotsLibrary.rateSong("jesus", "Amos Lee", 2);
 		
 		uc.saveUser(idiotsLibrary, "idiot", "thebirdsaredrones");
 		

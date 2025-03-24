@@ -5,6 +5,7 @@
  */
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Set;
@@ -447,7 +448,7 @@ public class LibraryModel {
 	 */
 	public ArrayList<Song> searchPlaylist(String playlistName) {
 		if(playlistName.toLowerCase().equals("frequently played")) {
-			Integer[] keys = (Integer[]) frequentlyPlayed.keySet().toArray();
+			Integer[] keys = frequentlyPlayed.keySet().toArray(new Integer[frequentlyPlayed.keySet().size()]);
 			ArrayList<Song> songs = new ArrayList<Song>();
 			while(songs.size() < 10) {
 				Integer max = keys[0];
@@ -611,15 +612,17 @@ public class LibraryModel {
 	/*
 	 * void rateSong(String songName, int rating) -- changes the rating of every song with name songName to <rating>
 	 */
-	public void rateSong(String songName, int rating) {
+	public void rateSong(String songName, String artistName, int rating) {
 		ArrayList<Song> slist = libraryByTitle.get(songName.toLowerCase().hashCode());
-		for(Song s : slist) {
-			s.setRating(rating);
-			if(rating == 4)
-				addSongToPlaylist("Top Rated", s.name);
-			else if(rating == 5) {
-				addSongToPlaylist("Favorites", s.name);
-				addSongToPlaylist("Top Rated", s.name);
+		for(Song s: slist) {
+			if(s.artist.equals(artistName)) {
+				s.setRating(rating);
+				if(rating == 4)
+					addSongToPlaylist("Top Rated", s.name);
+				else if(rating == 5) {
+					addSongToPlaylist("Favorites", s.name);
+					addSongToPlaylist("Top Rated", s.name);
+				}
 			}
 		}
 	}
@@ -674,5 +677,23 @@ public class LibraryModel {
 				s.play();
 			}
 		}
+	}
+	
+	public void setPlays(String songName, String artistName, int n) {
+		findSong(songName, artistName).play(n);
+	}
+	
+	public int getPlays(String songName, String artistName) {
+		return findSong(songName, artistName).getPlays();
+	}
+	
+	private Song findSong(String songName, String artistName) {
+		ArrayList<Song> slist = libraryByTitle.get(songName.toLowerCase().hashCode());
+		for(Song s: slist) {
+			if(s.artist.equals(artistName)) {
+				return s;
+			}
+		}
+		return null;
 	}
 }

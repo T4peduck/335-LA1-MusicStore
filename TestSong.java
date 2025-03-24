@@ -26,7 +26,7 @@ public class TestSong {
 		
 		s.play();
 		s.play();
-		assertTrue(s.getNumPlays() == 2);
+		assertTrue(s.getPlays() == 2);
 	}
 	
 	@Test

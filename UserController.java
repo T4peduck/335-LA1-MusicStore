@@ -46,8 +46,8 @@ public class UserController {
 	 * ----------
 	 * password
 	 * albumName artist genre year
-	 * song1Name rating
-	 * song2Name rating
+	 * song1Name rating numPlays
+	 * song2Name rating numPlays
 	 * ...
 	 * 			[two space]
 	 * 
@@ -111,7 +111,8 @@ public class UserController {
 				lm.addSong(songInfo[0], artist);
 				songNames.add(songInfo[0]);
 				//lm.addSong(new Song(songInfo[0], artist, albumName));
-				lm.rateSong(songInfo[0], Integer.parseInt(songInfo[1]));
+				lm.rateSong(songInfo[0], artist, Integer.parseInt(songInfo[1]));
+				lm.setPlays(songInfo[0], artist, Integer.parseInt(songInfo[2]));
 			}
 			
 			//lm.addAlbum(new Album(albumName, artist, genre, year, songNames));

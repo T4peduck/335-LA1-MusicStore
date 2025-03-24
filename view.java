@@ -583,7 +583,7 @@ public class view {
 		ArrayList<String> songs = ul.getSongs();
 		for(String s : songs) {
 			if(s.toLowerCase().equals(argument.toLowerCase())) {
-				ul.rateSong(argument, rating);
+				ul.rateSong(argument, "artist",  rating);
 				return;
 			}
 		}

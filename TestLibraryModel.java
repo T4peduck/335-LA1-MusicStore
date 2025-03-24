@@ -230,7 +230,7 @@ class TestLibraryModel {
 		ul.addSong("Little Lion Man");
 		ul.addSong("Rolling In The Deep");
 		ul.markFavorite("Timshel");
-		ul.rateSong("Little Lion Man", 5);
+		ul.rateSong("Little Lion Man", "mumford and sons", 5);
 		ArrayList<String> favorites = new ArrayList<String>();
 		favorites.add("Timshel");
 		favorites.add("Little Lion Man");
@@ -249,8 +249,8 @@ class TestLibraryModel {
 		ul.addSong("Little Lion Man");
 		ul.addSong("Rolling In The Deep");
 		ul.markFavorite("Timshel");
-		ul.rateSong("Little Lion Man", 5);
-		ul.rateSong("Sigh no more", 2);
+		ul.rateSong("Little Lion Man", "mumford and sons", 5);
+		ul.rateSong("Sigh no more", "mumford and sons", 2);
 		
 		assertEquals(ul.getRating("Rolling in the deep", "adele"), 0);
 		assertEquals(ul.getRating("sigh no more", "mumford and sons"), 2);
