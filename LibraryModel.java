@@ -204,7 +204,7 @@ public class LibraryModel {
 	 * void addAlbum(String albumName, String artist) -- adds an album with title albumName and artist <artist>
 	 * to the library
 	 */
-	public void addAlbum(String albumName, String artist) {
+	/*public void addAlbum(String albumName, String artist) {
 		ArrayList<Album> foundAlbums = ms.searchAlbumWithTitle(albumName);
 		for(Album a : foundAlbums) {
 			a = new Album(a);
@@ -265,7 +265,8 @@ public class LibraryModel {
 					}
 				}
 			}
-	}
+		}
+	}*/
 	
 	public void removeSong(String songName) {
 		ArrayList<Song> song = libraryByTitle.remove(songName.toLowerCase().hashCode());
@@ -284,11 +285,15 @@ public class LibraryModel {
 	
 	public void removeSong(String songName, String artist) {
 		ArrayList<Song> songs = libraryByTitle.get(songName.toLowerCase().hashCode());
+		if(songs == null)
+			return;
 		Song songToDelete = null;
-		for(Song s : songs) {
+		for(int i = 0; i < songs.size(); i++) {
+			Song s = songs.get(i);
 			if(s.artist.toLowerCase().equals(artist.toLowerCase())) {
 				songs.remove(s);
 				songToDelete = s;
+				i--;
 			}
 		}
 		if(songToDelete == null) {
@@ -306,7 +311,8 @@ public class LibraryModel {
 	
 	public void removeAlbum(String albumName) {
 		Album a = albumsByTitle.get(albumName.toLowerCase().hashCode()).get(0);
-		for(Song s : libraryByArtist.get(a.hashCodeArtist())) {
+		for(int i = 0; i < libraryByArtist.get(a.hashCodeArtist()).size(); i++) {
+			Song s = libraryByArtist.get(a.hashCodeArtist()).get(i);
 			if(s.album.equals(a.name)) {
 				libraryByArtist.get(a.hashCodeArtist()).remove(s);
 				ArrayList<Song> songs = libraryByTitle.get(s.hashCodeName());
@@ -321,6 +327,7 @@ public class LibraryModel {
 					libraryByTitle.remove(s.hashCodeName());
 				library.remove(s);
 				genreLists.get(a.genre.toLowerCase()).remove(s);
+				i--;
 			}
 		}
 		albumsByTitle.remove(a.hashCodeName());
@@ -345,6 +352,8 @@ public class LibraryModel {
 	public void addSongToPlaylist(String playListName, String songName) {
 		PlayList p = playlists.get(playListName.toLowerCase().hashCode());
 		ArrayList<Song> slist = libraryByTitle.get(songName.toLowerCase().hashCode());
+		if(slist == null)
+			return;
 		for(Song s : slist) {
 			p.addSong(s);
 		}
@@ -353,6 +362,8 @@ public class LibraryModel {
 	public void addSongToPlaylist(String playListName, String songName, String artist) {
 		PlayList p = playlists.get(playListName.toLowerCase().hashCode());
 		ArrayList<Song> slist = libraryByTitle.get(songName.toLowerCase().hashCode());
+		if(slist == null)
+			return;
 		for(Song s : slist) {
 			if(s.artist.toLowerCase().equals(artist.toLowerCase()))
 				p.addSong(s);
@@ -366,6 +377,8 @@ public class LibraryModel {
 	public void removeSongFromPlaylist(String playListName, String songName) {
 		PlayList p = playlists.get(playListName.toLowerCase().hashCode());
 		ArrayList<Song> slist = libraryByTitle.get(songName.toLowerCase().hashCode());
+		if(slist == null)
+			return;
 		for(Song s : slist) {
 			p.removeSong(s);
 		}
@@ -423,10 +436,7 @@ public class LibraryModel {
 			}
 		}
 		else
-			return null;
-		if(songs.size() == 0) {
-			return null;
-		}
+			return new ArrayList<Song>();
 		return songs;
 	}
 	
@@ -626,8 +636,25 @@ public class LibraryModel {
 		}
 	}
 	
-	/*
+  	/*
 	 * void rateSong(String songName, int rating) -- changes the rating of every song with name songName to <rating>
+	 */
+	public void rateSong(String songName, int rating) {
+		ArrayList<Song> slist = libraryByTitle.get(songName.toLowerCase().hashCode());
+		for(Song s : slist) {
+			s.setRating(rating);
+			if(rating == 4)
+				addSongToPlaylist("Top Rated", s.name);
+			else if(rating == 5) {
+				addSongToPlaylist("Favorites", s.name);
+				addSongToPlaylist("Top Rated", s.name);
+			}
+		}
+	}
+  
+	/*
+	 * void rateSong(String songName, String artistName int rating) -- changes the rating of song with name songName and 
+   * artsit artistName to <rating>
 	 */
 	public void rateSong(String songName, String artistName, int rating) {
 		Song s = findSong(songName, artistName);
