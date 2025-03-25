@@ -16,13 +16,10 @@ public class TestUserController {
 		LibraryModel dummysLibrary = uc.loadUser("dummy", "PASSWORD");
 		
 		ArrayList<String> a = dummysLibrary.getAlbums();
-		//System.out.println("Albums: " + a.toString());
 		
 		ArrayList<String> s = dummysLibrary.getSongs();
-		//System.out.println("Songs: " + s.toString());
 		
 		ArrayList<String> p = dummysLibrary.getPlaylists();
-		//System.out.println("Playlist: " + p.toString());
 	}
 	
 	
@@ -53,7 +50,13 @@ public class TestUserController {
 		
 		idiotsLibrary.setPlays("jesus", "amos Lee", 1000);
 		idiotsLibrary.setPlays("Politik", "Coldplay", 20);
-		System.out.println(idiotsLibrary.getPlays("politik", "coldplay"));
+		
+		idiotsLibrary.playSong("daylight");
+		idiotsLibrary.playSong("daylight");
+		idiotsLibrary.playSong("daylight");
+		idiotsLibrary.playSong("daylight");
+		idiotsLibrary.playSong("jesus");
+		idiotsLibrary.playSong("a whisper");
 		
 		
 		uc.saveUser(idiotsLibrary, "idiot", "thebirdsaredrones");
@@ -64,12 +67,17 @@ public class TestUserController {
 		assertTrue(i.searchAlbumWithTitle("a rush of blood to the head") != null);
 		assertTrue(i.searchSongWithTitle("jesus") != null);
 		
+		System.out.println(i.getSongs());
+		System.out.println(idiotsLibrary.getSongs());
+		
 		assertEquals(i.getRating("a whisper", "coldplay"), 5); 
 		assertEquals(i.getRating("jesus", "Amos Lee"), 2);
 		
-		System.out.println("DAY RATING: " + i.getRating("daylight", "Coldplay"));
+		System.out.println(i.searchPlaylist("Recently Played"));
+		
 		assertEquals(i.getRating("daylight", "Coldplay"), 4);
-		assertFalse(i.getRating("jesus", "Coldplay") == -1);
+		
+		assertEquals(i.getRating("jesus", "Coldplay"), -1);
 	
 		assertEquals(i.getPlays("Politik", "coldplay"), 20);
 	}
