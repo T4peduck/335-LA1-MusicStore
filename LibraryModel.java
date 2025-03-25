@@ -267,7 +267,9 @@ public class LibraryModel {
 			}
 		}
 
-	
+	/*
+	 * void removeSong(String songName) -- removes the song with songName from the library
+	 */
 	public void removeSong(String songName) {
 		ArrayList<Song> song = libraryByTitle.remove(songName.toLowerCase().hashCode());
 		ArrayList<Song> artistsSongs = libraryByArtist.get(song.get(0).hashCodeArtist());
@@ -283,6 +285,10 @@ public class LibraryModel {
 		artistsAlbums.add(newAlbum);
 	}
 	
+	/*
+	 * void removeSong(String songName, String artist) -- removes the song titled songName and whose artist
+	 * is artist
+	 */
 	public void removeSong(String songName, String artist) {
 		ArrayList<Song> songs = libraryByTitle.get(songName.toLowerCase().hashCode());
 		if(songs == null)
@@ -309,6 +315,9 @@ public class LibraryModel {
 		albumsByArtist.get(songToDelete.hashCodeArtist()).add(newAlbum);
 	}
 	
+	/*
+	 * void removeAlbum(String albumName) -- removes the album with name albumName from the library
+	 */
 	public void removeAlbum(String albumName) {
 		Album a = albumsByTitle.get(albumName.toLowerCase().hashCode()).get(0);
 		for(int i = 0; i < libraryByArtist.get(a.hashCodeArtist()).size(); i++) {
@@ -334,12 +343,15 @@ public class LibraryModel {
 		albumsByArtist.get(a.hashCodeArtist()).remove(a);
 	}
 	
+	/*
+	 * void shuffle() -- shuffles the user library
+	 */
 	public void shuffle() {
 		Collections.shuffle(library);
 	}
 	
 	/*
-	 * void createPlaylist(String playListName) -- creates a new Playlist with name playListName.
+	 * void createPlaylist(String playListName) -- creates a new PlayList with name playListName.
 	 */
 	public void createPlayList(String playListName) {
 		if(playListName.toLowerCase().equals("frequently played") || playListName.toLowerCase().equals("recently played") || genreLists.keySet().contains(playListName.toLowerCase()))
@@ -369,6 +381,10 @@ public class LibraryModel {
 		}
 	}
 	
+	/*
+	 * void addSongToPlaylist(String playListName, String songName, String artist) -- adds song with title songName and artist artist to 
+	 * the playlist with name playListName
+	 */
 	public void addSongToPlaylist(String playListName, String songName, String artist) {
 		if(playListName.toLowerCase().equals("recently played")) {
 			ArrayList<Song> slist = libraryByTitle.get(songName.toLowerCase().hashCode());
@@ -403,6 +419,10 @@ public class LibraryModel {
 		}
 	}
 	
+	/*
+	 * void removeSongFromPlaylist(String playListName, String songName) -- remove song with title songName and artist artist from
+	 * the playlist with name playListName
+	 */
 	public void removeSongFromPlaylist(String playListName, String songName, String artist) {
 		PlayList p = playlists.get(playListName.toLowerCase().hashCode());
 		ArrayList<Song> slist = libraryByTitle.get(songName.toLowerCase().hashCode());
@@ -412,6 +432,9 @@ public class LibraryModel {
 		}
 	}
 	
+	/*
+	 * void shufflePlaylist(String playlistName) -- shuffles the playlist with given name
+	 */
 	public void shufflePlaylist(String playlistName) {
 		PlayList p = playlists.get(playlistName.toLowerCase().hashCode());
 		p.shuffle();
@@ -447,6 +470,9 @@ public class LibraryModel {
 		return slist;
 	}
 	
+	/*
+	 * ArrayList<Song> searchSongsWithGenre(String genre) -- returns all songs categorized into genre <genre>
+	 */
 	public ArrayList<Song> searchSongsWithGenre(String genre){
 		ArrayList<Song> songs = new ArrayList<Song>();
 		if(genreLists.get(genre.toLowerCase()) != null) {
@@ -538,6 +564,10 @@ public class LibraryModel {
 		}
 	}
 	
+	/*
+	 * ArrayList<String> getSongsSortedByTitle() -- returns a list with the names of all songs sorted by their titles
+	 * in ascending order
+	 */
 	public ArrayList<String> getSongsSortedByTitle() {
 		ArrayList<String> titles = new ArrayList<String>();
 		ArrayList<Song> sorted = new ArrayList<Song>();
@@ -549,6 +579,10 @@ public class LibraryModel {
 		return titles;
 	}
 	
+	/*
+	 * ArrayList<String> getSongsSortedByArtist() -- returns a list with the names of all songs sorted by their artists
+	 * in ascending order
+	 */
 	public ArrayList<String> getSongsSortedByArtist()  {
 		ArrayList<String> titles = new ArrayList<String>();
 		ArrayList<Song> sorted = new ArrayList<Song>();
@@ -560,6 +594,10 @@ public class LibraryModel {
 		return titles;
 	}
 	
+	/*
+	 * ArrayList<String> getSongsSortedByRating() -- returns a list with the names of all songs sorted by their ratings
+	 * in ascending order
+	 */
 	public ArrayList<String> getSongsSortedByRating() {
 		ArrayList<String> titles = new ArrayList<String>();
 		ArrayList<Song> sorted = new ArrayList<Song>();
@@ -628,6 +666,9 @@ public class LibraryModel {
 		return playlistList;
 	}
 	
+	/*
+	 * ArrayList<String> getGenres() -- returns a list of all the genres present in the library
+	 */
 	public ArrayList<String> getGenres() {
 		ArrayList<String> genres = new ArrayList<String>();
 		for(String s : genreLists.keySet()) {
@@ -690,7 +731,10 @@ public class LibraryModel {
 		}
 	}
 	
-	//TODO add artist getRating
+	/*
+	 * int getRating(String songName, String artistName) -- returns the rating of the song named songName whose artist is artistName,
+	 * or -1 if the song is not in the library
+	 */
 	public int getRating(String songName, String artistName) {
 		Song s = findSong(songName, artistName);
 		if(s != null) {
@@ -698,8 +742,12 @@ public class LibraryModel {
 		} else {
 			return -1;
 		}
-}
-
+	}
+	
+	/*
+	 * void playSong(String songName) -- simulates playing a song songName, adjusting its number of plays as well as
+	 * frequently and recently played playlists
+	 */
 	public void playSong(String songName) {
 		ArrayList<Song> slist = libraryByTitle.get(songName.toLowerCase().hashCode());
 		for(Song s : slist) {
@@ -720,6 +768,10 @@ public class LibraryModel {
 		}
 	}
 	
+	/*
+	 * void playSong(String songName, String artist) -- simulates playing a song songName with artist artist, adjusting its number of plays as well as
+	 * frequently and recently played playlists
+	 */
 	public void playSong(String songName, String artist) {
 		ArrayList<Song> slist = libraryByTitle.get(songName.toLowerCase().hashCode());
 		for(Song s : slist) {
@@ -742,6 +794,10 @@ public class LibraryModel {
 		}
 	}
 	
+	/*
+	 * void setPlays(String songName, String artistName, int n) -- sets the number of plays for a song songName with artist <artist> to n,
+	 * adjusting frequently played accordingly
+	 */
 	public void setPlays(String songName, String artistName, int n) {
 		findSong(songName, artistName).play(n);
 		frequentlyPlayed.get(0).remove(findSong(songName, artistName));
@@ -750,10 +806,17 @@ public class LibraryModel {
 		frequentlyPlayed.get(n).add(findSong(songName, artistName));
 	}
 	
+	/*
+	 * int getPlays(String songName, String artistName) -- returns the number of plays for a song songName with artist artistName
+	 */
 	public int getPlays(String songName, String artistName) {
 		return findSong(songName, artistName).getPlays();
 	}
 	
+	/*
+	 * Song findSong(String songName, String artistName) -- returns the song of name songName and artist artistName, or null
+	 * if the song is not in the library
+	 */
 	private Song findSong(String songName, String artistName) {
 		ArrayList<Song> slist = libraryByTitle.get(songName.toLowerCase().hashCode());
 		for(Song s: slist) {

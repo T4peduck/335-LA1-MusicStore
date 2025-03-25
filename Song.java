@@ -38,10 +38,16 @@ public class Song {
 		return name + " by " + artist + " on " + album + "."; 
 	}
 	
+	/*
+	 * void play() -- increments the plays of the song by one
+	 */
 	public void play() {
 		plays++;
 	}
 	
+	/*
+	 * void play(int n) -- sets the plays of the song to n
+	 */
 	public void play(int n) {
 		plays = n;
 	}
@@ -66,6 +72,7 @@ public class Song {
 		rating = 5;
 	}
 	
+	// returns this.plays
 	public int getPlays() {
 		return plays;
 	}
@@ -80,20 +87,33 @@ public class Song {
 		return rating;
 	}
 	
+	/*
+	 * int hashCodeArtist() -- returns an integer hash code corresponding to the artist of the song
+	 */
 	public int hashCodeArtist() {
 		return this.artist.toLowerCase().hashCode();
 	}
 	
+	/*
+	 * int hashCodeName() -- returns an integer hash code corresponding to the name of the song
+	 */
 	public int hashCodeName() {
 		return this.name.toLowerCase().hashCode();
 	}
 	
+	/*
+	 * boolean equals(Object other) -- returns true if supplied song is equivalent in both name and artist to this song,
+	 * false otherwise
+	 */
 	@Override
 	public boolean equals(Object other) {
 		Song otherSong = (Song) other;
 		return this.name.equals(otherSong.name) && this.artist.equals(otherSong.artist);
 	}
 	
+	/*
+	 * int hashCode() -- returns an integer hash code corresponding to the artist and name of the song
+	 */
 	@Override
 	public int hashCode() {
 		return this.name.hashCode() + this.artist.hashCode();

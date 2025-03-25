@@ -1,3 +1,9 @@
+/*
+ * File: SortByTitle.java
+ * Authors: Ethan Cushner and Joseph Hill
+ * Purpose: Implements the Comparator Interface to compare two
+ * songs by their titles.
+ */
 import java.util.Comparator;
 
 

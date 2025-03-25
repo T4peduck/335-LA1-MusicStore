@@ -46,10 +46,16 @@ public class PlayList {
 		return songs;
 	}
 	
+	/*
+	 * void shuffle() -- shuffles the playlist
+	 */
 	public void shuffle() {
 		Collections.shuffle(playlist);
 	}
 	
+	/*
+	 * int hashCode() -- returns an integer hash code corresponding to the name of the playlist
+	 */
 	@Override
 	public int hashCode() {
 		return name.toLowerCase().hashCode();
