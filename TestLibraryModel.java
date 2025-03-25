@@ -129,7 +129,7 @@ class TestLibraryModel {
 		assertEquals(2, ul.searchPlaylist("My Playlist").size());
 		assertEquals("Sigh No More", ul.searchPlaylist("My Playlist").get(1).name);
 		assertEquals("Timshel", ul.searchPlaylist("My Playlist").get(0).name);
-	}
+	} 
 	
 	@Test
 	void testAddSongToPlaylistArtistCondition() {
@@ -444,11 +444,12 @@ class TestLibraryModel {
 		ul.addSong("Little Lion Man");
 		ul.addSong("Rolling In The Deep");
 		ul.markFavorite("Timshel");
-		ul.rateSong("Little Lion Man", 5);
+		ul.rateSong("Little Lion Man", "mumford and sons", 5);
 		ArrayList<String> favorites = new ArrayList<String>();
 		favorites.add("Timshel");
 		favorites.add("Little Lion Man");
 		ArrayList<Song> foundFavorites = ul.getFavorites();
+		ArrayList<String> foundFavorites = ul.getFavorites();
 		for(int i = 0; i < 2; i++) {
 			assertEquals(foundFavorites.get(i).name, favorites.get(i));
 		}
@@ -468,7 +469,22 @@ class TestLibraryModel {
 		ul.playSong("Lullaby", "OneRepublic");
 		assertTrue(ul.searchPlaylist("Recently Played").contains(new Song("Lullaby", "OneRepublic", "Waking Up")));
 		assertFalse(ul.searchPlaylist("Recently Played").contains(new Song("Lullaby", "Leonard Cohen", "Old Ideas")));
+
+	void testRateSong() {
+		ul.addSong("Timshel");
+		ul.addSong("Sigh No More");
+		ul.addSong("Little Lion Man");
+		ul.addSong("Rolling In The Deep");
+		ul.markFavorite("Timshel");
+		ul.rateSong("Little Lion Man", "mumford and sons", 5);
+		ul.rateSong("Sigh no more", "mumford and sons", 2);
 		
+		assertEquals(ul.getRating("Rolling in the deep", "adele"), 0);
+		assertEquals(ul.getRating("sigh no more", "mumford and sons"), 2);
+		assertEquals(ul.getRating("Timshel", "mumford and sons"), 5);
+		
+		ArrayList<Song> favs = ul.getFavorites();
+		assertTrue(favs.get(1).name.equals("Little Lion Man"));
 	}
 	
 	
