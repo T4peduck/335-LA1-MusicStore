@@ -342,6 +342,8 @@ public class LibraryModel {
 	 * void createPlaylist(String playListName) -- creates a new Playlist with name playListName.
 	 */
 	public void createPlayList(String playListName) {
+		if(playListName.toLowerCase().equals("frequently played") || playListName.toLowerCase().equals("recently played") || genreLists.keySet().contains(playListName.toLowerCase()))
+			return;
 		playlists.put(playListName.toLowerCase().hashCode(), new PlayList(playListName));
 	}
 	
