@@ -110,20 +110,32 @@ public class Album {
 		return list;
 	}
 	
+	/*
+	 * int hashCodeArtist() -- returns an integer hash code based on the artist of the song
+	 */
 	public int hashCodeArtist() {
 		return this.artist.toLowerCase().hashCode();
 	}
 	
+	/*
+	 * int hashCodeName() -- returns an integer hash code based on the name of the song
+	 */
 	public int hashCodeName() {
 		return this.name.toLowerCase().hashCode();
 	}
 	
+	/*
+	 * boolean equals(Object other) -- returns true if the two songs have the same name and artist, false otherwise
+	 */
 	@Override
 	public boolean equals(Object other) {
 		Album otherAlbum = (Album) other;
 		return this.name.equals(otherAlbum.name) && this.artist.equals(otherAlbum.artist);
 	}
 	
+	/*
+	 * int hashCode() -- returns an integer hash code based on both the artist and name of the song
+	 */
 	@Override
 	public int hashCode() {
 		return this.name.hashCode() + this.artist.hashCode();

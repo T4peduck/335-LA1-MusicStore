@@ -1,5 +1,7 @@
 /*
- * Used to switch between different user libraries
+ * File: UserController.java
+ * Authors: Joseph Hill and Ethan Cushner
+ * Purpose: Used to switch between different user libraries
  * and write different user libraries
  */
 import java.util.ArrayList;
