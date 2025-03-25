@@ -74,6 +74,7 @@ public class TestUserController {
 		assertEquals(i.getRating("jesus", "Amos Lee"), 2);
 		
 		System.out.println(i.searchPlaylist("Recently Played"));
+		System.out.println(idiotsLibrary.searchPlaylist("Recently Played"));
 		
 		assertEquals(i.getRating("daylight", "Coldplay"), 4);
 		

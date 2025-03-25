@@ -198,6 +198,10 @@ public class UserController {
 	private void savePlaylists(LibraryModel lm, FileWriter saveFile) throws IOException {
 		ArrayList<String> playlistList = lm.getPlaylists();
 		for(String pName: playlistList) {
+			if(pName.equals("Frequently Played")) {
+				continue;
+			}
+		
 			ArrayList<Song> p = lm.searchPlaylist(pName);
 			saveFile.write(pName + "\n");
 			
