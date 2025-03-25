@@ -536,7 +536,7 @@ public class LibraryModel {
 		sorted.addAll(library);
 		Collections.sort(sorted, new SortByTitle());
 		for(Song s : sorted) {
-			titles.add(s.toString());
+			titles.add(s.name);
 		}
 		return titles;
 	}
@@ -547,7 +547,7 @@ public class LibraryModel {
 		sorted.addAll(library);
 		Collections.sort(sorted, new SortByArtist());
 		for(Song s : sorted) {
-			titles.add(s.toString());
+			titles.add(s.name);
 		}
 		return titles;
 	}
@@ -558,7 +558,7 @@ public class LibraryModel {
 		sorted.addAll(library);
 		Collections.sort(sorted, new SortByRating());
 		for(Song s : sorted) {
-			titles.add(s.toString());
+			titles.add(s.name);
 		}
 		return titles;
 	}

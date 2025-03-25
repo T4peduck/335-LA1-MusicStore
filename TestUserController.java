@@ -67,14 +67,8 @@ public class TestUserController {
 		assertTrue(i.searchAlbumWithTitle("a rush of blood to the head") != null);
 		assertTrue(i.searchSongWithTitle("jesus") != null);
 		
-		System.out.println(i.getSongs());
-		System.out.println(idiotsLibrary.getSongs());
-		
 		assertEquals(i.getRating("a whisper", "coldplay"), 5); 
 		assertEquals(i.getRating("jesus", "Amos Lee"), 2);
-		
-		System.out.println(i.searchPlaylist("Recently Played"));
-		System.out.println(idiotsLibrary.searchPlaylist("Recently Played"));
 		
 		assertEquals(i.getRating("daylight", "Coldplay"), 4);
 		

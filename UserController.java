@@ -146,7 +146,7 @@ public class UserController {
 				String[] infoLine = line.split(",");
 				String songName = infoLine[0];
 				String artist	= infoLine[1];
-				lm.addSongToPlaylist(playlistName, songName);
+				lm.addSongToPlaylist(playlistName, songName, artist);
 			}
 			line = br.readLine();
 			
