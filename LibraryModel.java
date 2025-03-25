@@ -266,7 +266,6 @@ public class LibraryModel {
 				}
 			}
 		}
-	}
 
 	
 	public void removeSong(String songName) {
@@ -669,7 +668,9 @@ public class LibraryModel {
 					addSongToPlaylist("Top Rated", s.name, s.artist);
 				}
 			}
-  
+		}
+	}
+	
 	//TODO add artist getRating
 	public int getRating(String songName, String artistName) {
 		Song s = findSong(songName, artistName);
@@ -724,6 +725,10 @@ public class LibraryModel {
 	
 	public void setPlays(String songName, String artistName, int n) {
 		findSong(songName, artistName).play(n);
+		frequentlyPlayed.get(0).remove(findSong(songName, artistName));
+		if(frequentlyPlayed.get(n) == null)
+			frequentlyPlayed.put(n, new ArrayList<Song>());
+		frequentlyPlayed.get(n).add(findSong(songName, artistName));
 	}
 	
 	public int getPlays(String songName, String artistName) {

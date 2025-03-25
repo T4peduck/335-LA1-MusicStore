@@ -54,6 +54,14 @@ public class view {
 				if(successful)
 					loggedIn = true;
 			}
+			else if(command.equals("createacc")) {
+				if(loggedIn)
+					System.out.println("Error: Please logout before creating a new account");
+				else {
+					createAccount();
+					loggedIn = true;
+				}
+			}
 			else if(!loggedIn) {
 				System.out.println("Please login before using this command");
 			}
@@ -90,9 +98,6 @@ public class view {
 					else
 						System.out.println("Error: Invalid Input");
 				}	
-			}
-			else if(command.equals("createacc")) {
-				createAccount();
 			}
 			else if(command.equals("createpl")) {
 				createPL();		
@@ -428,6 +433,8 @@ public class view {
 			if(!validPassword) {
 				System.out.println("Error: Passwords can include only letters or digits, no spaces, and must be of appropriate length.\n Please enter a valid password:");
 			}
+			else
+				done = true;
 		}
 		ul = new LibraryModel(ms);
 		System.out.println("Logged in as new user: " + username);
@@ -588,7 +595,7 @@ public class view {
 			System.out.println("Error: Invalid login. If you haven't created an account yet, type createAcc. Otherwise, check your spelling.");
 			return false;
 		}
-		ul = loadUser(username, password);
+		ul = uc.loadUser(username, password);
 		if(ul == null) {
 			System.out.println("Error: Invalid login. If you haven't created an account yet, type createAcc. Otherwise, check your spelling.");
 			return false;
@@ -1098,3 +1105,4 @@ public class view {
 			}
 		}
 	}
+}
