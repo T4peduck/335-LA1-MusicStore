@@ -83,6 +83,7 @@ public class UserController {
 	 * song2 artist
 	 * 			[2 extra line of whitespace]
 	 * 
+	 * 
 	 * ---- ----
 	 */
 	
@@ -110,8 +111,6 @@ public class UserController {
 			
 			parseSongs(lm, br);
 			
-			//System.out.println(lm.getSongs());
-			
 			parsePlaylists(lm, br);
 			
 		} catch (IOException e) {
@@ -124,7 +123,7 @@ public class UserController {
 	
 
 	private void parseSongs(LibraryModel lm, BufferedReader br) throws IOException {
-		String line = br.readLine();
+		String line;
 		while(!(line = br.readLine()).equals("")) {
 			String[] infoLine = line.split(",");
 			String songName = infoLine[0];
@@ -134,7 +133,6 @@ public class UserController {
 			lm.addSong(songName, artist);
 			lm.rateSong(songName, artist, rating);
 			lm.setPlays(songName, artist, numPlays);
-			line = br.readLine();
 		}
 		return;
 	}
@@ -142,15 +140,13 @@ public class UserController {
 	private void parsePlaylists(LibraryModel lm, BufferedReader br) throws IOException {
 		String line = br.readLine();
 		while(line != null && !line.equals("")) {
-			//System.out.println("PLAYELIST: " + line);
 			String playlistName = line;
 			lm.createPlayList(line);
 			while(!(line = br.readLine()).equals("")) {
 				String[] infoLine = line.split(",");
 				String songName = infoLine[0];
 				String artist	= infoLine[1];
-				//System.out.println(infoLine[0]);
-				lm.addSongToPlaylist(playlistName, songName);
+				lm.addSongToPlaylist(playlistName, songName, artist);
 			}
 			line = br.readLine();
 			
@@ -202,7 +198,10 @@ public class UserController {
 	private void savePlaylists(LibraryModel lm, FileWriter saveFile) throws IOException {
 		ArrayList<String> playlistList = lm.getPlaylists();
 		for(String pName: playlistList) {
-			//System.out.println(pName);
+			if(pName.equals("Frequently Played")) {
+				continue;
+			}
+		
 			ArrayList<Song> p = lm.searchPlaylist(pName);
 			saveFile.write(pName + "\n");
 			

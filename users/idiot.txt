@@ -1,23 +1,17 @@
 408c112a4e1f9a0eef37a9ae113829f76140088b9b82e6246e5f70486f5c3f08
-Daylight,Coldplay,4,0
+Daylight,Coldplay,4,4
 Politik,Coldplay,0,20
-A Whisper,Coldplay,5,0
+A Whisper,Coldplay,5,1
 Clear Blue Eyes (feat. Lucinda Williams),Amos Lee,3,0
-Jesus,Amos Lee,2,1000
+Jesus,Amos Lee,2,1001
 
 Recently Played
-
-Frequently Played
-Daylight,Coldplay
-Politik,Coldplay
 A Whisper,Coldplay
-Clear Blue Eyes (feat. Lucinda Williams),Amos Lee
 Jesus,Amos Lee
 Daylight,Coldplay
-Politik,Coldplay
-A Whisper,Coldplay
-Clear Blue Eyes (feat. Lucinda Williams),Amos Lee
-Jesus,Amos Lee
+Daylight,Coldplay
+Daylight,Coldplay
+Daylight,Coldplay
 
 Favorites
 A Whisper,Coldplay
