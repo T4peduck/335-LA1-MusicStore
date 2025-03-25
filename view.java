@@ -14,10 +14,11 @@ import java.util.InputMismatchException;
 public class view {
 	
 	private static final String helpMenu = 	"Help Menu\nNote: Commands and arguments are not case sensitive\nCommands:\nadd\n	- adds an item to your library\n"
-			+ "addPL\n	- adds a song in your library to a given playlist\ncreatePL\n	- creates a playlist in your library\n"
+			+ "addPL\n	- adds a song in your library to a given playlist\ncreateAcc\n	- create an account to hold your library for future use\n"
+			+ "createPL\n	- creates a playlist in your library\n"
 			+ "exit\n	- exits the program\n"
 			+ "favorite\n	- favorites a given song within your library\nlist\n	- prints a list of the each given item of the given type in your library\n"
-			+ "login\n	- prompts for username and password to log into your account\n"
+			+ "login\n	- prompts for username and password to log into your account\nlogout\n	- logs out of currently logged in account\n"
 			+ "play\n	- plays the song input\n"
 			+ "rate\n	- rates a song\nremove\n	- removes an item from your library\n"
 			+ "removePL\n	- removes a song from a playlist\n"
@@ -27,15 +28,15 @@ public class view {
 	
 	private static MusicStore ms = new MusicStore();
 	private static LibraryModel ul = new LibraryModel(ms);
-	//private static HashMap<String, String> logins = new HashMap<String, String>();
+	private static UserController uc = new UserController();
+	private static String username, password;
 	
 
 	public static void main(String args[]) {
-		//startup();
 		System.out.println("Welcome to the Music Store\nType help for the list of commands");
 		boolean exit = false;
 		Scanner keyboard = new Scanner(System.in);
-		//boolean loggedIn = false;
+		boolean loggedIn = false;
 		while(!exit) {
 			String[] input = keyboard.nextLine().strip().split(",");
 			String command = input[0].toLowerCase();
@@ -43,15 +44,19 @@ public class view {
 				System.out.println(helpMenu);
 			}
 			else if(command.equals("exit")) {
+				if(loggedIn)
+					logout();
 				keyboard.close();
 				System.exit(0);
 			}
 			else if(command.equals("login")) {
-				login();
+				boolean successful = login();
+				if(successful)
+					loggedIn = true;
 			}
-			/*else if(!loggedIn) {
+			else if(!loggedIn) {
 				System.out.println("Please login before using this command");
-			}*/
+			}
 			else if(command.equals("add")) {
 				boolean done = false;
 				while(!done) {
@@ -86,6 +91,9 @@ public class view {
 						System.out.println("Error: Invalid Input");
 				}	
 			}
+			else if(command.equals("createacc")) {
+				createAccount();
+			}
 			else if(command.equals("createpl")) {
 				createPL();		
 			}
@@ -94,6 +102,10 @@ public class view {
 			}
 			else if(command.equals("list")) {
 				list();
+			}
+			else if(command.equals("logout")) {
+				logout();
+				loggedIn = false;
 			}
 			else if(command.equals("play")) {
 				boolean done = false;
@@ -227,7 +239,7 @@ public class view {
 	}
 	
 	/*
-	 * void add() -- same functionality as above add
+	 * void addWithArtist() -- same functionality as above add
 	 * method, except with additional input for the artist of the song. Only meant to be used
 	 * for songs or albums that for which there are multiple in the music store with the same name.
 	 * Will print error messages if the item is already in the library or if it doesn't exist.
@@ -338,6 +350,11 @@ public class view {
 			System.out.println("Error: Song not in your library");
 	}
 	
+	/*
+	 * void addPLWithArtist() -- adds the song with supplied title and artist to the playlist
+	 * with supplied name. Will print error messages if the playlist doesn't exist or if the song
+	 * is not in the user's library. Also prints an error message if the song is already in the playlist.
+	 */
 	public static void addPLWithArtist() {
 		Scanner keyboard = new Scanner(System.in);
 		String name = "";
@@ -375,6 +392,45 @@ public class view {
 		}
 		else
 			System.out.println("Error: Song with that name and artist not in your library");
+	}
+	
+	/*
+	 * void createAccount() -- creates a new user account with supplied username and password. Will
+	 * print an error if username already exists, prompting the user to reenter a new username. Will
+	 * also print an error if password does not fit given criteria. When a valid username and password
+	 * have been created, creates a new account.
+	 */
+	public static void createAccount() {
+		Scanner keyboard = new Scanner(System.in);
+		boolean done = false;
+		ArrayList<String> usernames = uc.getUsernames();
+		System.out.print("Please enter a username: ");
+		while(!done) {
+			username = keyboard.nextLine();
+			if(usernames.contains(username))
+				System.out.println("Error: An account with this name already exists. Please enter a different username: ");
+			 else
+				 done = true;
+		}
+		done = false;
+		System.out.print("Please enter a password (Note that passwords can only contain alphanumeric characters and must be between 5 and 17 characters): ");
+		while(!done) {
+			password = keyboard.nextLine();
+			boolean validPassword = true;
+			for(char c : password.toCharArray()) {
+				if(!Character.isLetter(c) && !Character.isDigit(c)) {
+					validPassword = false;
+				}
+			}
+			if(password.toCharArray().length > 17 || password.toCharArray().length < 5) {
+				validPassword = false;
+			}
+			if(!validPassword) {
+				System.out.println("Error: Passwords can include only letters or digits, no spaces, and must be of appropriate length.\n Please enter a valid password:");
+			}
+		}
+		ul = new LibraryModel(ms);
+		System.out.println("Logged in as new user: " + username);
 	}
 	
 	/*
@@ -517,14 +573,43 @@ public class view {
 		}
 	}
 	
-	public static void login() {
+	/*
+	 * boolean login() -- logs in a user with supplied username and password. If either are incorrect, prints and error
+	 * message and returns false. If a user is successfully logged in, returns true.
+	 */
+	public static boolean login() {
 		Scanner keyboard = new Scanner(System.in);
 		System.out.print("Please enter your username: ");
-		String username = keyboard.nextLine();
+		username = keyboard.nextLine();
 		System.out.print("Please enter your password: ");
-		String password = keyboard.nextLine();
+		password = keyboard.nextLine();
+		ArrayList<String> usernames = uc.getUsernames();
+		if(!usernames.contains(username)) {
+			System.out.println("Error: Invalid login. If you haven't created an account yet, type createAcc. Otherwise, check your spelling.");
+			return false;
+		}
+		ul = loadUser(username, password);
+		if(ul == null) {
+			System.out.println("Error: Invalid login. If you haven't created an account yet, type createAcc. Otherwise, check your spelling.");
+			return false;
+		}
+		System.out.println("Successfully logged in as: " + username);
+		return true;
 	}
 	
+	/*
+	 * void logout() -- logs out the logged in user, calling the user controller to save their data.
+	 * Prints a message indicating that the user has successfully logged out.
+	 */
+	public static void logout() {
+		uc.saveUser(ul, username, password);
+		System.out.println("Successfully logged out");
+	}
+	
+	/*
+	 * void play() -- plays the song with supplied name within the library. Prints an error message if the song
+	 * is not in the user library.
+	 */
 	public static void play() {
 		Scanner keyboard = new Scanner(System.in);
 		System.out.print("What song would you like to play? ");
@@ -536,6 +621,10 @@ public class view {
 			ul.playSong(name);
 	}
 	
+	/*
+	 * void playWithArtist() -- plays the song with supplied name and artist within the library. 
+	 * Prints an error message if the song is not in the user library.
+	 */
 	public static void playWithArtist() {
 		Scanner keyboard = new Scanner(System.in);
 		System.out.print("What song would you like to play? ");
@@ -594,6 +683,11 @@ public class view {
 		System.out.println("Error: Song not in your library");
 	}
 	
+	/*
+	 * void rateWithArtist() -- update the rating for a song with supplied title and artist in the user library.
+	 * Will print an error message if supplied rating is not between 1 and 5. Additionally will print an error message if the
+	 * song indicated is not in the user library.
+	 */
 	public static void rateWithArtist() {
 		Scanner keyboard = new Scanner(System.in);
 		String argument;
@@ -630,6 +724,10 @@ public class view {
 		System.out.println("Error: Song with that name and artist not in your library");
 	}
 	
+	/*
+	 * void remove() -- removes a song or album with given name from the user library. Prints and error message
+	 * if the item is not in the library.
+	 */
 	public static void remove() {
 		Scanner keyboard = new Scanner(System.in);
 		String type = "";
@@ -664,6 +762,10 @@ public class view {
 		}
 	}
 	
+	/*
+	 * void removeWithArtist() -- removes a song or album with given name and artist from the user library. Prints and error message
+	 * if the item is not in the library.
+	 */
 	public static void removeWithArtist() {
 		Scanner keyboard = new Scanner(System.in);
 		String type = "";
@@ -753,6 +855,11 @@ public class view {
 		}
 	}
 	
+	/*
+	 * void removePLWithArtist() -- removes a song with supplied title and artist from a playlist whose name is supplied.
+	 * Will print an error message if the indicated song is not in the playlist, also if it is not in the user library.
+	 * Additionally prints an error message if a playlist with that name hasn't been created.
+	 */
 	public static void removePLWithArtist() {
 		Scanner keyboard = new Scanner(System.in);
 		String name = "";
@@ -933,14 +1040,25 @@ public class view {
 		}
 	}
 	
+	/*
+	 * void shuffle() -- shuffles the user library
+	 */
 	public static void shuffle() {
 		ul.shuffle();
 	}
 	
+	/*
+	 * void shffulePL() -- shuffles a playlist with given name in the user library. Prints an error
+	 * if the playlist hasn't been created or if it is one of the automatic playlists that can't be shuffled
+	 */
 	public static void shufflePL() {
 		Scanner keyboard = new Scanner(System.in);
 		System.out.print("Which playlist would you like to shuffle? ");
 		String playlistName = keyboard.nextLine();
+		if(playlistName.toLowerCase().equals("Frequently Played") || playlistName.toLowerCase().equals("Recently Played")) {
+			System.out.println("Error: This playlist cannot be shuffled");
+			return;
+		}
 		if(ul.searchPlaylist(playlistName) == null) {
 			System.out.println("Error: Playlist not created in your library");
 			return;
@@ -948,6 +1066,9 @@ public class view {
 		ul.shufflePlaylist(playlistName);
 	}
 	
+	/*
+	 * void sortedList() -- prints a list of all songs in the user library sorted by the method supplied.
+	 */
 	public static void sortedList() {
 		Scanner keyboard = new Scanner(System.in);
 		String type = "";
@@ -977,23 +1098,3 @@ public class view {
 			}
 		}
 	}
-	
-	/*private static void startup() {
-		File file = new File("logins.txt");
-		BufferedReader br;
-		try {
-			br = new BufferedReader(new FileReader(file));
-		} catch (FileNotFoundException e) {
-			System.exit(1);
-		}
-		 String line;
-		 try {
-			while((line = br.readLine()) != null) {
-				 String[] login = line.split(",");
-				 logins.put(login[0], login[1]);
-			 }
-		} catch (IOException e) {
-			System.exit(1);
-		}
-	}*/
-}

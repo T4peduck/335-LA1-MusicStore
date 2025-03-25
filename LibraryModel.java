@@ -265,8 +265,9 @@ public class LibraryModel {
 					}
 				}
 			}
+		}
 	}
-	
+
 	
 	public void removeSong(String songName) {
 		ArrayList<Song> song = libraryByTitle.remove(songName.toLowerCase().hashCode());
@@ -651,22 +652,24 @@ public class LibraryModel {
 			}
 		}
 	}
-  
+
 	/*
 	 * void rateSong(String songName, String artistName int rating) -- changes the rating of song with name songName and 
-   * artsit artistName to <rating>
+   	 * artsit artistName to <rating>
 	 */
-	public void rateSong(String songName, String artistName, int rating) {
-		Song s = findSong(songName, artistName);
-		s.setRating(rating);
-		if(rating == 4) {
-			addSongToPlaylist("Top Rated", s.name);
-		} else if(rating == 5) {
-			addSongToPlaylist("Favorites", s.name);
-			addSongToPlaylist("Top Rated", s.name);
-		}
-	}
-
+	public void rateSong(String songName, String artist, int rating) {
+		ArrayList<Song> slist = libraryByTitle.get(songName.toLowerCase().hashCode());
+		for(Song s : slist) {
+			if(s.artist.toLowerCase().equals(artist.toLowerCase())) {
+				s.setRating(rating);
+				if(rating == 4)
+					addSongToPlaylist("Top Rated", s.name, s.artist);
+				else if(rating == 5) {
+					addSongToPlaylist("Favorites", s.name, s.artist);
+					addSongToPlaylist("Top Rated", s.name, s.artist);
+				}
+			}
+  
 	//TODO add artist getRating
 	public int getRating(String songName, String artistName) {
 		Song s = findSong(songName, artistName);

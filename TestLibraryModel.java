@@ -53,6 +53,12 @@ class TestLibraryModel {
 	}
 	
 	@Test
+	void testAddAlbumWithArtist() {
+		ul.addAlbum("Sigh No More", "Mumford & Sons");
+		assertTrue(ul.getAlbums().contains("Sigh No More"));
+	}
+	
+	@Test
 	void testRemoveSong() {
 		ul.addSong("Little Lion Man");
 		ul.removeSong("Little Lion Man");
@@ -450,6 +456,20 @@ class TestLibraryModel {
 	}
 	
 	@Test
+	void testRateWithArtist() {
+		ul.addSong("Lullaby");
+		ul.rateSong("Lullaby", "OneRepublic", 5);
+		assertEquals(5, ul.getFavorites().get(0).getRating());
+		assertEquals(0, ul.searchSongWithArtist("Leonard Cohen").get(0).getRating());
+	}
+	
+	@Test
+	void testPlaySongWithArtist() {
+		ul.addSong("Lullaby");
+		ul.playSong("Lullaby", "OneRepublic");
+		assertTrue(ul.searchPlaylist("Recently Played").contains(new Song("Lullaby", "OneRepublic", "Waking Up")));
+		assertFalse(ul.searchPlaylist("Recently Played").contains(new Song("Lullaby", "Leonard Cohen", "Old Ideas")));
+
 	void testRateSong() {
 		ul.addSong("Timshel");
 		ul.addSong("Sigh No More");
@@ -465,7 +485,6 @@ class TestLibraryModel {
 		
 		ArrayList<Song> favs = ul.getFavorites();
 		assertTrue(favs.get(1).name.equals("Little Lion Man"));
-		
 	}
 	
 	
