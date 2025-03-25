@@ -352,7 +352,15 @@ public class LibraryModel {
 	 * the playlist with name playListName
 	 */
 	public void addSongToPlaylist(String playListName, String songName) {
+		if(playListName.toLowerCase().equals("recently played")) {
+			ArrayList<Song> slist = libraryByTitle.get(songName.toLowerCase().hashCode());
+			for(Song s : slist) {
+				recentlyPlayed.add(s);
+			}
+		}
 		PlayList p = playlists.get(playListName.toLowerCase().hashCode());
+		if(p == null)
+			return;
 		ArrayList<Song> slist = libraryByTitle.get(songName.toLowerCase().hashCode());
 		if(slist == null)
 			return;
@@ -536,7 +544,7 @@ public class LibraryModel {
 		sorted.addAll(library);
 		Collections.sort(sorted, new SortByTitle());
 		for(Song s : sorted) {
-			titles.add(s.toString());
+			titles.add(s.name);
 		}
 		return titles;
 	}
@@ -547,7 +555,7 @@ public class LibraryModel {
 		sorted.addAll(library);
 		Collections.sort(sorted, new SortByArtist());
 		for(Song s : sorted) {
-			titles.add(s.toString());
+			titles.add(s.name);
 		}
 		return titles;
 	}
@@ -558,7 +566,7 @@ public class LibraryModel {
 		sorted.addAll(library);
 		Collections.sort(sorted, new SortByRating());
 		for(Song s : sorted) {
-			titles.add(s.toString());
+			titles.add(s.name);
 		}
 		return titles;
 	}
