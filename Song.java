@@ -63,6 +63,7 @@ public class Song {
 	 */
 	public void setFavorite() {
 		favorite = true;
+		rating = 5;
 	}
 	
 	public int getPlays() {

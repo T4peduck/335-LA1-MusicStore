@@ -17,7 +17,7 @@ public class TestSong {
 		s.setFavorite();
 		assertTrue(s.isFavorite());
 		
-		assertEquals(s.getRating(), 0);
+		assertEquals(s.getRating(), 5);
 		s.setRating(3);
 		assertEquals(s.getRating(), 3);
 		
