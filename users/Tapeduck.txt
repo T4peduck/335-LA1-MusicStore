@@ -1,38 +1,104 @@
 34ca3fb7ab832bdc8dcf4074ddcb1e1ae14574ac3d3b44e0bc3f1c6fa51743c2
-Daydreamer,Adele,0,0
-Best for Last,Adele,0,0
-Chasing Pavements,Adele,0,0
-Cold Shoulder,Adele,0,0
-Crazy for You,Adele,0,0
+Antifaz,Mana,0,0
 Melt My Heart to Stone,Adele,0,0
-First Love,Adele,0,0
-Right as Rain,Adele,0,0
-Make You Feel My Love,Adele,0,0
-My Same,Adele,0,0
-Tired,Adele,0,0
-Hometown Glory,Adele,0,0
 The Thief,The Heavy,0,0
-Fire,The Heavy,0,0
+Chasing Pavements,Adele,0,0
+Dejame Entrar,Mana,0,0
+Crazy for You,Adele,4,1
+Cold Shoulder,Adele,0,2
+Better as One,The Heavy,0,0
+Daydreamer,Adele,4,1
+Burn Bright,The Heavy,0,0
+Right as Rain,Adele,0,0
 Hurt Interlude,The Heavy,0,0
+El Borracho,Mana,0,0
+Put the Hurt on Me,The Heavy,0,0
+Selva Negra,Mana,0,0
+Mis Ojos,Mana,0,0
+Heavy for You,The Heavy,4,0
+Ana,Mana,0,0
+Lullaby,OneRepublic,0,4
+Fire,The Heavy,2,1
+Como Un Perro Enloquecido,Mana,0,0
+What Don't Kill You,The Heavy,5,0
+Make You Feel My Love,Adele,0,0
+No Ha Parado de Llover,Mana,0,0
+Siempre El Amor,Mana,0,0
+Hometown Glory,Adele,0,0
+Cuando Los Angeles Lloran,Mana,0,0
+Tired,Adele,4,1
+Best for Last,Adele,0,0
+Hundido En Un Rincon,Mana,0,0
+El Reloj Cucu,Mana,0,0
+Simple Things,The Heavy,0,0
 
 Recently Played
+Lullaby,OneRepublic
+Lullaby,OneRepublic
+Lullaby,OneRepublic
+Lullaby,OneRepublic
+Crazy for You,Adele
+Daydreamer,Adele
+Cold Shoulder,Adele
+Cold Shoulder,Adele
+Tired,Adele
+Fire,The Heavy
 
 Pop
-Daydreamer,Adele
-Best for Last,Adele
-Chasing Pavements,Adele
-Cold Shoulder,Adele
-Crazy for You,Adele
 Melt My Heart to Stone,Adele
-First Love,Adele
+Chasing Pavements,Adele
+Crazy for You,Adele
+Cold Shoulder,Adele
+Daydreamer,Adele
 Right as Rain,Adele
 Make You Feel My Love,Adele
-My Same,Adele
-Tired,Adele
 Hometown Glory,Adele
+Tired,Adele
+Best for Last,Adele
+
+Rock
+The Thief,The Heavy
+Better as One,The Heavy
+Burn Bright,The Heavy
+Hurt Interlude,The Heavy
+Put the Hurt on Me,The Heavy
+Heavy for You,The Heavy
+Lullaby,OneRepublic
+Fire,The Heavy
+What Don't Kill You,The Heavy
+Simple Things,The Heavy
+
+Latin
+Antifaz,Mana
+Dejame Entrar,Mana
+El Borracho,Mana
+Selva Negra,Mana
+Mis Ojos,Mana
+Ana,Mana
+Como Un Perro Enloquecido,Mana
+No Ha Parado de Llover,Mana
+Siempre El Amor,Mana
+Cuando Los Angeles Lloran,Mana
+Hundido En Un Rincon,Mana
+El Reloj Cucu,Mana
 
 Favorites
+Daydreamer,Adele
+Crazy for You,Adele
+What Don't Kill You,The Heavy
 
 Top Rated
+Daydreamer,Adele
+Crazy for You,Adele
+Heavy for You,The Heavy
+What Don't Kill You,The Heavy
+Tired,Adele
+
+loonyTunes
+Right as Rain,Adele
+Lullaby,OneRepublic
+Heavy for You,The Heavy
+Simple Things,The Heavy
+Antifaz,Mana
 
 

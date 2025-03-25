@@ -413,7 +413,7 @@ public class view {
 		while(!done) {
 			username = keyboard.nextLine();
 			if(usernames.contains(username))
-				System.out.println("Error: An account with this name already exists. Please enter a different username: ");
+				System.out.print("Error: An account with this name already exists. Please enter a different username: ");
 			 else
 				 done = true;
 		}
@@ -431,7 +431,7 @@ public class view {
 				validPassword = false;
 			}
 			if(!validPassword) {
-				System.out.println("Error: Passwords can include only letters or digits, no spaces, and must be of appropriate length.\n Please enter a valid password:");
+				System.out.print("Error: Passwords can include only letters or digits, no spaces, and must be of appropriate length.\n Please enter a valid password:");
 			}
 			else
 				done = true;
@@ -683,7 +683,7 @@ public class view {
 		ArrayList<String> songs = ul.getSongs();
 		for(String s : songs) {
 			if(s.toLowerCase().equals(argument.toLowerCase())) {
-				ul.rateSong(argument, "artist",  rating);
+				ul.rateSong(argument,  rating);
 				return;
 			}
 		}
