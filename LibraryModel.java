@@ -753,6 +753,4 @@ public class LibraryModel {
 		}
 		return null;
 	}
-	
-	public void setRecentlyPlayed()
 }
