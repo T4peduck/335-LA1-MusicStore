@@ -267,6 +267,7 @@ public class LibraryModel {
 			}
 		}
 	}
+
 	
 	public void removeSong(String songName) {
 		ArrayList<Song> song = libraryByTitle.remove(songName.toLowerCase().hashCode());
